@@ -6,7 +6,7 @@
       <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
         <div class="relative">
           <div class="relative w-full max-w-sm mx-auto rounded-3xl overflow-hidden border-4 border-white/10">
-            <img src="/profile2.jpg" alt="Ginique Oriadé LAWANI" class="w-full h-auto">
+            <img src="/profile2.jpg" alt="Ginique Oriadé LAWANI" loading="lazy" class="w-full h-auto">
             <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-indigo-500/10 pointer-events-none"></div>
           </div>
           <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full blur-2xl opacity-30"></div>

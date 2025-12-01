@@ -26,7 +26,7 @@
     </div>
 
         <div class="mt-8 flex flex-col items-center gap-4">
-      <img src="/images/nasa.jpg" alt="NASA Space Apps Challenge" class="max-w-5xl w-full rounded-2xl shadow-2xl border border-white/10 hover:scale-105 transition-transform duration-300" />
+      <img src="/images/nasa.jpg" alt="NASA Space Apps Challenge" loading="lazy" class="max-w-5xl w-full rounded-2xl shadow-2xl border border-white/10 hover:scale-105 transition-transform duration-300" />
     </div>
   </header>
 </template>

@@ -25,7 +25,7 @@
         class="group relative rounded-3xl overflow-hidden bg-slate-800/50 border border-white/5 hover:border-pink-500/40 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-900/20"
       >
         <div :class="`h-64 bg-gradient-to-br ${project.gradient} relative overflow-hidden`">
-          <img :src="project.image || '/images/project-default.jpg'" :alt="project.name" class="absolute inset-0 w-full h-full object-cover object-center z-0" />
+          <img :src="project.image || '/images/project-default.jpg'" :alt="project.name" loading="lazy" class="absolute inset-0 w-full h-full object-cover object-center z-0" />
           <div class="absolute inset-0 bg-slate-900/40 z-10"></div>
           <div class="absolute -right-5 -bottom-5 w-24 h-24 bg-white/20 rounded-full blur-xl group-hover:scale-150 transition-transform duration-700 z-20"></div>
           
