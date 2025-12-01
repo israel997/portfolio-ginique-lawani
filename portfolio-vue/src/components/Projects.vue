@@ -59,8 +59,11 @@
             <button class="flex-1 py-3 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 font-bold text-sm shadow-lg opacity-90 hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
               Voir les détails
             </button>
-            <button class="flex-1 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 font-bold text-sm shadow-lg opacity-90 hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+            <a v-if="project.url" :href="project.url" target="_blank" rel="noopener noreferrer" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 font-bold text-sm shadow-lg opacity-90 hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 flex items-center justify-center">
               Aller sur le site
+            </a>
+            <button v-else class="flex-1 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 font-bold text-sm shadow-lg opacity-90 hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 opacity-50 cursor-not-allowed">
+              Bientôt disponible
             </button>
           </div>
         </div>
@@ -84,7 +87,8 @@ const projectsData = ref([
     tags: ['Next.js', 'TailwindCSS'],
     gradient: 'from-pink-500 to-rose-600',
     category: 'Fullstack',
-    image: '/images/sanaa.jpg'
+    image: '/images/sanaa.jpg',
+    url: 'https://saana-for-creators.vercel.app/'
   },
   {
     id: 2,
@@ -93,7 +97,8 @@ const projectsData = ref([
     tags: ['Next.js', 'API MovieDB'],
     gradient: 'from-blue-500 to-cyan-600',
     category: 'Frontend',
-    image: '/images/cinemania.jpg'
+    image: '/images/cinemania.jpg',
+    url: 'https://deep-sigma.vercel.app/'
   },
   {
     id: 3,

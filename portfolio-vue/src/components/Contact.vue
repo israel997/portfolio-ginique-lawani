@@ -5,14 +5,17 @@
       <div class="absolute bottom-0 left-0 w-80 h-80 bg-rose-500 rounded-full mix-blend-screen filter blur-[80px] opacity-20 animate-blob delay-2000"></div>
     </div>
 
-    <div class="max-w-3xl mx-auto p-8 md:p-12 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md">
-      <h2 class="text-3xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-indigo-400">
-        Discutons de votre projet
-      </h2>
-      <p class="text-center text-slate-400 mb-4">
-        Vous avez un projet en tête ? Parlons-en et donnons vie à vos idées !
-      </p>
-      <div class="text-center mb-12 space-y-3">
+    <div class="max-w-3xl mx-auto p-8 md:p-12 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md relative overflow-hidden">
+      <div class="shine-loop"></div>
+      <div class="relative z-10">
+        <h2 class="text-3xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-indigo-400">
+          Mon expertise à votre service !
+        </h2>
+        <p class="text-center text-slate-400 mb-4">
+          Vous avez un projet en tête ? Parlons-en et donnons vie à vos idées !
+        </p>
+      </div>
+      <div class="relative z-10 text-center mb-12 space-y-3">
         <p class="text-slate-300 flex items-center justify-center gap-2">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
           ginique.lawani@epitech.eu
@@ -27,11 +30,11 @@
         </p>
         <p class="text-sm text-green-400 mt-2 flex items-center justify-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          Disponible pour des missions freelance
+          Disponible pour vos missions présentielles et freelance
         </p>
       </div>
 
-      <form @submit.prevent="handleSubmit" class="space-y-6 mb-8">
+      <form @submit.prevent="handleSubmit" class="relative z-10 space-y-6 mb-8">
         <div class="grid md:grid-cols-2 gap-6">
           <div>
             <label class="block text-sm font-bold mb-2 text-slate-300">Nom</label>
@@ -72,7 +75,7 @@
         </button>
       </form>
 
-      <div class="border-t border-white/10 pt-6">
+      <div class="relative z-10 border-t border-white/10 pt-6">
         <p class="text-center text-slate-400 text-xs mb-4">Ou connectez-vous via</p>
         <div class="flex justify-center gap-4">
           <a 
@@ -88,16 +91,49 @@
         </div>
       </div>
     </div>
+
+    <!-- Bouton Retour en haut -->
+    <button
+      v-show="showScrollTop"
+      @click="scrollToTop"
+      class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg hover:shadow-purple-500/40 hover:scale-110 transition-all duration-300 flex items-center justify-center z-50"
+      title="Retour en haut"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+      </svg>
+    </button>
   </section>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 
 const formData = ref({
   name: '',
   email: '',
   message: ''
+});
+
+const showScrollTop = ref(false);
+
+const handleScroll = () => {
+  showScrollTop.value = window.scrollY > 300;
+};
+
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+};
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
 });
 
 const socialLinks = ref([
@@ -112,3 +148,32 @@ const handleSubmit = () => {
   formData.value = { name: '', email: '', message: '' };
 };
 </script>
+
+<style scoped>
+@keyframes shine-loop {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(30deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(30deg);
+  }
+}
+
+.shine-loop {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(236, 72, 153, 0.1),
+    rgba(236, 72, 153, 0.3),
+    rgba(236, 72, 153, 0.1),
+    transparent
+  );
+  animation: shine-loop 2s ease-in-out infinite;
+  z-index: 1;
+}
+</style>

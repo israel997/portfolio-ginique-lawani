@@ -17,7 +17,7 @@
         Voir les projets
       </a>
       <a href="#contact" class="px-8 py-3 bg-white/5 border border-white/10 rounded-xl font-bold hover:bg-white/10 transition-colors backdrop-blur-md">
-        Travailler ensemble
+        Collaborer
       </a>
       <a :href="cvUrl" target="_blank" class="px-8 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-xl font-bold hover:shadow-lg hover:shadow-blue-500/40 hover:-translate-y-1 transition-all duration-300 flex items-center gap-2 hover:scale-105">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
@@ -25,20 +25,8 @@
       </a>
     </div>
 
-    <div class="mt-8 flex flex-col items-center gap-4">
-      <p class="text-xs text-slate-500 uppercase tracking-widest mb-2">Ils m'ont fait confiance</p>
-      <div class="flex flex-wrap justify-center gap-6 items-center">
-        <div v-for="client in featuredClients" :key="client.id" class="group relative">
-          <div class="w-20 h-20 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md flex items-center justify-center hover:border-pink-500/40 transition-all duration-300 hover:scale-110">
-            <div :class="`text-2xl font-bold bg-clip-text text-transparent ${client.gradient}`">
-              {{ client.initials }}
-            </div>
-          </div>
-          <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-xs text-slate-400 whitespace-nowrap">
-            {{ client.name }}
-          </div>
-        </div>
-      </div>
+        <div class="mt-8 flex flex-col items-center gap-4">
+      <img src="/images/nasa.jpg" alt="NASA Space Apps Challenge" class="max-w-5xl w-full rounded-2xl shadow-2xl border border-white/10 hover:scale-105 transition-transform duration-300" />
     </div>
   </header>
 </template>

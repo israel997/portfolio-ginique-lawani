@@ -1,6 +1,6 @@
 <template>
   <section id="testimonials" class="mb-32">
-    <h2 class="text-3xl font-bold mb-16 text-center">Témoignages & Clients</h2>
+    <h2 class="text-3xl font-bold mb-16 text-center">Références & Recommandations</h2>
     
     <div class="grid md:grid-cols-2 gap-8 mb-16 max-w-5xl mx-auto">
       <div v-for="testimonial in testimonialsData" :key="testimonial.id" class="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-pink-500/30 transition-all duration-300">
@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <div class="max-w-4xl mx-auto">
+    <!-- <div class="max-w-4xl mx-auto">
       <p class="text-center text-slate-500 text-sm mb-8 uppercase tracking-widest">Ils m'ont fait confiance</p>
       <div class="flex flex-wrap justify-center items-center gap-8">
         <div v-for="client in clientsData" :key="client.id" class="group">
@@ -31,7 +31,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </section>
 </template>
 
@@ -73,10 +73,10 @@ const testimonialsData = ref([
   }
 ]);
 
-const clientsData = ref([
-  { id: 1, name: 'WEEMA PRIME', gradient: 'bg-gradient-to-r from-pink-400 to-rose-400' },
-  { id: 2, name: 'NASA Space Apps', gradient: 'bg-gradient-to-r from-purple-400 to-indigo-400' },
-  { id: 3, name: 'Epitech', gradient: 'bg-gradient-to-r from-indigo-400 to-blue-400' },
-  { id: 4, name: 'ICC', gradient: 'bg-gradient-to-r from-rose-400 to-pink-400' }
-]);
+// const clientsData = ref([
+//   { id: 1, name: 'WEEMA PRIME', gradient: 'bg-gradient-to-r from-pink-400 to-rose-400' },
+//   { id: 2, name: 'NASA Space Apps', gradient: 'bg-gradient-to-r from-purple-400 to-indigo-400' },
+//   { id: 3, name: 'Epitech', gradient: 'bg-gradient-to-r from-indigo-400 to-blue-400' },
+//   { id: 4, name: 'ICC', gradient: 'bg-gradient-to-r from-rose-400 to-pink-400' }
+// ]);
 </script>
