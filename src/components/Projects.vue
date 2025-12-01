@@ -104,7 +104,7 @@ const projectsData = ref([
     id: 3,
     name: 'WeTrust',
     desc: 'Site web et communauté en ligne pour commenter tout contenu sur internet',
-    tags: ['Vue.js', 'Laravel'],
+    tags: ['Vue.js', 'Laravel', 'MySQL', 'API'],
     gradient: 'from-violet-500 to-purple-600',
     category: 'Fullstack',
     image: '/images/wetrust.jpg',
@@ -118,6 +118,15 @@ const projectsData = ref([
     gradient: 'from-orange-500 to-red-600',
     category: 'Backend',
     image: 'https://placehold.co/800x600/ea580c/ffffff?text=MyShowTime'
+  },
+  {
+    id: 5,
+    name: 'TrellTech',
+    desc: 'App mobile qui consomme l\'API de Trello pour la gestion de projets. Développé avec React Native et Expo.',
+    tags: ['React Native', 'Expo'],
+    gradient: 'from-teal-500 to-emerald-600',
+    category: 'Frontend',
+    image: 'https://placehold.co/800x600/14b8a6/ffffff?text=TrellTech'
   }
 ]);
 
