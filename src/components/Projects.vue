@@ -107,7 +107,8 @@ const projectsData = ref([
     tags: ['Vue.js', 'Laravel'],
     gradient: 'from-violet-500 to-purple-600',
     category: 'Fullstack',
-    image: 'https://placehold.co/800x600/8b5cf6/ffffff?text=WeTrust'
+    image: '/images/wetrust.jpg',
+    url: 'https://wetrust-yowl.netlify.app/'
   },
   {
     id: 4,
