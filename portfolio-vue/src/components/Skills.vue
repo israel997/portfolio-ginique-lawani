@@ -1,10 +1,14 @@
 <template>
-  <div class="grid md:grid-cols-3 gap-6">
+  <section class="mb-32">
+    <h2 class="text-3xl font-bold mb-12 text-center">Compétences Techniques Pratiques</h2>
+    <div class="grid md:grid-cols-3 gap-6">
     <div v-for="skill in skillsData" :key="skill.id" class="group relative p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-pink-500/40 transition-all duration-300 hover:-translate-y-1">
-      <div :class="`w-12 h-12 rounded-xl mb-4 flex items-center justify-center ${skill.iconBg} border border-white/10`">
-        <div class="text-white" v-html="skill.icon"></div>
+      <div class="flex items-center gap-3 mb-4">
+        <div :class="`w-12 h-12 rounded-xl flex items-center justify-center ${skill.iconBg} border border-white/10`">
+          <div class="text-white" v-html="skill.icon"></div>
+        </div>
+        <h4 class="text-lg font-bold">{{ skill.title }}</h4>
       </div>
-      <h4 class="text-lg font-bold mb-2">{{ skill.title }}</h4>
       <p class="text-slate-400 text-sm leading-relaxed">{{ skill.desc }}</p>
       <div class="mt-4 flex flex-wrap gap-2">
         <span v-for="tech in skill.techs" :key="tech" class="px-2 py-1 text-[10px] uppercase font-bold rounded-full bg-white/5 border border-white/10 text-slate-300">
@@ -13,6 +17,7 @@
       </div>
     </div>
   </div>
+  </section>
 </template>
 
 <script setup>
@@ -58,6 +63,14 @@ const skillsData = ref([
     icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>',
     iconBg: 'bg-gradient-to-br from-emerald-500/20 to-teal-500/20',
     techs: ['Trello', 'Notion', 'GitHub Project', 'ClickUp']
+  },
+  {
+    id: 6,
+    title: 'Intelligence Artificielle',
+    desc: 'Utilisation d\'outils IA de pointe pour optimiser le développement et la productivité.',
+    icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>',
+    iconBg: 'bg-gradient-to-br from-amber-500/20 to-yellow-500/20',
+    techs: ['Claude Sonnet', 'Copilot', 'Grok', 'Antigravity', 'Gemini', 'Raptor']
   }
 ]);
 </script>

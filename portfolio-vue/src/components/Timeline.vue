@@ -1,6 +1,6 @@
 <template>
-  <section id="timeline" class="mb-32">
-    <h2 class="text-3xl font-bold mb-16 text-center">Mon Parcours</h2>
+  <section id="timeline" class="mb-32 relative overflow-hidden">
+    <h2 class="text-3xl font-bold mb-16 text-center">Parcours Professionnel</h2>
     
     <div class="relative max-w-4xl mx-auto">
       <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-pink-500 via-purple-500 to-transparent md:-translate-x-1/2"></div>
@@ -23,11 +23,13 @@
 
       </div>
     </div>
+    <BackgroundShapes type="timeline" />
   </section>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import BackgroundShapes from './BackgroundShapes.vue';
 
 const timelineData = ref([
   {
@@ -59,12 +61,6 @@ const timelineData = ref([
     title: 'Sciences Économiques',
     company: 'Université d\'Abomey Calavi',
     desc: 'Formation en sciences économiques et gestion'
-  },
-  {
-    year: '2014-2015',
-    title: 'Baccalauréat Série D',
-    company: 'Gloria Deï, Sekandji (SèmèPodji)',
-    desc: 'Baccalauréat scientifique avec mention'
   }
 ]);
 </script>

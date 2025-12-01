@@ -1,6 +1,6 @@
 <template>
   <section id="about" class="mb-32">
-    <h2 class="text-3xl font-bold mb-16 text-center">À propos</h2>
+    <h2 class="text-3xl font-bold mb-16 text-center">Développeur, mais pas que ...</h2>
     
     <div class="max-w-5xl mx-auto">
       <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
@@ -17,21 +17,24 @@
             À propos de moi
           </h3>
           <p class="text-slate-400 leading-relaxed">
-            Développeur Fullstack créatif avec <span class="text-white font-semibold">8 ans d'expertise</span> en gestion de projets d'entreprise. Spécialisé dans la <span class="text-white font-semibold">transformation digitale</span> et les stratégies de croissance business, je transforme des idées innovantes en solutions digitales impactantes.
+            Développeur Fullstack créatif avec <span class="text-white font-semibold">8 ans d'expertise</span> en gestion de projets d'entreprise.
+          </p>
+          <p class="text-slate-400 leading-relaxed">
+            Spécialisé dans la <span class="text-white font-semibold">transformation digitale</span> et les stratégies de croissance business, je transforme des idées innovantes en solutions digitales impactantes.
           </p>
           <div class="grid grid-cols-3 gap-4 mt-6">
-            <div class="text-center p-4 rounded-xl bg-white/5 border border-white/10">
+            <a href="#timeline" class="text-center p-4 rounded-xl bg-white/5 border-2 border-white/10 hover:border-pink-400/50 hover:bg-white/10 hover:scale-105 hover:-translate-y-1 transition-all duration-300 cursor-pointer">
               <div class="text-2xl font-bold text-pink-400">8+</div>
-              <div class="text-xs text-slate-400 mt-1">Années d'expérience</div>
-            </div>
-            <div class="text-center p-4 rounded-xl bg-white/5 border border-white/10">
+              <div class="text-xs text-slate-400 mt-1">Années de gestion de projets</div>
+            </a>
+            <a href="#projects" class="text-center p-4 rounded-xl bg-white/5 border-2 border-white/10 hover:border-purple-400/50 hover:bg-white/10 hover:scale-105 hover:-translate-y-1 transition-all duration-300 cursor-pointer">
               <div class="text-2xl font-bold text-purple-400">15+</div>
               <div class="text-xs text-slate-400 mt-1">Projets réalisés</div>
-            </div>
-            <div class="text-center p-4 rounded-xl bg-white/5 border border-white/10">
+            </a>
+            <a href="#timeline" class="text-center p-4 rounded-xl bg-white/5 border-2 border-white/10 hover:border-indigo-400/50 hover:bg-white/10 hover:scale-105 hover:-translate-y-1 transition-all duration-300 cursor-pointer">
               <div class="text-2xl font-bold text-indigo-400">2</div>
               <div class="text-xs text-slate-400 mt-1">Certifications</div>
-            </div>
+            </a>
           </div>
         </div>
       </div>
