@@ -35,7 +35,7 @@
             </a>
             <a href="#timeline" class="stat-card text-center p-4 rounded-xl bg-white/5 border-2 border-white/10 hover:border-indigo-400/50 hover:bg-white/10 hover:scale-105 hover:-translate-y-1 transition-all duration-300 cursor-pointer relative overflow-hidden">
               <div class="shine-loop shine-delay-2"></div>
-              <div class="relative z-10 text-2xl font-bold text-indigo-400">2</div>
+              <div class="relative z-10 text-2xl font-bold text-indigo-400">02</div>
               <div class="relative z-10 text-xs text-slate-400 mt-1">Certifications Internationales</div>
             </a>
           </div>

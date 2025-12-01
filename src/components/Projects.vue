@@ -29,7 +29,7 @@
           <div class="absolute inset-0 bg-slate-900/40 z-10"></div>
           <div class="absolute -right-5 -bottom-5 w-24 h-24 bg-white/20 rounded-full blur-xl group-hover:scale-150 transition-transform duration-700 z-20"></div>
           
-          <div class="absolute inset-0 bg-gradient-to-br from-pink-600/80 via-purple-600/80 to-indigo-600/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center z-30">
+          <div class="absolute inset-0 bg-purple-600/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center z-30">
             <div class="text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
               <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border-2 border-white/30">
                 <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -41,10 +41,10 @@
             </div>
           </div>
           
-          <div class="absolute bottom-4 left-4 font-bold text-xl drop-shadow-md group-hover:opacity-0 transition-opacity duration-300 z-20">{{ project.name }}</div>
         </div>
 
         <div class="p-6">
+          <h3 class="text-xl font-bold mb-3">{{ project.name }}</h3>
           <p class="text-slate-400 text-sm mb-4 line-clamp-3">
             {{ project.desc }}
           </p>

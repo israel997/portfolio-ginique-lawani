@@ -1,4 +1,5 @@
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
 import Navbar from './components/Navbar.vue'
 import Hero from './components/Hero.vue'
 import About from './components/About.vue'
@@ -8,10 +9,46 @@ import Projects from './components/Projects.vue'
 import Testimonials from './components/Testimonials.vue'
 import Contact from './components/Contact.vue'
 import Footer from './components/Footer.vue'
+
+const scrollProgress = ref(0)
+
+const updateScrollProgress = () => {
+  const windowHeight = window.innerHeight
+  const documentHeight = document.documentElement.scrollHeight
+  const scrollTop = window.scrollY
+  const scrollableHeight = documentHeight - windowHeight
+  
+  if (scrollableHeight > 0) {
+    scrollProgress.value = (scrollTop / scrollableHeight) * 100
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', updateScrollProgress)
+  updateScrollProgress()
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', updateScrollProgress)
+})
 </script>
 
 <template>
   <div id="app" class="relative min-h-screen overflow-hidden">
+    <!-- Barre de progression -->
+    <div class="fixed top-0 left-0 w-full h-1 bg-white/5 z-50">
+      <div 
+        class="h-full transition-all duration-150 ease-out"
+        :style="{ 
+          width: scrollProgress + '%',
+          background: `linear-gradient(to right, 
+            rgb(239, 68, 68) 0%, 
+            rgb(251, 191, 36) ${scrollProgress * 0.5}%, 
+            rgb(34, 197, 94) 100%)`
+        }"
+      ></div>
+    </div>
+
     <!-- Blobs animés en arrière-plan -->
     <div class="fixed inset-0 w-full h-full pointer-events-none z-0">
       <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 rounded-full mix-blend-screen filter blur-[100px] opacity-20 animate-blob"></div>
