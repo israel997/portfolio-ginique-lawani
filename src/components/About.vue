@@ -1,6 +1,6 @@
 <template>
   <section id="about" class="mb-32">
-    <h2 class="text-3xl font-bold mb-16 text-center">Développeur, mais pas que ...</h2>
+    <h2 class="text-3xl font-bold mb-16 text-center">{{ $t('about.title') }}</h2>
     
     <div class="max-w-5xl mx-auto">
       <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
@@ -14,29 +14,29 @@
         
         <div class="space-y-6">
           <h3 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-indigo-400">
-            Je suis,
+            {{ $t('about.subtitle') }}
           </h3>
           <p class="text-slate-400 leading-relaxed">
-            Développeur Fullstack créatif avec <span class="text-white font-semibold">8 ans d'expertise</span> en gestion de projets d'entreprise.
+            {{ $t('about.description1') }}
           </p>
           <p class="text-slate-400 leading-relaxed">
-            Spécialisé dans la <span class="text-white font-semibold">transformation digitale</span> et les stratégies de croissance business, je transforme des idées innovantes en solutions digitales impactantes.
+            {{ $t('about.description2') }}
           </p>
           <div class="grid grid-cols-3 gap-4 mt-6">
             <a href="#timeline" class="stat-card text-center p-4 rounded-xl bg-white/5 border-2 border-white/10 hover:border-pink-400/50 hover:bg-white/10 hover:scale-105 hover:-translate-y-1 transition-all duration-300 cursor-pointer relative overflow-hidden">
               <div class="shine-loop"></div>
               <div class="relative z-10 text-2xl font-bold text-pink-400">8+</div>
-              <div class="relative z-10 text-xs text-slate-400 mt-1">Années de gestion de projets</div>
+              <div class="relative z-10 text-xs text-slate-400 mt-1">{{ $t('about.stat1') }}</div>
             </a>
             <a href="#projects" class="stat-card text-center p-4 rounded-xl bg-white/5 border-2 border-white/10 hover:border-purple-400/50 hover:bg-white/10 hover:scale-105 hover:-translate-y-1 transition-all duration-300 cursor-pointer relative overflow-hidden">
               <div class="shine-loop shine-delay-1"></div>
               <div class="relative z-10 text-2xl font-bold text-purple-400">15+</div>
-              <div class="relative z-10 text-xs text-slate-400 mt-1">Projets réalisés</div>
+              <div class="relative z-10 text-xs text-slate-400 mt-1">{{ $t('about.stat2') }}</div>
             </a>
             <a href="#timeline" class="stat-card text-center p-4 rounded-xl bg-white/5 border-2 border-white/10 hover:border-indigo-400/50 hover:bg-white/10 hover:scale-105 hover:-translate-y-1 transition-all duration-300 cursor-pointer relative overflow-hidden">
               <div class="shine-loop shine-delay-2"></div>
               <div class="relative z-10 text-2xl font-bold text-indigo-400">02</div>
-              <div class="relative z-10 text-xs text-slate-400 mt-1">Certifications Internationales</div>
+              <div class="relative z-10 text-xs text-slate-400 mt-1">{{ $t('about.stat3') }}</div>
             </a>
           </div>
         </div>

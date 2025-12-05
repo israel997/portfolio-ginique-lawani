@@ -1,6 +1,6 @@
 <template>
   <footer class="border-t border-white/10 py-8 text-center text-slate-500 text-sm">
-    <p>&copy; 2025 Ginique Oriadé LAWANI - Fullstack Developer & Tech Lead. Tous droits réservés.</p>
+    <p>&copy; 2025 Ginique Oriadé LAWANI - Fullstack Developer & Tech Lead. {{ $t('footer.rights') }}</p>
   </footer>
 </template>
 

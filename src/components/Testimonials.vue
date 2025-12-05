@@ -1,6 +1,6 @@
 <template>
   <section id="testimonials" class="mb-32">
-    <h2 class="text-3xl font-bold mb-16 text-center">Références & Recommandations</h2>
+    <h2 class="text-3xl font-bold mb-16 text-center">{{ $t('testimonials.title') }}</h2>
     
     <div class="grid md:grid-cols-2 gap-8 mb-16 max-w-5xl mx-auto">
       <div v-for="testimonial in testimonialsData" :key="testimonial.id" class="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-pink-500/30 transition-all duration-300">

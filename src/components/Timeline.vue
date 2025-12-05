@@ -1,6 +1,6 @@
 <template>
   <section id="timeline" class="mb-32 relative overflow-hidden">
-    <h2 class="text-3xl font-bold mb-16 text-center">Parcours Professionnel</h2>
+    <h2 class="text-3xl font-bold mb-16 text-center">{{ $t('timeline.title') }}</h2>
     
     <div class="relative max-w-4xl mx-auto">
       <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-pink-500 via-purple-500 to-transparent md:-translate-x-1/2"></div>
@@ -28,39 +28,42 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import BackgroundShapes from './BackgroundShapes.vue';
 
-const timelineData = ref([
+const { t } = useI18n();
+
+const timelineData = computed(() => [
   {
     year: '2025-2026',
-    title: 'Certificat Coding Academy',
-    company: 'Epitech Bénin',
-    desc: 'Formation intensive en développement logiciel et technologies avancées'
+    title: t('timeline.items.epitech.title'),
+    company: t('timeline.items.epitech.company'),
+    desc: t('timeline.items.epitech.desc')
   },
   {
     year: '2025',
-    title: 'Certifications NASA & Postman',
-    company: 'NASA Space App Challenge / Postman',
-    desc: 'Problem Solver (NASA) • Postman API Fundamentals Student Expert'
+    title: t('timeline.items.certifications.title'),
+    company: t('timeline.items.certifications.company'),
+    desc: t('timeline.items.certifications.desc')
   },
   {
     year: '2022-2025',
-    title: 'Consultant en Transition Numérique',
-    company: 'Indépendant',
-    desc: 'Spécialisé dans les industries culturelles et créatives. Accompagnement stratégique pour la transformation digitale.'
+    title: t('timeline.items.consultant.title'),
+    company: t('timeline.items.consultant.company'),
+    desc: t('timeline.items.consultant.desc')
   },
   {
     year: '2020-2022',
-    title: 'Responsable de Projets Digitaux',
-    company: 'WEEMA PRIME',
-    desc: 'Gestion et coordination de projets digitaux d\'envergure'
+    title: t('timeline.items.weema.title'),
+    company: t('timeline.items.weema.company'),
+    desc: t('timeline.items.weema.desc')
   },
   {
     year: '2017',
-    title: 'Sciences Économiques',
-    company: 'Université d\'Abomey Calavi',
-    desc: 'Formation en sciences économiques et gestion'
+    title: t('timeline.items.university.title'),
+    company: t('timeline.items.university.company'),
+    desc: t('timeline.items.university.desc')
   }
 ]);
 </script>

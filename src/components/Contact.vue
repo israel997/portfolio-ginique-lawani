@@ -9,10 +9,10 @@
       <div class="shine-loop"></div>
       <div class="relative z-10">
         <h2 class="text-3xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-indigo-400">
-          Mon expertise à votre service !
+          {{ $t('contact.title') }}
         </h2>
         <p class="text-center text-slate-400 mb-4">
-          Vous avez un projet en tête ? Parlons-en et donnons vie à vos idées !
+          {{ $t('contact.subtitle') }}
         </p>
       </div>
       <div class="relative z-10 text-center mb-12 space-y-3">
@@ -30,53 +30,53 @@
         </p>
         <p class="text-sm text-green-400 mt-2 flex items-center justify-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          Disponible pour vos missions présentielles et freelance
+          {{ $t('contact.availability') }}
         </p>
       </div>
 
       <form @submit.prevent="handleSubmit" class="relative z-10 space-y-6 mb-8">
         <div class="grid md:grid-cols-2 gap-6">
           <div>
-            <label class="block text-sm font-bold mb-2 text-slate-300">Nom</label>
+            <label class="block text-sm font-bold mb-2 text-slate-300">{{ $t('contact.form.name') }}</label>
             <input 
               v-model="formData.name"
               type="text" 
               required
               class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-pink-500/50 focus:outline-none transition-colors backdrop-blur-md text-white"
-              placeholder="Votre nom"
+              :placeholder="$t('contact.form.namePlaceholder')"
             />
           </div>
           <div>
-            <label class="block text-sm font-bold mb-2 text-slate-300">Email</label>
+            <label class="block text-sm font-bold mb-2 text-slate-300">{{ $t('contact.form.email') }}</label>
             <input 
               v-model="formData.email"
               type="email" 
               required
               class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-pink-500/50 focus:outline-none transition-colors backdrop-blur-md text-white"
-              placeholder="votre@email.com"
+              :placeholder="$t('contact.form.emailPlaceholder')"
             />
           </div>
         </div>
         <div>
-          <label class="block text-sm font-bold mb-2 text-slate-300">Message</label>
+          <label class="block text-sm font-bold mb-2 text-slate-300">{{ $t('contact.form.message') }}</label>
           <textarea 
             v-model="formData.message"
             required
             rows="5"
             class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-pink-500/50 focus:outline-none transition-colors backdrop-blur-md resize-none text-white"
-            placeholder="Parlez-moi de votre projet..."
+            :placeholder="$t('contact.form.messagePlaceholder')"
           ></textarea>
         </div>
         <button 
           type="submit"
           class="w-full py-4 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 font-bold text-lg hover:shadow-lg hover:shadow-purple-500/40 hover:-translate-y-1 transition-all duration-300"
         >
-          Envoyer le message
+          {{ $t('contact.form.submit') }}
         </button>
       </form>
 
       <div class="relative z-10 border-t border-white/10 pt-6">
-        <p class="text-center text-slate-400 text-xs mb-4">Ou connectez-vous via</p>
+        <p class="text-center text-slate-400 text-xs mb-4">{{ $t('contact.or') }}</p>
         <div class="flex justify-center gap-4">
           <a 
             v-for="social in socialLinks" 
@@ -97,7 +97,7 @@
       v-show="showScrollTop"
       @click="scrollToTop"
       class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg hover:shadow-purple-500/40 hover:scale-110 transition-all duration-300 flex items-center justify-center z-50"
-      title="Retour en haut"
+      :title="$t('contact.scrollTop')"
     >
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>

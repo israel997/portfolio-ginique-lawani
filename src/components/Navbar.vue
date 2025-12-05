@@ -4,17 +4,21 @@
       Ginique.Dev
     </div>
     <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-300">
-      <a href="#hero" class="hover:text-white transition">Accueil</a>
-      <a href="#about" class="hover:text-white transition">À propos</a>
-      <a href="#projects" class="hover:text-white transition">Projets</a>
-      <a href="#timeline" class="hover:text-white transition">Parcours</a>
-      <a href="#testimonials" class="hover:text-white transition">Témoignages</a>
+      <a href="#hero" class="hover:text-white transition">{{ $t('nav.about') }}</a>
+      <a href="#about" class="hover:text-white transition">{{ $t('nav.about') }}</a>
+      <a href="#projects" class="hover:text-white transition">{{ $t('nav.projects') }}</a>
+      <a href="#timeline" class="hover:text-white transition">{{ $t('nav.timeline') }}</a>
+      <a href="#testimonials" class="hover:text-white transition">{{ $t('nav.testimonials') }}</a>
     </div>
-    <a href="#contact" class="bg-white text-slate-900 px-5 py-2 rounded-full font-bold text-sm hover:scale-105 transition transform shadow-lg shadow-white/10">
-      Contact
-    </a>
+    <div class="flex items-center gap-4">
+      <LanguageSwitcher />
+      <a href="#contact" class="bg-white text-slate-900 px-5 py-2 rounded-full font-bold text-sm hover:scale-105 transition transform shadow-lg shadow-white/10">
+        {{ $t('nav.contact') }}
+      </a>
+    </div>
   </nav>
 </template>
 
 <script setup>
+import LanguageSwitcher from './LanguageSwitcher.vue'
 </script>

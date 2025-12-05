@@ -1,6 +1,6 @@
 <template>
   <section id="projects" class="mb-32">
-    <h2 class="text-3xl font-bold mb-8 text-center">Projets Récents</h2>
+    <h2 class="text-3xl font-bold mb-8 text-center">{{ $t('projects.title') }}</h2>
     
     <div class="flex flex-wrap justify-center gap-3 mb-12">
       <button 
@@ -37,7 +37,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                 </svg>
               </div>
-              <p class="text-white font-bold text-lg">Voir le projet</p>
+              <p class="text-white font-bold text-lg">{{ $t('projects.hover') }}</p>
             </div>
           </div>
           
@@ -57,13 +57,13 @@
 
           <div class="flex gap-3">
             <button class="flex-1 py-3 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 font-bold text-sm shadow-lg opacity-90 hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-              Voir les détails
+              {{ $t('projects.cta1') }}
             </button>
             <a v-if="project.url" :href="project.url" target="_blank" rel="noopener noreferrer" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 font-bold text-sm shadow-lg opacity-90 hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 flex items-center justify-center">
-              Aller sur le site
+              {{ $t('projects.cta2') }}
             </a>
             <button v-else class="flex-1 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 font-bold text-sm shadow-lg opacity-90 hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 opacity-50 cursor-not-allowed">
-              Bientôt disponible
+              {{ $t('projects.soon') }}
             </button>
           </div>
         </div>
@@ -74,16 +74,24 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-const activeFilter = ref('Tous');
+const { t } = useI18n();
 
-const projectFilters = ref(['Tous', 'Fullstack', 'Frontend', 'Backend']);
+const activeFilter = ref(t('projects.filters.all'));
 
-const projectsData = ref([
+const projectFilters = computed(() => [
+  t('projects.filters.all'),
+  t('projects.filters.fullstack'),
+  t('projects.filters.frontend'),
+  t('projects.filters.backend')
+]);
+
+const projectsData = computed(() => [
   {
     id: 1,
     name: 'Sanaa',
-    desc: 'Réseau social de niche dédié aux Industries Culturelles et Créatives avec option de Crowdfunding intégrée',
+    desc: t('projects.items.sanaa.desc'),
     tags: ['Next.js', 'TailwindCSS'],
     gradient: 'from-pink-500 to-rose-600',
     category: 'Fullstack',
@@ -93,7 +101,7 @@ const projectsData = ref([
   {
     id: 2,
     name: 'Cinémania',
-    desc: 'Plateforme complète de streaming en ligne avec intégration MovieDB',
+    desc: t('projects.items.cinemania.desc'),
     tags: ['Next.js', 'API MovieDB'],
     gradient: 'from-blue-500 to-cyan-600',
     category: 'Frontend',
@@ -103,7 +111,7 @@ const projectsData = ref([
   {
     id: 3,
     name: 'WeTrust',
-    desc: 'Site web et communauté en ligne pour commenter tout contenu sur internet',
+    desc: t('projects.items.wetrust.desc'),
     tags: ['Vue.js', 'Laravel', 'MySQL', 'API'],
     gradient: 'from-violet-500 to-purple-600',
     category: 'Fullstack',
@@ -113,7 +121,7 @@ const projectsData = ref([
   {
     id: 4,
     name: 'MyShowTime',
-    desc: 'Site web de réservation de tickets d\'événements avec gestion complète',
+    desc: t('projects.items.myshowtime.desc'),
     tags: ['Nest.js', 'MongoDB'],
     gradient: 'from-orange-500 to-red-600',
     category: 'Backend',
@@ -122,7 +130,7 @@ const projectsData = ref([
   {
     id: 5,
     name: 'TrellTech',
-    desc: 'App mobile qui consomme l\'API de Trello pour la gestion de projets. Développé avec React Native et Expo.',
+    desc: t('projects.items.trelltech.desc'),
     tags: ['React Native', 'Expo'],
     gradient: 'from-teal-500 to-emerald-600',
     category: 'Frontend',
@@ -131,9 +139,18 @@ const projectsData = ref([
 ]);
 
 const filteredProjects = computed(() => {
-  if (activeFilter.value === 'Tous') {
+  const filterMap = {
+    [t('projects.filters.all')]: 'Tous',
+    [t('projects.filters.fullstack')]: 'Fullstack',
+    [t('projects.filters.frontend')]: 'Frontend',
+    [t('projects.filters.backend')]: 'Backend'
+  };
+  
+  const category = filterMap[activeFilter.value] || 'Tous';
+  
+  if (category === 'Tous') {
     return projectsData.value;
   }
-  return projectsData.value.filter(project => project.category === activeFilter.value);
+  return projectsData.value.filter(project => project.category === category);
 });
 </script>
