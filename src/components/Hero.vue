@@ -74,7 +74,7 @@
 </style>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
@@ -83,17 +83,19 @@ const displayText = ref('');
 const isErasing = ref(false);
 let phraseIndex = 0;
 
-const phrases = [
+// Utiliser computed pour rendre les phrases réactives
+const phrases = computed(() => [
   t('hero.typewriter1'),
   t('hero.typewriter2')
-];
+]);
+
 let charIndex = 0;
 let typing = true;
 
 function typeLoop() {
   if (typing) {
-    if (charIndex < phrases[phraseIndex].length) {
-      displayText.value = phrases[phraseIndex].slice(0, charIndex + 1);
+    if (charIndex < phrases.value[phraseIndex].length) {
+      displayText.value = phrases.value[phraseIndex].slice(0, charIndex + 1);
       charIndex++;
       setTimeout(typeLoop, 60);
     } else {
@@ -111,12 +113,12 @@ function typeLoop() {
 
 function eraseLoop() {
   if (charIndex > 0) {
-    displayText.value = phrases[phraseIndex].slice(0, charIndex - 1);
+    displayText.value = phrases.value[phraseIndex].slice(0, charIndex - 1);
     charIndex--;
     setTimeout(eraseLoop, 30);
   } else {
     isErasing.value = false;
-    phraseIndex = (phraseIndex + 1) % phrases.length;
+    phraseIndex = (phraseIndex + 1) % phrases.value.length;
     typing = true;
     setTimeout(typeLoop, 400);
   }
