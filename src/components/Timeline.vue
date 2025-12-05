@@ -1,6 +1,6 @@
 <template>
-  <section id="timeline" class="mb-32 relative overflow-hidden">
-    <h2 class="text-3xl font-bold mb-16 text-center">{{ $t('timeline.title') }}</h2>
+  <section id="timeline" class="mb-32 relative overflow-hidden px-4 md:px-0">
+    <h2 class="text-2xl md:text-3xl font-bold mb-12 md:mb-16 text-center">{{ $t('timeline.title') }}</h2>
     
     <div class="relative max-w-4xl mx-auto">
       <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-pink-500 via-purple-500 to-transparent md:-translate-x-1/2"></div>
@@ -10,13 +10,13 @@
         <div class="absolute left-4 md:left-1/2 w-4 h-4 bg-slate-900 border-2 border-pink-500 rounded-full transform -translate-x-[7px] md:-translate-x-1/2 z-20 group-hover:scale-125 transition-transform duration-300 shadow-[0_0_10px_rgba(236,72,153,0.8)]"></div>
 
         <div :class="[
-          'ml-12 md:ml-0 md:w-[45%] p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-pink-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl',
+          'ml-12 md:ml-0 md:w-[45%] p-4 md:p-6 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-pink-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl',
           index % 2 === 0 ? 'md:mr-auto md:text-right' : 'md:ml-auto'
         ]">
-          <span class="text-pink-400 text-sm font-mono font-bold">{{ item.year }}</span>
-          <h3 class="text-xl font-bold mt-1">{{ item.title }}</h3>
-          <p class="text-indigo-300 text-sm mb-3">{{ item.company }}</p>
-          <p class="text-slate-400 text-sm leading-relaxed">
+          <span class="text-pink-400 text-xs md:text-sm font-mono font-bold">{{ item.year }}</span>
+          <h3 class="text-lg md:text-xl font-bold mt-1">{{ item.title }}</h3>
+          <p class="text-indigo-300 text-xs md:text-sm mb-2 md:mb-3">{{ item.company }}</p>
+          <p class="text-slate-400 text-xs md:text-sm leading-relaxed">
             {{ item.desc }}
           </p>
         </div>

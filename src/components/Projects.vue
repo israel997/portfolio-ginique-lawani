@@ -1,14 +1,14 @@
 <template>
-  <section id="projects" class="mb-32">
-    <h2 class="text-3xl font-bold mb-8 text-center">{{ $t('projects.title') }}</h2>
+  <section id="projects" class="mb-32 px-4 md:px-0">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-center">{{ $t('projects.title') }}</h2>
     
-    <div class="flex flex-wrap justify-center gap-3 mb-12">
+    <div class="flex flex-wrap justify-center gap-2 md:gap-3 mb-8 md:mb-12">
       <button 
         v-for="filter in projectFilters" 
         :key="filter"
         @click="activeFilter = filter"
         :class="[
-          'px-4 py-2 rounded-full text-sm font-bold transition-all duration-300',
+          'px-3 md:px-4 py-2 rounded-full text-xs md:text-sm font-bold transition-all duration-300',
           activeFilter === filter 
             ? 'bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg' 
             : 'bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10'
@@ -18,7 +18,7 @@
       </button>
     </div>
     
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
       <div 
         v-for="project in filteredProjects" 
         :key="project.id" 

@@ -1,34 +1,34 @@
 <template>
-  <section id="contact" class="mb-32 relative">
+  <section id="contact" class="mb-32 relative px-4 md:px-0">
     <div class="absolute inset-0 -z-10 overflow-hidden rounded-3xl">
       <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-pink-600 via-purple-600 to-indigo-600 rounded-full mix-blend-screen filter blur-[100px] opacity-20 animate-blob"></div>
       <div class="absolute bottom-0 left-0 w-80 h-80 bg-rose-500 rounded-full mix-blend-screen filter blur-[80px] opacity-20 animate-blob delay-2000"></div>
     </div>
 
-    <div class="max-w-3xl mx-auto p-8 md:p-12 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md relative overflow-hidden">
+    <div class="max-w-3xl mx-auto p-6 md:p-8 lg:p-12 rounded-2xl md:rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md relative overflow-hidden">
       <div class="shine-loop"></div>
       <div class="relative z-10">
-        <h2 class="text-3xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-indigo-400">
+        <h2 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-indigo-400">
           {{ $t('contact.title') }}
         </h2>
-        <p class="text-center text-slate-400 mb-4">
+        <p class="text-center text-sm md:text-base text-slate-400 mb-3 md:mb-4">
           {{ $t('contact.subtitle') }}
         </p>
       </div>
-      <div class="relative z-10 text-center mb-12 space-y-3">
-        <p class="text-slate-300 flex items-center justify-center gap-2">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+      <div class="relative z-10 text-center mb-8 md:mb-12 space-y-2 md:space-y-3">
+        <p class="text-slate-300 text-xs md:text-base flex items-center justify-center gap-2 break-all">
+          <svg class="w-4 h-4 md:w-5 md:h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
           ginique.lawani@epitech.eu
         </p>
-        <p class="text-slate-300 flex items-center justify-center gap-2">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+        <p class="text-slate-300 text-xs md:text-base flex items-center justify-center gap-2">
+          <svg class="w-4 h-4 md:w-5 md:h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
           +229 01 61 77 71 86
         </p>
-        <p class="text-slate-300 flex items-center justify-center gap-2">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+        <p class="text-slate-300 text-xs md:text-base flex items-center justify-center gap-2">
+          <svg class="w-4 h-4 md:w-5 md:h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
           Abomey-Calavi, Bénin
         </p>
-        <p class="text-sm text-green-400 mt-2 flex items-center justify-center gap-2">
+        <p class="text-xs md:text-sm text-green-400 mt-2 flex items-center justify-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           {{ $t('contact.availability') }}
         </p>
@@ -96,10 +96,10 @@
     <button
       v-show="showScrollTop"
       @click="scrollToTop"
-      class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg hover:shadow-purple-500/40 hover:scale-110 transition-all duration-300 flex items-center justify-center z-50"
+      class="fixed bottom-4 right-4 md:bottom-8 md:right-8 w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg hover:shadow-purple-500/40 hover:scale-110 transition-all duration-300 flex items-center justify-center z-[9999]"
       :title="$t('contact.scrollTop')"
     >
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
       </svg>
     </button>

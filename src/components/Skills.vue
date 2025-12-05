@@ -1,20 +1,20 @@
 <template>
-  <section class="mb-32">
-    <h2 class="text-3xl font-bold mb-12 text-center">{{ $t('skills.title') }}</h2>
-    <div class="grid md:grid-cols-3 gap-6">
-    <div v-for="skill in skillsData" :key="skill.id" class="group relative p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-pink-500/40 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+  <section class="mb-32 px-4 md:px-0">
+    <h2 class="text-2xl md:text-3xl font-bold mb-8 md:mb-12 text-center">{{ $t('skills.title') }}</h2>
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+    <div v-for="skill in skillsData" :key="skill.id" class="group relative p-4 md:p-6 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-pink-500/40 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
       <!-- Animation lumineuse -->
       <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
         <div class="shine-effect"></div>
       </div>
       
-      <div class="relative z-10 flex items-center gap-3 mb-4">
-        <div :class="`w-12 h-12 rounded-xl flex items-center justify-center ${skill.iconBg} border border-white/10`">
-          <div class="text-white" v-html="skill.icon"></div>
+      <div class="relative z-10 flex items-center gap-2 md:gap-3 mb-3 md:mb-4">
+        <div :class="`w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl flex items-center justify-center ${skill.iconBg} border border-white/10`">
+          <div class="text-white scale-90 md:scale-100" v-html="skill.icon"></div>
         </div>
-        <h4 class="text-lg font-bold">{{ skill.title }}</h4>
+        <h4 class="text-base md:text-lg font-bold">{{ skill.title }}</h4>
       </div>
-      <p class="relative z-10 text-slate-400 text-sm leading-relaxed">{{ skill.desc }}</p>
+      <p class="relative z-10 text-slate-400 text-xs md:text-sm leading-relaxed">{{ skill.desc }}</p>
       <div class="relative z-10 mt-4 flex flex-wrap gap-2">
         <span v-for="tech in skill.techs" :key="tech" class="px-2 py-1 text-[10px] uppercase font-bold rounded-full bg-white/5 border border-white/10 text-slate-300">
           {{ tech }}
