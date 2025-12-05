@@ -92,48 +92,16 @@
       </div>
     </div>
 
-    <!-- Bouton Retour en haut -->
-    <button
-      v-show="showScrollTop"
-      @click="scrollToTop"
-      class="fixed bottom-4 right-4 md:bottom-8 md:right-8 w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg hover:shadow-purple-500/40 hover:scale-110 transition-all duration-300 flex items-center justify-center z-[9999]"
-      :title="$t('contact.scrollTop')"
-    >
-      <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-      </svg>
-    </button>
   </section>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref } from 'vue';
 
 const formData = ref({
   name: '',
   email: '',
   message: ''
-});
-
-const showScrollTop = ref(false);
-
-const handleScroll = () => {
-  showScrollTop.value = window.scrollY > 300;
-};
-
-const scrollToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-};
-
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
 });
 
 const socialLinks = ref([

@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import Navbar from './components/Navbar.vue'
 import Hero from './components/Hero.vue'
 import About from './components/About.vue'
@@ -10,7 +11,10 @@ import Testimonials from './components/Testimonials.vue'
 import Contact from './components/Contact.vue'
 import Footer from './components/Footer.vue'
 
+const { t } = useI18n()
+
 const scrollProgress = ref(0)
+const showScrollTop = ref(false)
 
 const updateScrollProgress = () => {
   const windowHeight = window.innerHeight
@@ -21,6 +25,16 @@ const updateScrollProgress = () => {
   if (scrollableHeight > 0) {
     scrollProgress.value = (scrollTop / scrollableHeight) * 100
   }
+  
+  // Afficher le bouton après 300px de scroll
+  showScrollTop.value = scrollTop > 300
+}
+
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
 }
 
 onMounted(() => {
@@ -70,5 +84,17 @@ onUnmounted(() => {
       <Contact />
       <Footer />
     </div>
+
+    <!-- Bouton Retour en haut -->
+    <button
+      v-show="showScrollTop"
+      @click="scrollToTop"
+      class="fixed bottom-4 right-4 md:bottom-8 md:right-8 w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg hover:shadow-purple-500/40 hover:scale-110 transition-all duration-300 flex items-center justify-center z-[9999]"
+      :title="t('contact.scrollTop')"
+    >
+      <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+      </svg>
+    </button>
   </div>
 </template>
