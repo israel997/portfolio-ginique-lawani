@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useSEO } from './composables/useSEO'
 import Navbar from './components/Navbar.vue'
 import Hero from './components/Hero.vue'
 import About from './components/About.vue'
@@ -12,6 +13,9 @@ import Contact from './components/Contact.vue'
 import Footer from './components/Footer.vue'
 
 const { t } = useI18n()
+
+// Initialize SEO
+useSEO()
 
 const scrollProgress = ref(0)
 const showScrollTop = ref(false)

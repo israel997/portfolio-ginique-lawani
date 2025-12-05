@@ -1,11 +1,11 @@
 <template>
-  <header id="hero" class="text-center min-h-[70vh] flex flex-col justify-center items-center mb-32 relative px-4">
+  <header id="hero" class="text-center min-h-[70vh] flex flex-col justify-center items-center mb-32 relative px-4" role="banner">
     <div class="inline-block px-3 py-2 sm:px-4 sm:py-3 md:px-6 mb-6 sm:mb-8 border border-pink-500/30 rounded-full bg-pink-500/10 text-pink-300 text-xs sm:text-base md:text-xl font-extrabold tracking-tight sm:tracking-wide md:tracking-wide uppercase shadow-lg overflow-hidden w-full max-w-[98vw] sm:max-w-none md:w-auto">
       <span :class="['typewriter', { 'erasing': isErasing }]">{{ displayText }}</span>
     </div>
     
     <h1 class="text-3xl sm:text-5xl md:text-8xl font-black mb-6 tracking-tight leading-tight px-2">
-      Ginique Oriadé <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 animate-pulse">LAWANI</span>
+      <span itemprop="name">Ginique Oriadé <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 animate-pulse">LAWANI</span></span>
     </h1>
     
     <p class="text-sm sm:text-base md:text-lg text-slate-400 max-w-2xl mb-8 sm:mb-10 leading-relaxed px-2">

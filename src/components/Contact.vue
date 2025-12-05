@@ -1,5 +1,5 @@
 <template>
-  <section id="contact" class="mb-32 relative px-4 md:px-0">
+  <section id="contact" class="mb-32 relative px-4 md:px-0" itemscope itemtype="https://schema.org/ContactPage">
     <div class="absolute inset-0 -z-10 overflow-hidden rounded-3xl">
       <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-pink-600 via-purple-600 to-indigo-600 rounded-full mix-blend-screen filter blur-[100px] opacity-20 animate-blob"></div>
       <div class="absolute bottom-0 left-0 w-80 h-80 bg-rose-500 rounded-full mix-blend-screen filter blur-[80px] opacity-20 animate-blob delay-2000"></div>

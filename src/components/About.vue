@@ -1,5 +1,5 @@
 <template>
-  <section id="about" class="mb-32 px-4 md:px-0">
+  <section id="about" class="mb-32 px-4 md:px-0" itemscope itemtype="https://schema.org/Person">
     <h2 class="text-2xl md:text-3xl font-bold mb-12 md:mb-16 text-center">{{ $t('about.title') }}</h2>
     
     <div class="max-w-5xl mx-auto">
