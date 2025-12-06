@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { Analytics } from '@vercel/analytics/vue'
 import { useSEO } from './composables/useSEO'
 import Navbar from './components/Navbar.vue'
 import Hero from './components/Hero.vue'
@@ -52,6 +53,7 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <Analytics />
   <div id="app" class="relative min-h-screen overflow-hidden">
     <!-- Barre de progression -->
     <div class="fixed top-0 left-0 w-full h-1 bg-white/5 z-50">
