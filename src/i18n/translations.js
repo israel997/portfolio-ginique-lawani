@@ -11,7 +11,7 @@ export default {
     hero: {
       typewriter1: 'Fullstack Developper & Tech Lead',
       typewriter2: 'Creative and Business Solutions oriented.',
-      description: 'Développeur Fullstack, créatif, passionné par la',
+      description: 'Développeur Fullstack, créatif, passionné par la transformation digitale',
       highlight: 'transformation digitale',
       description2: 'et les stratégies de croissance business',
       cta1: 'Voir les projets',
@@ -151,7 +151,7 @@ export default {
     hero: {
       typewriter1: 'Fullstack Developer & Tech Lead',
       typewriter2: 'Creative and Business Solutions oriented.',
-      description: 'Fullstack Developer, creative, passionate about',
+      description: 'Fullstack Developer, creative, passionate about digital transformation',
       highlight: 'digital transformation',
       description2: 'and business growth strategies',
       cta1: 'View projects',
