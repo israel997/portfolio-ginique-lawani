@@ -125,7 +125,7 @@ export default {
         name: 'Nom',
         namePlaceholder: 'Votre nom',
         email: 'Email',
-        emailPlaceholder: 'votre@email.com',
+        emailPlaceholder: "votre{'@'}email.com",
         message: 'Message',
         messagePlaceholder: 'Parlez-moi de votre projet...',
         submit: 'Envoyer le message'
@@ -265,7 +265,7 @@ export default {
         name: 'Name',
         namePlaceholder: 'Your name',
         email: 'Email',
-        emailPlaceholder: 'your@email.com',
+        emailPlaceholder: "your{'@'}email.com",
         message: 'Message',
         messagePlaceholder: 'Tell me about your project...',
         submit: 'Send message'
