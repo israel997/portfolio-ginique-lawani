@@ -2,7 +2,6 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useSEO } from './composables/useSEO'
-import { inject } from '@vercel/analytics'
 import Navbar from './components/Navbar.vue'
 import Hero from './components/Hero.vue'
 import About from './components/About.vue'
@@ -17,9 +16,6 @@ const { t } = useI18n()
 
 // Initialize SEO
 useSEO()
-
-// Initialize Vercel Analytics
-inject()
 
 const scrollProgress = ref(0)
 const showScrollTop = ref(false)
