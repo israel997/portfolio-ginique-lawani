@@ -22,6 +22,18 @@
       </div>
     </div>
   </div>
+
+  <!-- Défilement des logos tech -->
+  <div class="mt-16 overflow-hidden">
+    <div class="logos-slider">
+      <div class="logos-track">
+        <div v-for="(logo, index) in [...logos, ...logos]" :key="index" class="logo-item">
+          <img :src="logo.src" :alt="logo.name" class="logo-img" />
+          <span class="logo-name">{{ logo.name }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
   </section>
 </template>
 
@@ -30,6 +42,51 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
+
+// Logos tech - import direct
+import ReactLogo from '../assets/logos/React.svg';
+import NextLogo from '../assets/logos/Next.js.svg';
+import NodeLogo from '../assets/logos/Node.js.svg';
+import NestLogo from '../assets/logos/Nest.js.svg';
+import TypeScriptLogo from '../assets/logos/TypeScript.svg';
+import JavaScriptLogo from '../assets/logos/JavaScript.svg';
+import HTML5Logo from '../assets/logos/HTML5.svg';
+import CSS3Logo from '../assets/logos/CSS3.svg';
+import TailwindLogo from '../assets/logos/Tailwind CSS.svg';
+import LaravelLogo from '../assets/logos/Laravel.svg';
+import PythonLogo from '../assets/logos/Python.svg';
+import FastAPILogo from '../assets/logos/FastAPI.svg';
+import FlutterLogo from '../assets/logos/Flutter.svg';
+import MongoDBLogo from '../assets/logos/MongoDB.svg';
+import PostgreSQLLogo from '../assets/logos/PostgresSQL.svg';
+import MySQLLogo from '../assets/logos/MySQL.svg';
+import SQLiteLogo from '../assets/logos/SQLite.svg';
+import DockerLogo from '../assets/logos/Docker.svg';
+import PostmanLogo from '../assets/logos/Postman.svg';
+import VSCodeLogo from '../assets/logos/Visual Studio Code (VS Code).svg';
+
+const logos = [
+  { name: 'React', src: ReactLogo },
+  { name: 'Next.js', src: NextLogo },
+  { name: 'Node.js', src: NodeLogo },
+  { name: 'Nest.js', src: NestLogo },
+  { name: 'TypeScript', src: TypeScriptLogo },
+  { name: 'JavaScript', src: JavaScriptLogo },
+  { name: 'HTML5', src: HTML5Logo },
+  { name: 'CSS3', src: CSS3Logo },
+  { name: 'Tailwind CSS', src: TailwindLogo },
+  { name: 'Laravel', src: LaravelLogo },
+  { name: 'Python', src: PythonLogo },
+  { name: 'FastAPI', src: FastAPILogo },
+  { name: 'Flutter', src: FlutterLogo },
+  { name: 'MongoDB', src: MongoDBLogo },
+  { name: 'PostgreSQL', src: PostgreSQLLogo },
+  { name: 'MySQL', src: MySQLLogo },
+  { name: 'SQLite', src: SQLiteLogo },
+  { name: 'Docker', src: DockerLogo },
+  { name: 'Postman', src: PostmanLogo },
+  { name: 'VS Code', src: VSCodeLogo }
+];
 
 const skillsData = computed(() => [
   {
@@ -108,6 +165,107 @@ const skillsData = computed(() => [
     transparent
   );
   animation: shine 1.5s ease-in-out;
+}
+
+/* Slider de logos */
+.logos-slider {
+  position: relative;
+  width: 100%;
+  padding: 2rem 0;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.logos-track {
+  display: flex;
+  gap: 3rem;
+  animation: scroll 30s linear infinite;
+}
+
+.logo-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.logo-img {
+  height: 48px;
+  width: auto;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+}
+
+.logo-name {
+  font-size: 0.75rem;
+  color: rgb(148, 163, 184);
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.logo-item:hover .logo-img {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.logo-item:hover .logo-name {
+  color: rgb(236, 72, 153);
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes floatMobile {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@media (max-width: 768px) {
+  .logo-img {
+    height: 28px;
+  }
+  
+  .logo-name {
+    font-size: 0.625rem;
+  }
+  
+  .logos-slider {
+    padding: 1rem 0;
+  }
+  
+  .logos-track {
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    animation: none;
+    justify-content: center;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .logo-item {
+    animation: floatMobile 2.5s ease-in-out infinite;
+  }
+  
+  .logo-item:nth-child(2n) {
+    animation-delay: 0.3s;
+  }
+  
+  .logo-item:nth-child(3n) {
+    animation-delay: 0.6s;
+  }
 }
 </style>
 
