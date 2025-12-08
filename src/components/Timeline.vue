@@ -10,9 +10,10 @@
         <div class="absolute left-4 md:left-1/2 w-4 h-4 bg-slate-900 border-2 border-pink-500 rounded-full transform -translate-x-[7px] md:-translate-x-1/2 z-20 group-hover:scale-125 transition-transform duration-300 shadow-[0_0_10px_rgba(236,72,153,0.8)]"></div>
 
         <div :class="[
-          'ml-12 md:ml-0 md:w-[45%] p-4 md:p-6 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-pink-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl floating-card',
+          'ml-12 md:ml-0 md:w-[45%] p-4 md:p-6 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-pink-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl floating-card relative overflow-hidden',
           index % 2 === 0 ? 'md:mr-auto md:text-right' : 'md:ml-auto'
         ]" :style="{ animationDelay: `${index * 0.2}s` }">
+          <div class="shine-loop-mobile md:hidden"></div>
           <span class="text-pink-400 text-xs md:text-sm font-mono font-bold">{{ item.year }}</span>
           <h3 class="text-lg md:text-xl font-bold mt-1">{{ item.title }}</h3>
           <p class="text-indigo-300 text-xs md:text-sm mb-2 md:mb-3">{{ item.company }}</p>
@@ -87,5 +88,32 @@ const timelineData = computed(() => [
   .floating-card:hover {
     animation-play-state: paused;
   }
+}
+
+@keyframes shine-loop-mobile {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(30deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(30deg);
+  }
+}
+
+.shine-loop-mobile {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(236, 72, 153, 0.1),
+    rgba(236, 72, 153, 0.3),
+    rgba(236, 72, 153, 0.1),
+    transparent
+  );
+  animation: shine-loop-mobile 2s ease-in-out infinite;
+  z-index: 1;
 }
 </style>

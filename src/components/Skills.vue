@@ -2,7 +2,7 @@
   <section class="mb-32 px-4 md:px-0">
     <h2 class="text-2xl md:text-3xl font-bold mb-8 md:mb-12 text-center">{{ $t('skills.title') }}</h2>
     <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-    <div v-for="skill in skillsData" :key="skill.id" class="group relative p-4 md:p-6 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-pink-500/40 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+    <div v-for="skill in skillsData" :key="skill.id" class="group relative p-4 md:p-6 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-pink-500/40 transition-all duration-300 hover:-translate-y-1 overflow-hidden floating-skill-card" :style="{ animationDelay: `${skill.id * 0.15}s` }">
       <!-- Animation lumineuse -->
       <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
         <div class="shine-effect"></div>
@@ -150,6 +150,19 @@ const skillsData = computed(() => [
   }
 }
 
+@keyframes floatSkill {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.floating-skill-card {
+  animation: floatSkill 3s ease-in-out infinite;
+}
+
 .shine-effect {
   position: absolute;
   top: -50%;
@@ -224,15 +237,6 @@ const skillsData = computed(() => [
   }
 }
 
-@keyframes floatMobile {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
 @media (max-width: 768px) {
   .logo-img {
     height: 28px;
@@ -253,18 +257,6 @@ const skillsData = computed(() => [
     justify-content: center;
     max-height: 200px;
     overflow-y: auto;
-  }
-  
-  .logo-item {
-    animation: floatMobile 2.5s ease-in-out infinite;
-  }
-  
-  .logo-item:nth-child(2n) {
-    animation-delay: 0.3s;
-  }
-  
-  .logo-item:nth-child(3n) {
-    animation-delay: 0.6s;
   }
 }
 </style>
