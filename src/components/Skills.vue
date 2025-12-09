@@ -1,5 +1,5 @@
 <template>
-  <section id="skills" class="mb-32 px-4 md:px-0">
+  <section id="skills" class="mb-16 md:mb-32 px-4 md:px-0">
     <h2 class="text-2xl md:text-3xl font-bold mb-8 md:mb-12 text-center">{{ $t('skills.title') }}</h2>
     <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
     <div v-for="skill in skillsData" :key="skill.id" class="group relative p-4 md:p-6 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-pink-500/40 transition-all duration-300 hover:-translate-y-1 overflow-hidden floating-skill-card" :style="{ animationDelay: `${skill.id * 0.15}s` }">
@@ -24,13 +24,23 @@
   </div>
 
   <!-- Défilement des logos tech -->
-  <div class="mt-16 overflow-hidden">
+  <div class="mt-8 md:mt-16 overflow-hidden">
     <div class="logos-slider">
       <div class="logos-track">
-        <div v-for="(logo, index) in [...logos, ...logos]" :key="index" class="logo-item">
-          <img :src="logo.src" :alt="logo.name" class="logo-img" />
-          <span class="logo-name">{{ logo.name }}</span>
-        </div>
+        <!-- Desktop: défilement avec duplication -->
+        <template v-if="isDesktop">
+          <div v-for="(logo, index) in [...logos, ...logos]" :key="index" class="logo-item">
+            <img :src="logo.src" :alt="logo.name" class="logo-img" />
+            <span class="logo-name">{{ logo.name }}</span>
+          </div>
+        </template>
+        <!-- Mobile: grille statique -->
+        <template v-else>
+          <div v-for="(logo, index) in logos" :key="index" class="logo-item">
+            <img :src="logo.src" :alt="logo.name" class="logo-img" />
+            <span class="logo-name">{{ logo.name }}</span>
+          </div>
+        </template>
       </div>
     </div>
   </div>
@@ -38,10 +48,25 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
+
+// Détection desktop/mobile
+const isDesktop = ref(window.innerWidth >= 768);
+
+const handleResize = () => {
+  isDesktop.value = window.innerWidth >= 768;
+};
+
+onMounted(() => {
+  window.addEventListener('resize', handleResize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize);
+});
 
 // Logos tech - import direct
 import ReactLogo from '../assets/logos/React.svg';

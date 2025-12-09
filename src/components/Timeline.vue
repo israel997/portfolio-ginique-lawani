@@ -1,5 +1,5 @@
 <template>
-  <section id="timeline" class="mb-32 relative overflow-hidden px-4 md:px-0">
+  <section id="timeline" class="mb-16 md:mb-32 relative overflow-hidden px-4 md:px-0">
     <h2 class="text-2xl md:text-3xl font-bold mb-12 md:mb-16 text-center">{{ $t('timeline.title') }}</h2>
     
     <div class="relative max-w-4xl mx-auto">

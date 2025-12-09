@@ -1,5 +1,5 @@
 <template>
-  <section id="testimonials" class="mb-32 px-4 md:px-0">
+  <section id="testimonials" class="mb-16 md:mb-32 px-4 md:px-0">
     <h2 class="text-2xl md:text-3xl font-bold mb-12 md:mb-16 text-center">{{ $t('testimonials.title') }}</h2>
     
     <div class="grid md:grid-cols-2 gap-4 md:gap-8 mb-12 md:mb-16 max-w-5xl mx-auto">

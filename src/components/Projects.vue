@@ -1,5 +1,5 @@
 <template>
-  <section id="projects" class="mb-32 px-4 md:px-0" itemscope itemtype="https://schema.org/CreativeWork">
+  <section id="projects" class="mb-16 md:mb-32 px-4 md:px-0" itemscope itemtype="https://schema.org/CreativeWork">
     <h2 class="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-center">{{ $t('projects.title') }}</h2>
     
     <div class="flex flex-wrap justify-center gap-2 md:gap-3 mb-8 md:mb-12">
