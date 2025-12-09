@@ -1,6 +1,7 @@
 export default {
   fr: {
     nav: {
+      home: 'Accueil',
       about: 'À propos',
       skills: 'Compétences',
       timeline: 'Parcours',
@@ -87,7 +88,7 @@ export default {
     projects: {
       title: 'Projets Récents',
       filters: {
-        all: 'Tous',
+        all: 'Mobile',
         fullstack: 'Fullstack',
         frontend: 'Frontend',
         backend: 'Backend'
@@ -141,6 +142,7 @@ export default {
   },
   en: {
     nav: {
+      home: 'Home',
       about: 'About',
       skills: 'Skills',
       timeline: 'Journey',
@@ -227,7 +229,7 @@ export default {
     projects: {
       title: 'Recent Projects',
       filters: {
-        all: 'All',
+        all: 'Mobile',
         fullstack: 'Fullstack',
         frontend: 'Frontend',
         backend: 'Backend'

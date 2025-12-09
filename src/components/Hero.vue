@@ -12,21 +12,21 @@
       <span class="text-white font-semibold">{{ $t('hero.description') }}</span>, {{ $t('hero.description2') }}
     </p>
 
-    <div class="flex flex-col md:flex-row gap-3 md:gap-4 mb-12 w-full md:w-auto px-2 md:px-0">
-      <a href="#projects" class="px-6 md:px-8 py-3 bg-gradient-to-r from-pink-600 to-purple-600 rounded-xl font-bold text-sm md:text-base hover:shadow-lg hover:shadow-purple-500/40 hover:-translate-y-1 transition-all">
+    <div class="flex flex-col md:flex-row gap-3 md:gap-4 mb-12 w-full md:w-auto px-2 md:px-0 items-center">
+      <a href="#projects" class="px-4 md:px-6 py-2.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-xl font-bold text-sm hover:shadow-lg hover:shadow-purple-500/40 hover:-translate-y-1 transition-all zoom-mobile-1 flex items-center justify-center gap-2 min-w-[180px]">
         {{ $t('hero.cta1') }}
       </a>
-      <a href="#contact" class="px-6 md:px-8 py-3 bg-white/5 border border-white/10 rounded-xl font-bold text-sm md:text-base hover:bg-white/10 transition-colors backdrop-blur-md">
+      <a href="#contact" class="px-4 md:px-6 py-2.5 bg-white/5 border border-white/10 rounded-xl font-bold text-sm hover:bg-white/10 transition-colors backdrop-blur-md flex items-center justify-center gap-2 min-w-[180px]">
         {{ $t('hero.cta2') }}
       </a>
-      <a :href="cvUrl" target="_blank" class="px-6 md:px-8 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-xl font-bold text-sm md:text-base hover:shadow-lg hover:shadow-blue-500/40 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105">
-        <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+      <a :href="cvUrl" target="_blank" class="px-4 md:px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-xl font-bold text-sm hover:shadow-lg hover:shadow-blue-500/40 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105 zoom-mobile-2 min-w-[180px]">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
         {{ $t('hero.cta3') }}
       </a>
     </div>
 
-        <div class="mt-8 flex flex-col items-center gap-4 px-2 md:px-0">
-      <img src="/images/nasa.jpg" alt="NASA Space Apps Challenge" loading="lazy" class="max-w-5xl w-full rounded-xl md:rounded-2xl shadow-2xl border border-white/10 hover:scale-105 transition-transform duration-300" />
+        <div class="mt-8 flex flex-col items-center gap-4 px-1 md:px-0">
+      <img src="/images/nasa.jpg" alt="NASA Space Apps Challenge" loading="lazy" class="max-w-5xl w-[98%] md:w-full rounded-xl md:rounded-2xl shadow-2xl border border-white/10 hover:scale-105 transition-transform duration-300" />
     </div>
   </header>
 </template>
@@ -70,6 +70,22 @@
   animation:
     erasing 1.2s steps(32, end) 0s 1 normal both,
     blink 0.8s step-end infinite;
+}
+
+@keyframes zoomIn {
+  0%, 90%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@media (max-width: 768px) {
+  .zoom-mobile-1 {
+    animation: zoomIn 3s ease-in-out infinite;
+  }
+  
+  .zoom-mobile-2 {
+    animation: zoomIn 3s ease-in-out infinite;
+    animation-delay: 1.5s;
+  }
 }
 </style>
 

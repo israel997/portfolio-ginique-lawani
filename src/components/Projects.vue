@@ -22,7 +22,7 @@
       <div 
         v-for="project in filteredProjects" 
         :key="project.id" 
-        class="group relative rounded-3xl overflow-hidden bg-slate-800/50 border border-white/5 hover:border-pink-500/40 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-900/20"
+        class="group relative rounded-3xl overflow-hidden bg-slate-800/50 border border-white/5 hover:border-pink-500/40 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-900/20 project-card-mobile"
       >
         <div :class="`h-64 bg-gradient-to-br ${project.gradient} relative overflow-hidden`">
           <img :src="project.image || '/images/project-default.jpg'" :alt="project.name" loading="lazy" class="absolute inset-0 w-full h-full object-cover object-center z-0" />
@@ -154,3 +154,30 @@ const filteredProjects = computed(() => {
   return projectsData.value.filter(project => project.category === category);
 });
 </script>
+
+<style scoped>
+@keyframes borderGlow {
+  0%, 100% {
+    border-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 5px rgba(236, 72, 153, 0);
+  }
+  50% {
+    border-color: rgba(236, 72, 153, 0.4);
+    box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+  }
+}
+
+@media (max-width: 768px) {
+  .project-card-mobile {
+    animation: borderGlow 3s ease-in-out infinite;
+  }
+  
+  .project-card-mobile:nth-child(2n) {
+    animation-delay: 1s;
+  }
+  
+  .project-card-mobile:nth-child(3n) {
+    animation-delay: 2s;
+  }
+}
+</style>

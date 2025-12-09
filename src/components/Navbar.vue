@@ -6,13 +6,14 @@
     <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-300">
       <a href="#hero" class="hover:text-white transition">{{ $t('nav.about') }}</a>
       <a href="#about" class="hover:text-white transition">{{ $t('nav.about') }}</a>
+      <a href="#skills" class="hover:text-white transition">{{ $t('nav.skills') }}</a>
       <a href="#projects" class="hover:text-white transition">{{ $t('nav.projects') }}</a>
       <a href="#timeline" class="hover:text-white transition">{{ $t('nav.timeline') }}</a>
       <a href="#testimonials" class="hover:text-white transition">{{ $t('nav.testimonials') }}</a>
     </div>
     <div class="flex items-center gap-2 md:gap-4">
       <LanguageSwitcher />
-      <a href="#contact" class="bg-white text-slate-900 px-3 md:px-5 py-1.5 md:py-2 rounded-full font-bold text-xs md:text-sm hover:scale-105 transition transform shadow-lg shadow-white/10">
+      <a href="#contact" class="hidden md:inline-block bg-white text-slate-900 px-3 md:px-5 py-1.5 md:py-2 rounded-full font-bold text-xs md:text-sm hover:scale-105 transition transform shadow-lg shadow-white/10">
         {{ $t('nav.contact') }}
       </a>
     </div>

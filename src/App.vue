@@ -11,6 +11,7 @@ import Projects from './components/Projects.vue'
 import Testimonials from './components/Testimonials.vue'
 import Contact from './components/Contact.vue'
 import Footer from './components/Footer.vue'
+import MobileBottomNav from './components/MobileBottomNav.vue'
 
 const { t } = useI18n()
 
@@ -77,7 +78,7 @@ onUnmounted(() => {
     </div>
 
     <!-- Contenu principal -->
-    <div class="relative z-10 container mx-auto px-6 py-6">
+    <div class="relative z-10 container mx-auto px-6 py-6 pb-20 md:pb-6">
       <Navbar />
       <Hero />
       <About />
@@ -89,11 +90,14 @@ onUnmounted(() => {
       <Footer />
     </div>
 
+    <!-- Navigation mobile en bas -->
+    <MobileBottomNav />
+
     <!-- Bouton Retour en haut -->
     <button
       v-show="showScrollTop"
       @click="scrollToTop"
-      class="fixed bottom-4 right-4 md:bottom-8 md:right-8 w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg hover:shadow-purple-500/40 hover:scale-110 transition-all duration-300 flex items-center justify-center z-[9999]"
+      class="fixed bottom-20 right-4 md:bottom-8 md:right-8 w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg hover:shadow-purple-500/40 hover:scale-110 transition-all duration-300 flex items-center justify-center z-[9999]"
       :title="t('contact.scrollTop')"
     >
       <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
