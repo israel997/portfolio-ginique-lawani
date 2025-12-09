@@ -167,17 +167,15 @@ const filteredProjects = computed(() => {
   }
 }
 
-@media (max-width: 768px) {
-  .project-card-mobile {
-    animation: borderGlow 3s ease-in-out infinite;
-  }
-  
-  .project-card-mobile:nth-child(2n) {
-    animation-delay: 1s;
-  }
-  
-  .project-card-mobile:nth-child(3n) {
-    animation-delay: 2s;
-  }
+.project-card-mobile {
+  animation: borderGlow 3s ease-in-out infinite;
+}
+
+.project-card-mobile:nth-child(2n) {
+  animation-delay: 1s;
+}
+
+.project-card-mobile:nth-child(3n) {
+  animation-delay: 2s;
 }
 </style>

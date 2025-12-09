@@ -1,5 +1,5 @@
 <template>
-  <header id="hero" class="text-center min-h-[70vh] flex flex-col justify-center items-center mb-32 relative px-4" role="banner">
+  <header id="hero" class="text-center min-h-[70vh] flex flex-col justify-center items-center mb-16 md:mb-32 relative px-4" role="banner">
     <div class="inline-block px-3 py-2 sm:px-4 sm:py-3 md:px-6 mb-6 sm:mb-8 border border-pink-500/30 rounded-full bg-pink-500/10 text-pink-300 text-xs sm:text-base md:text-xl font-extrabold tracking-tight sm:tracking-wide md:tracking-wide uppercase shadow-lg overflow-hidden w-full max-w-[98vw] sm:max-w-none md:w-auto">
       <span :class="['typewriter', { 'erasing': isErasing }]">{{ displayText }}</span>
     </div>
