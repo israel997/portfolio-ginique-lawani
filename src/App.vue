@@ -57,13 +57,9 @@ onUnmounted(() => {
     <!-- Barre de progression -->
     <div class="fixed top-0 left-0 w-full h-1 bg-white/5 z-50">
       <div 
-        class="h-full transition-all duration-150 ease-out"
+        class="h-full transition-all duration-150 ease-out bg-blue-500"
         :style="{ 
-          width: scrollProgress + '%',
-          background: `linear-gradient(to right, 
-            rgb(239, 68, 68) 0%, 
-            rgb(251, 191, 36) ${scrollProgress * 0.5}%, 
-            rgb(34, 197, 94) 100%)`
+          width: scrollProgress + '%'
         }"
       ></div>
     </div>
