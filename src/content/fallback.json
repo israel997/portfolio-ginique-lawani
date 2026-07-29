@@ -1,0 +1,93 @@
+{
+  "settings": {
+    "id": 1,
+    "full_name": "Ginique Oriadé LAWANI",
+    "brand_label": "Portfolio.Dev",
+    "typewriter1_fr": "Fullstack Developper & Tech Lead",
+    "typewriter1_en": "Fullstack Developer & Tech Lead",
+    "typewriter2_fr": "Creative and Business Solutions oriented.",
+    "typewriter2_en": "Creative and Business Solutions oriented.",
+    "hero_intro_fr": "Développeur Fullstack, créatif, passionné par la transformation digitale",
+    "hero_intro_en": "Fullstack Developer, creative, passionate about digital transformation",
+    "hero_intro2_fr": "et les stratégies de croissance business",
+    "hero_intro2_en": "and business growth strategies",
+    "bio1_fr": "Développeur Fullstack créatif avec 8 ans d'expertise en gestion de projets d'entreprise.",
+    "bio1_en": "Creative Fullstack Developer with 8 years of expertise in enterprise project management.",
+    "bio2_fr": "Spécialisé dans la transformation digitale et les stratégies de croissance business, je transforme des idées innovantes en solutions digitales impactantes.",
+    "bio2_en": "Specialized in digital transformation and business growth strategies, I transform innovative ideas into impactful digital solutions.",
+    "stat1_value": "8+",
+    "stat1_label_fr": "Années de gestion de projets",
+    "stat1_label_en": "Years of project management",
+    "stat2_value": "15+",
+    "stat2_label_fr": "Projets réalisés",
+    "stat2_label_en": "Projects completed",
+    "stat3_value": "02",
+    "stat3_label_fr": "Certifications Internationales",
+    "stat3_label_en": "International Certifications",
+    "email": "ginique.lawani@epitech.eu",
+    "phone": "+229 01 61 77 71 86",
+    "location": "Abomey-Calavi, Bénin",
+    "availability_fr": "Disponible pour vos missions présentielles et freelance",
+    "availability_en": "Available for your on-site and freelance missions",
+    "cv_url": "/Ginique-Oriadé-LAWANI-FlowCV-Resume-20251120.pdf",
+    "cv_filename": "Ginique-Oriadé-LAWANI-FlowCV-Resume-20251120.pdf",
+    "profile_photo_url": "/profile2.jpg",
+    "hero_badge_image_url": "/images/nasa.jpg"
+  },
+  "timeline": [
+    { "id": 1, "year_label": "2025-2026", "title_fr": "Certificat Coding Academy", "title_en": "Coding Academy Certificate", "company_fr": "Epitech Bénin", "company_en": "Epitech Benin", "description_fr": "Formation intensive en développement logiciel et technologies avancées", "description_en": "Intensive training in software development and advanced technologies", "sort_order": 0 },
+    { "id": 2, "year_label": "2025", "title_fr": "Certifications NASA & Postman", "title_en": "NASA & Postman Certifications", "company_fr": "NASA Space App Challenge / Postman", "company_en": "NASA Space App Challenge / Postman", "description_fr": "Problem Solver (NASA) • Postman API Fundamentals Student Expert", "description_en": "Problem Solver (NASA) • Postman API Fundamentals Student Expert", "sort_order": 1 },
+    { "id": 3, "year_label": "2022-2025", "title_fr": "Consultant en Transition Numérique", "title_en": "Digital Transformation Consultant", "company_fr": "Indépendant", "company_en": "Independent", "description_fr": "Spécialisé dans les industries culturelles et créatives. Accompagnement stratégique pour la transformation digitale.", "description_en": "Specialized in cultural and creative industries. Strategic support for digital transformation.", "sort_order": 2 },
+    { "id": 4, "year_label": "2020-2022", "title_fr": "Responsable de Projets Digitaux", "title_en": "Digital Projects Manager", "company_fr": "WEEMA PRIME", "company_en": "WEEMA PRIME", "description_fr": "Gestion et coordination de projets digitaux d'envergure", "description_en": "Management and coordination of large-scale digital projects", "sort_order": 3 },
+    { "id": 5, "year_label": "2017", "title_fr": "Sciences Économiques", "title_en": "Economic Sciences", "company_fr": "Université d'Abomey Calavi", "company_en": "University of Abomey Calavi", "description_fr": "Formation en sciences économiques et gestion", "description_en": "Training in economics and management", "sort_order": 4 }
+  ],
+  "skills": [
+    { "id": 1, "icon_key": "frontend", "title_fr": "Frontend Development", "title_en": "Frontend Development", "description_fr": "Création d'interfaces modernes et réactives avec les dernières technologies web.", "description_en": "Creation of modern and responsive interfaces with the latest web technologies.", "icon_bg_class": "bg-gradient-to-br from-pink-500/20 to-rose-500/20", "techs": ["React", "Next.js", "Vue.js", "TailwindCSS"], "sort_order": 0 },
+    { "id": 2, "icon_key": "backend", "title_fr": "Backend Development", "title_en": "Backend Development", "description_fr": "Architecture backend robuste et scalable pour des applications performantes.", "description_en": "Robust and scalable backend architecture for high-performance applications.", "icon_bg_class": "bg-gradient-to-br from-blue-500/20 to-cyan-500/20", "techs": ["Node.js", "Nest.js", "Laravel", "Flask"], "sort_order": 1 },
+    { "id": 3, "icon_key": "database", "title_fr": "Database & DevOps", "title_en": "Database & DevOps", "description_fr": "Gestion de bases de données et déploiement d'applications avec les meilleures pratiques.", "description_en": "Database management and application deployment with best practices.", "icon_bg_class": "bg-gradient-to-br from-violet-500/20 to-indigo-500/20", "techs": ["MongoDB", "PostgreSQL", "Docker", "Postman"], "sort_order": 2 },
+    { "id": 4, "icon_key": "methodologies", "title_fr": "Méthodologies", "title_en": "Methodologies", "description_fr": "Application des méthodes agiles pour une gestion de projet efficace et collaborative.", "description_en": "Application of agile methods for efficient and collaborative project management.", "icon_bg_class": "bg-gradient-to-br from-rose-500/20 to-orange-500/20", "techs": ["Agile", "Scrum", "Transformation Digitale"], "sort_order": 3 },
+    { "id": 5, "icon_key": "tools", "title_fr": "Outils de Gestion", "title_en": "Management Tools", "description_fr": "Maîtrise des outils modernes de gestion de projet et de collaboration.", "description_en": "Mastery of modern project management and collaboration tools.", "icon_bg_class": "bg-gradient-to-br from-emerald-500/20 to-teal-500/20", "techs": ["Trello", "Notion", "Git", "ClickUp", "Teams"], "sort_order": 4 },
+    { "id": 6, "icon_key": "ai", "title_fr": "Intelligence Artificielle", "title_en": "Artificial Intelligence", "description_fr": "Utilisation d'outils IA de pointe pour optimiser le développement et la productivité.", "description_en": "Use of cutting-edge AI tools to optimize development and productivity.", "icon_bg_class": "bg-gradient-to-br from-amber-500/20 to-yellow-500/20", "techs": ["Claude Sonnet", "Copilot", "Grok", "Antigravity", "Gemini", "Raptor"], "sort_order": 5 }
+  ],
+  "logos": [
+    { "id": 1, "name": "React", "image_url": "/logos/react.svg", "sort_order": 0 },
+    { "id": 2, "name": "Next.js", "image_url": "/logos/nextjs.svg", "sort_order": 1 },
+    { "id": 3, "name": "Node.js", "image_url": "/logos/nodejs.svg", "sort_order": 2 },
+    { "id": 4, "name": "Nest.js", "image_url": "/logos/nestjs.svg", "sort_order": 3 },
+    { "id": 5, "name": "TypeScript", "image_url": "/logos/typescript.svg", "sort_order": 4 },
+    { "id": 6, "name": "JavaScript", "image_url": "/logos/javascript.svg", "sort_order": 5 },
+    { "id": 7, "name": "HTML5", "image_url": "/logos/html5.svg", "sort_order": 6 },
+    { "id": 8, "name": "CSS3", "image_url": "/logos/css3.svg", "sort_order": 7 },
+    { "id": 9, "name": "Tailwind CSS", "image_url": "/logos/tailwindcss.svg", "sort_order": 8 },
+    { "id": 10, "name": "Laravel", "image_url": "/logos/laravel.svg", "sort_order": 9 },
+    { "id": 11, "name": "Python", "image_url": "/logos/python.svg", "sort_order": 10 },
+    { "id": 12, "name": "FastAPI", "image_url": "/logos/fastapi.svg", "sort_order": 11 },
+    { "id": 13, "name": "Flutter", "image_url": "/logos/flutter.svg", "sort_order": 12 },
+    { "id": 14, "name": "MongoDB", "image_url": "/logos/mongodb.svg", "sort_order": 13 },
+    { "id": 15, "name": "PostgreSQL", "image_url": "/logos/postgresql.svg", "sort_order": 14 },
+    { "id": 16, "name": "MySQL", "image_url": "/logos/mysql.svg", "sort_order": 15 },
+    { "id": 17, "name": "SQLite", "image_url": "/logos/sqlite.svg", "sort_order": 16 },
+    { "id": 18, "name": "Docker", "image_url": "/logos/docker.svg", "sort_order": 17 },
+    { "id": 19, "name": "Postman", "image_url": "/logos/postman.svg", "sort_order": 18 },
+    { "id": 20, "name": "VS Code", "image_url": "/logos/vscode.svg", "sort_order": 19 }
+  ],
+  "projects": [
+    { "id": 1, "name": "Sanaa", "description_fr": "Réseau social de niche dédié aux Industries Culturelles et Créatives avec option de Crowdfunding intégrée", "description_en": "Niche social network dedicated to Cultural and Creative Industries with integrated Crowdfunding option", "tags": ["Next.js", "TailwindCSS"], "gradient_class": "from-pink-500 to-rose-600", "category": "Fullstack", "image_url": "/images/sanaa.jpg", "project_url": "https://saana-for-creators.vercel.app/", "sort_order": 0 },
+    { "id": 2, "name": "Cinémania", "description_fr": "Plateforme complète de streaming en ligne avec intégration MovieDB", "description_en": "Complete online streaming platform with MovieDB integration", "tags": ["Next.js", "API MovieDB"], "gradient_class": "from-blue-500 to-cyan-600", "category": "Frontend", "image_url": "/images/cinemania.jpg", "project_url": "https://deep-sigma.vercel.app/", "sort_order": 1 },
+    { "id": 3, "name": "WeTrust", "description_fr": "Site web et communauté en ligne pour commenter tout contenu sur internet", "description_en": "Website and online community to comment on any internet content", "tags": ["Vue.js", "Laravel", "MySQL", "API"], "gradient_class": "from-violet-500 to-purple-600", "category": "Fullstack", "image_url": "/images/wetrust.jpg", "project_url": "https://wetrust-yowl.netlify.app/", "sort_order": 2 },
+    { "id": 4, "name": "MyShowTime", "description_fr": "Site web de réservation de tickets d'événements avec gestion complète", "description_en": "Event ticket booking website with complete management", "tags": ["Nest.js", "MongoDB"], "gradient_class": "from-orange-500 to-red-600", "category": "Backend", "image_url": "https://placehold.co/800x600/ea580c/ffffff?text=MyShowTime", "project_url": null, "sort_order": 3 },
+    { "id": 5, "name": "TrellTech", "description_fr": "App mobile qui consomme l'API de Trello pour la gestion de projets. Développé avec React Native et Expo.", "description_en": "Mobile app that consumes Trello API for project management. Built with React Native and Expo.", "tags": ["React Native", "Expo"], "gradient_class": "from-teal-500 to-emerald-600", "category": "Frontend", "image_url": "https://placehold.co/800x600/14b8a6/ffffff?text=TrellTech", "project_url": null, "sort_order": 4 }
+  ],
+  "testimonials": [
+    { "id": 1, "name": "Idelphonse MOUGNANOU", "role_fr": "Responsable Career Center Epitech Benin", "role_en": null, "initials": "IM", "avatar_gradient_class": "from-pink-500 to-rose-500", "quote_fr": "Ginique a transformé notre vision en une application web performante. Son expertise technique et sa créativité ont dépassé nos attentes.", "quote_en": null, "sort_order": 0 },
+    { "id": 2, "name": "Focas TCHANHOUN", "role_fr": "APE Epitech Benin", "role_en": null, "initials": "FT", "avatar_gradient_class": "from-purple-500 to-indigo-500", "quote_fr": "Un développeur exceptionnel qui comprend les enjeux business. Sa capacité à gérer des projets complexes est remarquable.", "quote_en": null, "sort_order": 1 },
+    { "id": 3, "name": "Fatima YARO", "role_fr": "APE Epitech Benin", "role_en": null, "initials": "FY", "avatar_gradient_class": "from-indigo-500 to-blue-500", "quote_fr": "Collaboration fluide et résultats impressionnants. Ginique apporte une vraie valeur ajoutée à chaque projet.", "quote_en": null, "sort_order": 2 },
+    { "id": 4, "name": "Yemalin AGBANGLA", "role_fr": "APE Epitech Benin", "role_en": null, "initials": "YA", "avatar_gradient_class": "from-cyan-500 to-teal-500", "quote_fr": "Un professionnel rigoureux et passionné. Son approche méthodique et sa créativité font la différence sur chaque projet.", "quote_en": null, "sort_order": 3 }
+  ],
+  "socialLinks": [
+    { "id": 1, "name": "LinkedIn", "url": "https://linkedin.com/in/israël-oriadé", "icon_key": "linkedin", "custom_svg": null, "sort_order": 0 },
+    { "id": 2, "name": "GitHub", "url": "https://github.com/israel997", "icon_key": "github", "custom_svg": null, "sort_order": 1 },
+    { "id": 3, "name": "WhatsApp", "url": "https://kloo.me/whatsapp-israel-oriade", "icon_key": "whatsapp", "custom_svg": null, "sort_order": 2 },
+    { "id": 4, "name": "Email", "url": "mailto:ginique.lawani@epitech.eu", "icon_key": "email", "custom_svg": null, "sort_order": 3 }
+  ]
+}
