@@ -1,0 +1,14 @@
+# robots.txt for portfolio-ginique-lawani
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://portfolio-ginique-lawani.vercel.app/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 0
+
+# Disallow specific files
+Disallow: /node_modules/
+Disallow: /*.json$
+Disallow: /src/
