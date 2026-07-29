@@ -35,6 +35,9 @@ out/
 # Vercel
 .vercel
 
+# Local Claude Code tooling state
+.claude/
+
 # OS files
 Thumbs.db
 .DS_Store
