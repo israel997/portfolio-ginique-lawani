@@ -4,12 +4,12 @@
       <span :class="['typewriter', { 'erasing': isErasing }]">{{ displayText }}</span>
     </div>
 
-    <h1 class="text-[2.6rem] leading-[1.05] sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-5 md:mb-6 tracking-tight text-balance">
+    <h1 class="whitespace-nowrap text-[clamp(1.6rem,8.4vw,6rem)] leading-[1.05] font-bold mb-5 md:mb-6 tracking-tight">
       <span itemprop="name">{{ nameFirstPart }} <span class="text-brand-text">{{ nameLastPart }}</span></span>
     </h1>
 
     <p class="text-base md:text-lg text-muted max-w-2xl mb-7 sm:mb-10 leading-relaxed text-pretty">
-      <span class="text-ink font-semibold">{{ localized(settings, 'hero_intro') }}</span>, {{ localized(settings, 'hero_intro2') }}
+      {{ localized(settings, 'hero_intro') }}, {{ localized(settings, 'hero_intro2') }}
     </p>
 
     <div class="grid w-full max-w-sm grid-cols-2 gap-2.5 sm:flex sm:w-auto sm:max-w-none sm:gap-3 mb-10 md:mb-12">

@@ -143,16 +143,9 @@ export default {
       title: 'Mon expertise à votre service !',
       subtitle: 'Vous avez un projet en tête ? Parlons-en et donnons vie à vos idées !',
       availability: 'Disponible pour vos missions présentielles et freelance',
-      form: {
-        name: 'Nom',
-        namePlaceholder: 'Votre nom',
-        email: 'Email',
-        emailPlaceholder: "votre{'@'}email.com",
-        message: 'Message',
-        messagePlaceholder: 'Parlez-moi de votre projet...',
-        submit: 'Envoyer le message'
-      },
-      or: 'Ou connectez-vous via',
+      copy: 'Copier',
+      copied: 'Copié',
+      or: 'Retrouvez-moi aussi sur',
       scrollTop: 'Retour en haut'
     },
     footer: {
@@ -305,16 +298,9 @@ export default {
       title: 'My expertise at your service!',
       subtitle: 'Have a project in mind? Let\'s talk and bring your ideas to life!',
       availability: 'Available for your on-site and freelance missions',
-      form: {
-        name: 'Name',
-        namePlaceholder: 'Your name',
-        email: 'Email',
-        emailPlaceholder: "your{'@'}email.com",
-        message: 'Message',
-        messagePlaceholder: 'Tell me about your project...',
-        submit: 'Send message'
-      },
-      or: 'Or connect via',
+      copy: 'Copy',
+      copied: 'Copied',
+      or: 'Also find me on',
       scrollTop: 'Back to top'
     },
     footer: {

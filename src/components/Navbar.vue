@@ -1,13 +1,6 @@
 <template>
   <header class="sticky top-0 z-50 border-b border-line bg-nav backdrop-blur-xl supports-[backdrop-filter]:bg-nav">
-    <nav class="mx-auto flex h-14 md:h-16 max-w-[1180px] items-center justify-between gap-4 px-4 md:px-6" aria-label="Navigation principale">
-      <RouterLink :to="{ path: '/', hash: '#hero' }" class="flex items-center gap-2.5 min-w-0" :aria-label="settings.full_name">
-        <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-brand text-white font-display text-sm font-bold">
-          {{ initials }}
-        </span>
-        <span class="truncate font-display text-base md:text-lg font-semibold tracking-tight">{{ shortName }}</span>
-      </RouterLink>
-
+    <nav class="mx-auto flex h-14 md:h-16 max-w-[1180px] items-center justify-end gap-4 px-4 md:px-6 lg:justify-between" aria-label="Navigation principale">
       <ul class="hidden lg:flex items-center gap-0.5 text-sm font-medium">
         <li v-for="link in links" :key="link.id">
           <RouterLink
@@ -36,26 +29,11 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import LanguageSwitcher from './LanguageSwitcher.vue'
 import ThemeToggle from './ThemeToggle.vue'
-import { useContent } from '../composables/useContent'
 import { useActiveSection } from '../composables/useActiveSection'
 
-const { content } = useContent()
 const { activeSection } = useActiveSection()
 const route = useRoute()
 const onHome = computed(() => route.name === 'home')
-const settings = computed(() => content.value.settings || {})
-
-// "Ginique Oriadé LAWANI" -> "Ginique LAWANI" / "GL"
-const nameParts = computed(() => (settings.value.full_name || '').trim().split(/\s+/).filter(Boolean))
-const shortName = computed(() => {
-  const parts = nameParts.value
-  return parts.length > 1 ? `${parts[0]} ${parts[parts.length - 1]}` : parts[0] || ''
-})
-const initials = computed(() => {
-  const parts = nameParts.value
-  if (!parts.length) return ''
-  return (parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase()
-})
 
 const links = [
   { id: 'about', label: 'nav.about' },
