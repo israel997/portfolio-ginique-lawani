@@ -11,22 +11,21 @@
         </div>
         <p class="text-muted text-sm leading-relaxed">{{ localized(skill, 'description') }}</p>
 
-        <!-- Each tech shown by its logo; techs without one keep a text label -->
-        <ul class="mt-5 flex flex-wrap items-center gap-2" :aria-label="localized(skill, 'title')">
+        <!-- Each tech: logo with its name underneath; techs without a logo keep a text label -->
+        <ul class="mt-5 flex flex-wrap items-start gap-x-3 gap-y-3" :aria-label="localized(skill, 'title')">
           <li v-for="tech in skill.techs" :key="tech">
-            <span
-              v-if="logoFor(tech)"
-              class="grid h-10 w-10 place-items-center rounded-lg border border-line bg-page"
-              :title="tech"
-            >
-              <img
-                :src="logoFor(tech).image_url"
-                :alt="tech"
-                loading="lazy"
-                decoding="async"
-                :class="['h-6 w-6 object-contain', isMonoLogo(logoFor(tech).image_url) ? 'logo-mono' : '']"
-              />
-            </span>
+            <figure v-if="logoFor(tech)" class="flex w-14 flex-col items-center gap-1.5">
+              <span class="grid h-10 w-10 place-items-center rounded-lg border border-line bg-page">
+                <img
+                  :src="logoFor(tech).image_url"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  :class="['h-6 w-6 object-contain', isMonoLogo(logoFor(tech).image_url) ? 'logo-mono' : '']"
+                />
+              </span>
+              <figcaption class="w-full text-center text-[10px] leading-tight text-muted">{{ tech }}</figcaption>
+            </figure>
             <span v-else class="inline-flex h-10 items-center rounded-lg border border-line bg-page px-3 font-mono text-[10px] uppercase tracking-wide text-ink-2">
               {{ tech }}
             </span>
