@@ -1,10 +1,10 @@
 <template>
   <div :class="['mb-10 md:mb-14', align === 'center' ? 'text-center' : '']">
-    <p class="section-eyebrow mb-3">
+    <p v-reveal="'left'" class="section-eyebrow mb-3">
       <span class="text-subtle">{{ index }}</span>
       <span class="mx-2 text-line-strong">/</span>{{ eyebrow }}
     </p>
-    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-balance">{{ title }}</h2>
+    <h2 v-reveal:150="'right'" class="text-3xl md:text-4xl lg:text-5xl font-bold text-balance">{{ title }}</h2>
   </div>
 </template>
 

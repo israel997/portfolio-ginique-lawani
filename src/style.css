@@ -200,6 +200,18 @@
   filter: invert(1);
 }
 
+/* Scroll-in slide (v-reveal directive) */
+.reveal {
+  opacity: 0;
+  transition: opacity 0.7s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-left { transform: translateX(-40px); }
+.reveal-right { transform: translateX(40px); }
+.reveal.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
 /* Shared section heading: mono eyebrow + display title */
 .section-eyebrow {
   @apply font-mono text-xs md:text-sm font-medium uppercase tracking-[0.18em] text-accent;

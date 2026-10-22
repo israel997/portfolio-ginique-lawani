@@ -2,8 +2,8 @@
   <section id="contact" itemscope itemtype="https://schema.org/ContactPage">
     <div class="max-w-3xl mx-auto p-5 sm:p-8 lg:p-12 rounded-3xl bg-surface border border-line backdrop-blur-md">
       <div class="text-center">
-        <p class="section-eyebrow mb-3"><span class="text-subtle">{{ index }}</span><span class="mx-2 text-line-strong">/</span>{{ $t('nav.contact') }}</p>
-        <h2 class="text-3xl md:text-4xl font-bold mb-3 text-balance">
+        <p v-reveal="'left'" class="section-eyebrow mb-3"><span class="text-subtle">{{ index }}</span><span class="mx-2 text-line-strong">/</span>{{ $t('nav.contact') }}</p>
+        <h2 v-reveal:150="'right'" class="text-3xl md:text-4xl font-bold mb-3 text-balance">
           {{ $t('contact.title') }}
         </h2>
         <p class="text-sm md:text-base text-muted mb-8">{{ $t('contact.subtitle') }}</p>

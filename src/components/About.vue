@@ -23,7 +23,7 @@
             :href="stat.href"
             :class="`group rounded-xl border border-line bg-surface p-3 md:p-4 transition-colors hover:bg-surface-hover ${stat.border}`"
           >
-            <div :class="`font-mono text-2xl md:text-3xl font-semibold ${stat.color}`">{{ settings[`stat${stat.n}_value`] }}</div>
+            <div :class="`font-mono text-2xl md:text-3xl font-semibold ${stat.color}`"><CountUp :value="settings[`stat${stat.n}_value`]" /></div>
             <div class="mt-1 text-[11px] md:text-xs leading-snug text-muted">{{ localized(settings, `stat${stat.n}_label`) }}</div>
           </a>
         </div>
@@ -36,6 +36,7 @@
 import { computed } from 'vue';
 import { useContent } from '../composables/useContent';
 import SectionHeading from './SectionHeading.vue';
+import CountUp from './CountUp.vue';
 
 defineProps({ index: { type: String, default: '' } });
 
