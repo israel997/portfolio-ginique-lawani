@@ -23,7 +23,7 @@
       </a>
     </div>
 
-    <img v-if="settings.hero_badge_image_url" :src="settings.hero_badge_image_url" alt="NASA Space Apps Challenge" loading="lazy" decoding="async" class="w-full max-w-5xl rounded-xl md:rounded-2xl shadow-2xl border border-line md:transition-transform md:duration-300 md:hover:scale-[1.02]" />
+    <img v-if="settings.hero_badge_image_url" :src="settings.hero_badge_image_url" alt="NASA Space Apps Challenge" fetchpriority="high" class="w-full max-w-5xl rounded-xl md:rounded-2xl shadow-2xl border border-line md:transition-transform md:duration-300 md:hover:scale-[1.02]" />
   </header>
 </template>
 
