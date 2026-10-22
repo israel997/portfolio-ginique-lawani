@@ -79,6 +79,24 @@ export const MIGRATIONS = [
        ) AS v(name, url, ord)
        WHERE NOT EXISTS (SELECT 1 FROM tech_logos t WHERE lower(t.name) = lower(v.name))`
     ]
+  },
+  {
+    version: 4,
+    statements: [
+      // Admin password set from the back-office (overrides the hash in auth.js)
+      `CREATE TABLE IF NOT EXISTS admin_auth (
+         id SMALLINT PRIMARY KEY DEFAULT 1 CHECK (id = 1),
+         password_hash TEXT NOT NULL,
+         updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+       )`,
+      // Failed logins per IP, for the brute-force lockout
+      `CREATE TABLE IF NOT EXISTS login_attempts (
+         id SERIAL PRIMARY KEY,
+         ip TEXT NOT NULL,
+         attempted_at TIMESTAMPTZ NOT NULL DEFAULT now()
+       )`,
+      `CREATE INDEX IF NOT EXISTS login_attempts_ip_time ON login_attempts (ip, attempted_at)`
+    ]
   }
 ];
 

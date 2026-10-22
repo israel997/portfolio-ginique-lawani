@@ -188,7 +188,7 @@ const {
   fields: FIELDS,
   defaults: () => ({
     name: '', description_fr: '', description_en: '', tags: [],
-    gradient_class: 'from-pink-500 to-rose-600', category: 'Fullstack', image_url: '', project_url: '',
+    gradient_class: 'from-brand to-rose-600', category: 'Fullstack', image_url: '', project_url: '',
     details_fr: '', details_en: '', contributions_fr: '', contributions_en: '', methodology_fr: '', methodology_en: '',
     gallery: []
   }),

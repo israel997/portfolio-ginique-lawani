@@ -28,7 +28,7 @@
             :key="link.to"
             :to="link.to"
             class="flex shrink-0 items-center gap-2.5 whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium text-slate-400 transition-colors hover:bg-white/5 hover:text-white"
-            active-class="bg-pink-500/15! text-pink-200!"
+            active-class="bg-brand/15! text-brand-text!"
           >
             <component :is="link.icon" class="h-4 w-4" />
             {{ link.label }}
@@ -58,7 +58,7 @@
 import { onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useTheme } from '../composables/useTheme';
-import { LayoutDashboard, UserRound, Route, Code2, FolderKanban, MessageSquareQuote, Share2, ExternalLink, LogOut, GalleryHorizontal } from 'lucide-vue-next';
+import { LayoutDashboard, UserRound, Route, Code2, FolderKanban, MessageSquareQuote, Share2, ExternalLink, LogOut, GalleryHorizontal, ShieldCheck } from 'lucide-vue-next';
 import { useAdminAuth } from './composables/useAdminAuth';
 import ToastHost from './components/ToastHost.vue';
 
@@ -77,7 +77,8 @@ const links = [
   { to: '/admin/showcase', label: 'Savoir-faire', icon: GalleryHorizontal },
   { to: '/admin/timeline', label: 'Parcours', icon: Route },
   { to: '/admin/testimonials', label: 'Témoignages', icon: MessageSquareQuote },
-  { to: '/admin/social-links', label: 'Réseaux sociaux', icon: Share2 }
+  { to: '/admin/social-links', label: 'Réseaux sociaux', icon: Share2 },
+  { to: '/admin/security', label: 'Sécurité', icon: ShieldCheck }
 ];
 
 async function handleLogout() {

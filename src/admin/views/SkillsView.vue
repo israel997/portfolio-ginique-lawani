@@ -66,7 +66,7 @@
             @click="form.icon_key = key"
             :class="[
               'grid aspect-square place-items-center rounded-xl border transition-colors',
-              form.icon_key === key ? 'border-pink-500 bg-pink-500/15 text-white' : 'border-white/10 bg-white/5 text-slate-400 hover:text-white'
+              form.icon_key === key ? 'border-brand bg-brand/15 text-white' : 'border-white/10 bg-white/5 text-slate-400 hover:text-white'
             ]"
           >
             <Icon :name="key" class="h-5 w-5" />

@@ -16,7 +16,7 @@ const COLUMNS = [
 ];
 
 export default async function handler(req, res) {
-  if (!requireAuth(req, res)) return;
+  if (!(await requireAuth(req, res))) return;
 
   await withErrorHandling(res, async () => {
     await ensureSchema();

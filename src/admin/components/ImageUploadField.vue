@@ -20,7 +20,7 @@
 
     <!-- Non-image file (e.g. CV PDF) already set -->
     <div v-else-if="modelValue" class="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-      <FileText class="h-5 w-5 shrink-0 text-pink-400" />
+      <FileText class="h-5 w-5 shrink-0 text-brand-text" />
       <a :href="modelValue" target="_blank" rel="noopener" class="min-w-0 flex-1 truncate text-sm text-slate-300 hover:text-white">{{ fileName }}</a>
       <button type="button" @click="pick" :disabled="uploading" class="admin-btn-ghost h-9">
         <LoaderCircle v-if="uploading" class="h-4 w-4 animate-spin" />
@@ -38,10 +38,10 @@
       @drop.prevent="onDrop"
       :class="[
         'flex w-full flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-4 py-8 text-center transition-colors',
-        dragging ? 'border-pink-500/70 bg-pink-500/10' : 'border-white/15 bg-white/[0.03] hover:border-white/30'
+        dragging ? 'border-brand/70 bg-brand/10' : 'border-white/15 bg-white/[0.03] hover:border-white/30'
       ]"
     >
-      <LoaderCircle v-if="uploading" class="h-6 w-6 animate-spin text-pink-400" />
+      <LoaderCircle v-if="uploading" class="h-6 w-6 animate-spin text-brand-text" />
       <ImageUp v-else class="h-6 w-6 text-slate-400" />
       <span class="text-sm font-medium text-slate-300">
         {{ uploading ? 'Envoi en cours…' : 'Glisser un fichier ou cliquer pour choisir' }}

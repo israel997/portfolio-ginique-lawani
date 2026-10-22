@@ -47,7 +47,7 @@
             @click="pickIcon(opt)"
             :class="[
               'flex flex-col items-center gap-1.5 rounded-xl border py-3 text-[11px] transition-colors',
-              form.icon_key === opt.key ? 'border-pink-500 bg-pink-500/15 text-white' : 'border-white/10 bg-white/5 text-slate-400 hover:text-white'
+              form.icon_key === opt.key ? 'border-brand bg-brand/15 text-white' : 'border-white/10 bg-white/5 text-slate-400 hover:text-white'
             ]"
           >
             <Code v-if="opt.key === 'custom'" class="h-5 w-5" />

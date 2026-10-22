@@ -17,7 +17,8 @@ const routes = [
       { path: 'projects', name: 'admin-projects', component: () => import('../admin/views/ProjectsView.vue') },
       { path: 'showcase', name: 'admin-showcase', component: () => import('../admin/views/ShowcaseView.vue') },
       { path: 'testimonials', name: 'admin-testimonials', component: () => import('../admin/views/TestimonialsView.vue') },
-      { path: 'social-links', name: 'admin-social-links', component: () => import('../admin/views/SocialLinksView.vue') }
+      { path: 'social-links', name: 'admin-social-links', component: () => import('../admin/views/SocialLinksView.vue') },
+      { path: 'security', name: 'admin-security', component: () => import('../admin/views/SecurityView.vue') }
     ]
   },
   { path: '/:pathMatch(.*)*', redirect: '/' }

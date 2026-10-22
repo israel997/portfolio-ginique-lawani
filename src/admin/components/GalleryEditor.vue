@@ -8,7 +8,7 @@
     <ol class="space-y-3">
       <li v-for="(entry, i) in modelValue" :key="entry._key || i" class="rounded-xl border border-white/10 bg-white/[0.03] p-3">
         <div class="mb-3 flex items-center justify-between">
-          <span class="font-mono text-xs text-pink-400">Image {{ String(i + 1).padStart(2, '0') }}</span>
+          <span class="font-mono text-xs text-brand-text">Image {{ String(i + 1).padStart(2, '0') }}</span>
           <div class="flex items-center gap-1">
             <button type="button" @click="move(i, -1)" :disabled="i === 0" class="grid h-8 w-8 place-items-center rounded-lg text-slate-400 hover:bg-white/5 hover:text-white disabled:opacity-30" aria-label="Monter">
               <ChevronUp class="h-4 w-4" />

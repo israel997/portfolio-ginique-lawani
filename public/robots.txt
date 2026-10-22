@@ -9,6 +9,8 @@ Sitemap: https://portfolio-ginique-lawani.vercel.app/sitemap.xml
 Crawl-delay: 0
 
 # Disallow specific files
+Disallow: /admin
+Disallow: /api/
 Disallow: /node_modules/
 Disallow: /*.json$
 Disallow: /src/

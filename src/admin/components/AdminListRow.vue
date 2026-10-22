@@ -12,7 +12,7 @@
     </button>
 
     <button type="button" @click="$emit('edit')" class="min-w-0 flex-1 py-1 text-left">
-      <p v-if="eyebrow" class="font-mono text-xs text-pink-400">{{ eyebrow }}</p>
+      <p v-if="eyebrow" class="font-mono text-xs text-brand-text">{{ eyebrow }}</p>
       <p class="truncate font-semibold">{{ title || 'Sans titre' }}</p>
       <p v-if="subtitle" class="mt-0.5 line-clamp-1 text-sm text-slate-400">{{ subtitle }}</p>
       <div v-if="$slots.meta" class="mt-1.5 hidden items-center gap-3 text-xs text-slate-500 sm:flex">

@@ -54,7 +54,7 @@ function valuesFor(config, fields, body) {
 }
 
 export async function handleListRequest(req, res) {
-  if (!requireAuth(req, res)) return;
+  if (!(await requireAuth(req, res))) return;
   const config = RESOURCES[req.query.resource];
   if (!config) return sendJson(res, 404, { error: 'Unknown resource' });
   const { table, columns, orderBy = 'sort_order' } = config;
@@ -82,7 +82,7 @@ export async function handleListRequest(req, res) {
 }
 
 export async function handleItemRequest(req, res) {
-  if (!requireAuth(req, res)) return;
+  if (!(await requireAuth(req, res))) return;
   const config = RESOURCES[req.query.resource];
   if (!config) return sendJson(res, 404, { error: 'Unknown resource' });
   const { table, columns, hasUpdatedAt = true } = config;

@@ -2,13 +2,13 @@
   <div>
     <label v-if="label" :for="inputId" class="admin-label">{{ label }}</label>
     <div
-      class="flex min-h-12 flex-wrap items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-2.5 py-2 transition-colors focus-within:border-pink-500/60 focus-within:ring-2 focus-within:ring-pink-500/20"
+      class="flex min-h-12 flex-wrap items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-2.5 py-2 transition-colors focus-within:border-brand/60 focus-within:ring-2 focus-within:ring-brand/20"
       @click="inputEl?.focus()"
     >
       <span
         v-for="(tag, index) in modelValue"
         :key="tag"
-        class="inline-flex items-center gap-1 rounded-md bg-pink-500/15 py-1 pl-2 pr-1 font-mono text-xs text-pink-200"
+        class="inline-flex items-center gap-1 rounded-md bg-brand/15 py-1 pl-2 pr-1 font-mono text-xs text-brand-text"
       >
         {{ tag }}
         <button type="button" @click.stop="remove(index)" class="rounded p-0.5 hover:bg-white/10" :aria-label="`Retirer ${tag}`">

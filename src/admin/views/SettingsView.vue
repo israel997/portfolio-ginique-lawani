@@ -6,12 +6,12 @@
 
     <form v-else @submit.prevent="handleSave" class="space-y-10">
       <section class="space-y-4">
-        <h3 class="text-sm font-bold uppercase tracking-wide text-pink-400">Identité</h3>
+        <h3 class="text-sm font-bold uppercase tracking-wide text-brand-text">Identité</h3>
         <FormField v-model="form.full_name" label="Nom complet" />
       </section>
 
       <section class="space-y-4">
-        <h3 class="text-sm font-bold uppercase tracking-wide text-pink-400">Accroche (Hero)</h3>
+        <h3 class="text-sm font-bold uppercase tracking-wide text-brand-text">Accroche (Hero)</h3>
         <div class="grid md:grid-cols-2 gap-4">
           <FormField v-model="form.typewriter1_fr" label="Titre animé 1 (FR)" />
           <FormField v-model="form.typewriter1_en" label="Titre animé 1 (EN)" />
@@ -25,7 +25,7 @@
       </section>
 
       <section class="space-y-4">
-        <h3 class="text-sm font-bold uppercase tracking-wide text-pink-400">Bio (À propos)</h3>
+        <h3 class="text-sm font-bold uppercase tracking-wide text-brand-text">Bio (À propos)</h3>
         <div class="grid md:grid-cols-2 gap-4">
           <FormField v-model="form.bio1_fr" label="Paragraphe 1 (FR)" type="textarea" />
           <FormField v-model="form.bio1_en" label="Paragraphe 1 (EN)" type="textarea" />
@@ -35,7 +35,7 @@
       </section>
 
       <section class="space-y-4">
-        <h3 class="text-sm font-bold uppercase tracking-wide text-pink-400">Statistiques</h3>
+        <h3 class="text-sm font-bold uppercase tracking-wide text-brand-text">Statistiques</h3>
         <div v-for="n in [1, 2, 3]" :key="n" class="grid md:grid-cols-3 gap-4 items-end">
           <FormField v-model="form[`stat${n}_value`]" :label="`Valeur ${n}`" />
           <FormField v-model="form[`stat${n}_label_fr`]" :label="`Libellé ${n} (FR)`" />
@@ -44,7 +44,7 @@
       </section>
 
       <section class="space-y-4">
-        <h3 class="text-sm font-bold uppercase tracking-wide text-pink-400">Contact</h3>
+        <h3 class="text-sm font-bold uppercase tracking-wide text-brand-text">Contact</h3>
         <div class="grid md:grid-cols-2 gap-4">
           <FormField v-model="form.email" label="Email" type="email" />
           <FormField v-model="form.whatsapp" label="WhatsApp" placeholder="+229 01 …" hint="Format international (+229…) : le lien wa.me en dépend." />
@@ -60,7 +60,7 @@
       </section>
 
       <section class="space-y-4">
-        <h3 class="text-sm font-bold uppercase tracking-wide text-pink-400">Fichiers</h3>
+        <h3 class="text-sm font-bold uppercase tracking-wide text-brand-text">Fichiers</h3>
         <ImageUploadField v-model="form.cv_url" label="CV (PDF)" accept="application/pdf" />
         <ImageUploadField v-model="form.profile_photo_url" label="Photo de profil" accept="image/*" />
         <ImageUploadField v-model="form.hero_badge_image_url" label="Image badge (Hero)" accept="image/*" />

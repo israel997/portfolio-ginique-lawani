@@ -14,7 +14,7 @@ export default async function handler(req, res) {
       body: req.body,
       request: req,
       onBeforeGenerateToken: async () => {
-        if (!isAuthenticated(req)) {
+        if (!(await isAuthenticated(req))) {
           throw new Error('Unauthorized');
         }
         return {

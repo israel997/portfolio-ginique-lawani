@@ -51,12 +51,13 @@
   --panel-deep: #0a0e1a;
   --nav: rgb(15 23 42 / 0.75);
   --footer: #0b1120;
-  --accent: #f472b6;
+  --accent: #5b9bff;
   --link: #38bdf8;
   --success: #34d399;
-  --brand: #7e22ce;
-  --brand-hover: #6b21a8;
-  --brand-text: #b57bee;
+  /* Same OOffix blue as the light theme; lighter tint for text on dark */
+  --brand: #2e5cff;
+  --brand-hover: #1f47e0;
+  --brand-text: #5b9bff;
   --pattern: rgb(255 255 255 / 0.03);
   --pattern-dot: rgb(255 255 255 / 0.07);
 }
@@ -201,7 +202,7 @@
   }
   .admin-input {
     /* 16px on mobile so iOS doesn't zoom into the field on focus */
-    @apply w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-base md:text-sm text-white placeholder:text-slate-500 transition-colors focus:border-pink-500/60 focus:outline-none focus:ring-2 focus:ring-pink-500/20;
+    @apply w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-base md:text-sm text-white placeholder:text-slate-500 transition-colors focus:border-brand/60 focus:outline-none focus:ring-2 focus:ring-brand/20;
   }
   .admin-btn {
     @apply inline-flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50;
