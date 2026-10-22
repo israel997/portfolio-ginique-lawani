@@ -1,30 +1,35 @@
 <template>
-  <section id="testimonials" class="mb-16 md:mb-32 px-4 md:px-0">
-    <h2 class="text-2xl md:text-3xl font-bold mb-12 md:mb-16 text-center">{{ $t('testimonials.title') }}</h2>
+  <section id="testimonials">
+    <SectionHeading index="05" :eyebrow="$t('nav.testimonials')" :title="$t('testimonials.title')" />
 
-    <div class="grid md:grid-cols-2 gap-4 md:gap-8 mb-12 md:mb-16 max-w-5xl mx-auto">
-      <div v-for="testimonial in testimonialsData" :key="testimonial.id" class="p-4 md:p-6 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-pink-500/30 transition-all duration-300">
-        <div class="flex items-center gap-3 md:gap-4 mb-3 md:mb-4">
-          <div :class="`w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br ${testimonial.avatar_gradient_class} flex items-center justify-center font-bold text-base md:text-lg`">
+    <div class="grid md:grid-cols-2 gap-4 md:gap-6 max-w-5xl mx-auto">
+      <figure v-for="testimonial in testimonialsData" :key="testimonial.id" class="relative flex flex-col p-5 md:p-7 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-md transition-colors hover:border-pink-500/30">
+        <Quote class="absolute right-5 top-5 h-8 w-8 text-white/[0.07]" aria-hidden="true" />
+        <div class="flex gap-0.5 mb-4" :aria-label="'5/5'">
+          <Star v-for="i in 5" :key="i" class="h-4 w-4 fill-amber-400 text-amber-400" />
+        </div>
+        <blockquote class="flex-1 text-slate-300 text-[15px] md:text-base leading-relaxed mb-5">
+          « {{ localized(testimonial, 'quote') }} »
+        </blockquote>
+        <figcaption class="flex items-center gap-3 border-t border-white/10 pt-4">
+          <div :class="`w-10 h-10 md:w-11 md:h-11 shrink-0 rounded-full bg-gradient-to-br ${testimonial.avatar_gradient_class} flex items-center justify-center font-display font-semibold`">
             {{ testimonial.initials }}
           </div>
-          <div>
-            <h4 class="font-bold text-sm md:text-base">{{ testimonial.name }}</h4>
+          <div class="min-w-0">
+            <p class="font-semibold text-sm md:text-base">{{ testimonial.name }}</p>
             <p class="text-xs md:text-sm text-slate-400">{{ localized(testimonial, 'role') }}</p>
           </div>
-        </div>
-        <p class="text-slate-300 text-xs md:text-base leading-relaxed italic mb-3 md:mb-4">"{{ localized(testimonial, 'quote') }}"</p>
-        <div class="flex gap-1">
-          <span v-for="i in 5" :key="i" class="text-yellow-400 text-sm">★</span>
-        </div>
-      </div>
+        </figcaption>
+      </figure>
     </div>
   </section>
 </template>
 
 <script setup>
 import { computed } from 'vue';
+import { Quote, Star } from 'lucide-vue-next';
 import { useContent } from '../composables/useContent';
+import SectionHeading from './SectionHeading.vue';
 
 const { content, localized } = useContent();
 const testimonialsData = computed(() => content.value.testimonials || []);

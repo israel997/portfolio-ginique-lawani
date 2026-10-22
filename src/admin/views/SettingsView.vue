@@ -8,7 +8,6 @@
       <section class="space-y-4">
         <h3 class="text-sm font-bold uppercase tracking-wide text-pink-400">Identité</h3>
         <FormField v-model="form.full_name" label="Nom complet" />
-        <FormField v-model="form.brand_label" label="Nom affiché dans la barre de navigation" />
       </section>
 
       <section class="space-y-4">

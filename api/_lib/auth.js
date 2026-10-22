@@ -5,10 +5,21 @@ import { sendJson } from './http.js';
 const COOKIE_NAME = 'admin_session';
 const SESSION_TTL_SECONDS = 7 * 24 * 60 * 60; // 7 days
 
+// Single admin account, kept in code so the back-office works with zero
+// dashboard setup. Only the bcrypt hash (cost 12) is stored, never the
+// password itself. To change the password, regenerate the hash with:
+//   node -e "console.log(require('bcryptjs').hashSync('new-password', 12))"
+const ADMIN_EMAIL = 'israellawani.pro@gmail.com';
+const ADMIN_PASSWORD_HASH = '$2a$12$/dUJo8t/EzfPRv33hqeVLO0tcItY6qidCi5xT/r9odfacxai4N7Ry';
+
+// Session cookies are HMAC-signed. SESSION_SECRET wins if set; otherwise the
+// key is derived from POSTGRES_URL, a secret Vercel already injects through
+// the Postgres integration, so nothing extra has to be configured.
 function getSecret() {
-  const secret = process.env.SESSION_SECRET;
-  if (!secret) throw new Error('SESSION_SECRET env var is not set');
-  return secret;
+  if (process.env.SESSION_SECRET) return process.env.SESSION_SECRET;
+  const dbUrl = process.env.POSTGRES_URL;
+  if (!dbUrl) throw new Error('Neither SESSION_SECRET nor POSTGRES_URL is set');
+  return crypto.createHash('sha256').update(`admin-session:${dbUrl}`).digest('hex');
 }
 
 function sign(value) {
@@ -81,9 +92,11 @@ export function requireAuth(req, res) {
   return true;
 }
 
-export async function verifyPassword(password) {
-  const hash = process.env.ADMIN_PASSWORD_HASH;
-  if (!hash) throw new Error('ADMIN_PASSWORD_HASH env var is not set');
-  if (typeof password !== 'string' || !password) return false;
-  return bcrypt.compare(password, hash);
+export async function verifyCredentials(email, password) {
+  if (typeof email !== 'string' || typeof password !== 'string' || !password) return false;
+  const emailMatches = email.trim().toLowerCase() === ADMIN_EMAIL;
+  // Always run bcrypt, even for a wrong email, so response time doesn't
+  // reveal whether the email was right.
+  const passwordMatches = await bcrypt.compare(password, ADMIN_PASSWORD_HASH);
+  return emailMatches && passwordMatches;
 }

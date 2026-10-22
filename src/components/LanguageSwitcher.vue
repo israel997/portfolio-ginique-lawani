@@ -1,26 +1,37 @@
 <template>
-  <button
-    @click="toggleLanguage"
-    class="flex items-center justify-center px-3 md:px-5 py-1.5 md:py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 active:bg-white/20 transition-all duration-300 touch-manipulation text-lg md:text-xl"
-    :aria-label="locale === 'fr' ? 'Switch to English' : 'Passer en Français'"
-  >
-    {{ flagEmoji }}
-  </button>
+  <div class="flex items-center rounded-full border border-white/10 bg-white/5 p-0.5 font-mono text-xs font-medium" role="group" aria-label="Langue / Language">
+    <template v-for="(lang, index) in languages" :key="lang">
+      <span v-if="index > 0" class="text-white/20 select-none" aria-hidden="true">/</span>
+      <button
+        type="button"
+        @click="setLanguage(lang)"
+        :aria-pressed="locale === lang"
+        :class="[
+          'min-w-9 rounded-full px-2.5 py-1.5 uppercase tracking-wider transition-colors touch-manipulation',
+          locale === lang ? 'bg-white text-slate-900' : 'text-slate-400 hover:text-white'
+        ]"
+      >{{ lang }}</button>
+    </template>
+  </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { locale } = useI18n()
+const languages = ['fr', 'en']
 
-const flagEmoji = computed(() => {
-  return locale.value === 'fr' ? '🇬🇧' : '🇫🇷'
-})
-
-const toggleLanguage = () => {
-  const newLang = locale.value === 'fr' ? 'en' : 'fr'
-  locale.value = newLang
-  localStorage.setItem('locale', newLang)
+function setLanguage(lang) {
+  locale.value = lang
+  try {
+    localStorage.setItem('locale', lang)
+  } catch {
+    // Storage can be unavailable (private mode); the choice just won't persist
+  }
 }
+
+watch(locale, (lang) => {
+  document.documentElement.lang = lang
+}, { immediate: true })
 </script>

@@ -88,10 +88,11 @@ export default {
     projects: {
       title: 'Projets Récents',
       filters: {
-        all: 'Mobile',
+        all: 'Tous',
         fullstack: 'Fullstack',
         frontend: 'Frontend',
-        backend: 'Backend'
+        backend: 'Backend',
+        mobile: 'Mobile'
       },
       hover: 'Voir le projet',
       cta1: 'Voir les détails',
@@ -229,10 +230,11 @@ export default {
     projects: {
       title: 'Recent Projects',
       filters: {
-        all: 'Mobile',
+        all: 'All',
         fullstack: 'Fullstack',
         frontend: 'Frontend',
-        backend: 'Backend'
+        backend: 'Backend',
+        mobile: 'Mobile'
       },
       hover: 'View project',
       cta1: 'View details',

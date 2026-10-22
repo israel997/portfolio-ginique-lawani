@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { ArrowUp } from 'lucide-vue-next'
 import { useSEO } from '../composables/useSEO'
 import Navbar from '../components/Navbar.vue'
 import Hero from '../components/Hero.vue'
@@ -20,85 +21,85 @@ useSEO()
 
 const scrollProgress = ref(0)
 const showScrollTop = ref(false)
+let ticking = false
 
 const updateScrollProgress = () => {
-  const windowHeight = window.innerHeight
-  const documentHeight = document.documentElement.scrollHeight
   const scrollTop = window.scrollY
-  const scrollableHeight = documentHeight - windowHeight
+  const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight
 
-  if (scrollableHeight > 0) {
-    scrollProgress.value = (scrollTop / scrollableHeight) * 100
-  }
-
-  // Afficher le bouton après 300px de scroll
+  scrollProgress.value = scrollableHeight > 0 ? (scrollTop / scrollableHeight) * 100 : 0
   showScrollTop.value = scrollTop > 300
+  ticking = false
+}
+
+// Throttle to one update per frame — scroll fires far more often than that on mobile
+const onScroll = () => {
+  if (ticking) return
+  ticking = true
+  requestAnimationFrame(updateScrollProgress)
 }
 
 const scrollToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  })
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 onMounted(() => {
-  window.addEventListener('scroll', updateScrollProgress)
+  window.addEventListener('scroll', onScroll, { passive: true })
   updateScrollProgress()
 })
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', updateScrollProgress)
+  window.removeEventListener('scroll', onScroll)
 })
 </script>
 
 <template>
-  <div id="app" class="relative min-h-screen overflow-hidden">
+  <div class="relative min-h-screen overflow-x-clip pb-[calc(4.5rem+env(safe-area-inset-bottom))] lg:pb-0">
     <!-- Barre de progression -->
-    <div class="fixed top-0 left-0 w-full h-1 bg-white/5 z-50">
-      <div
-        class="h-full transition-all duration-150 ease-out bg-blue-500"
-        :style="{
-          width: scrollProgress + '%'
-        }"
-      ></div>
+    <div class="fixed top-0 left-0 w-full h-0.5 bg-white/5 z-[60]">
+      <div class="h-full bg-blue-500" :style="{ width: scrollProgress + '%' }"></div>
     </div>
 
-    <!-- Blobs animés en arrière-plan -->
-    <div class="fixed inset-0 w-full h-full pointer-events-none z-0">
-      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 rounded-full mix-blend-screen filter blur-[100px] opacity-20 animate-blob"></div>
-      <div class="absolute top-1/4 -right-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-screen filter blur-[80px] opacity-20 animate-blob delay-2000"></div>
-      <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-rose-500 rounded-full mix-blend-screen filter blur-[80px] opacity-20 animate-blob delay-4000"></div>
-      <div class="absolute top-32 left-10 w-16 h-16 border-4 border-white/10 rounded-full animate-float"></div>
-      <div class="absolute bottom-1/3 right-10 w-0 h-0 border-l-[20px] border-l-transparent border-r-[20px] border-r-transparent border-b-[35px] border-b-purple-500/20 animate-float delay-2000 rotate-12"></div>
-    </div>
+    <Navbar />
 
-    <!-- Contenu principal -->
-    <div class="relative z-10 container mx-auto px-6 py-6 pb-20 md:pb-6">
-      <Navbar />
-      <Hero />
-      <About />
-      <Skills />
-      <Timeline />
-      <Projects />
-      <Testimonials />
-      <Contact />
-      <Footer />
-    </div>
+    <main>
+      <div class="band band-hero">
+        <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+          <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[520px] h-[520px] md:w-[700px] md:h-[700px] bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 rounded-full filter blur-[110px] opacity-20 animate-blob"></div>
+          <div class="hidden md:block absolute top-1/3 -right-24 w-96 h-96 bg-blue-500 rounded-full filter blur-[90px] opacity-15 animate-blob delay-2000"></div>
+        </div>
+        <div class="band-inner"><Hero /></div>
+      </div>
+
+      <div class="band band-about"><div class="band-inner"><About /></div></div>
+      <div class="band band-skills"><div class="band-inner"><Skills /></div></div>
+      <div class="band band-timeline"><div class="band-inner"><Timeline /></div></div>
+      <div class="band band-projects"><div class="band-inner"><Projects /></div></div>
+      <div class="band band-testimonials"><div class="band-inner"><Testimonials /></div></div>
+      <div class="band band-contact"><div class="band-inner"><Contact /></div></div>
+    </main>
+
+    <Footer />
 
     <!-- Navigation mobile en bas -->
     <MobileBottomNav />
 
     <!-- Bouton Retour en haut -->
-    <button
-      v-show="showScrollTop"
-      @click="scrollToTop"
-      class="fixed bottom-20 right-4 md:bottom-8 md:right-8 w-8 h-8 md:w-12 md:h-12 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg hover:shadow-purple-500/40 hover:scale-110 transition-all duration-300 flex items-center justify-center z-[9999]"
-      :title="t('contact.scrollTop')"
+    <Transition
+      enter-active-class="transition duration-200"
+      enter-from-class="opacity-0 translate-y-2"
+      leave-active-class="transition duration-150"
+      leave-to-class="opacity-0 translate-y-2"
     >
-      <svg class="w-3.5 h-3.5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-      </svg>
-    </button>
+      <button
+        v-show="showScrollTop"
+        @click="scrollToTop"
+        class="fixed right-4 bottom-[calc(5.25rem+env(safe-area-inset-bottom))] lg:bottom-8 lg:right-8 w-11 h-11 md:w-12 md:h-12 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg shadow-purple-900/40 hover:scale-105 transition-transform flex items-center justify-center z-50"
+        :aria-label="t('contact.scrollTop')"
+        :title="t('contact.scrollTop')"
+      >
+        <ArrowUp class="w-5 h-5" :stroke-width="2.25" />
+      </button>
+    </Transition>
   </div>
 </template>

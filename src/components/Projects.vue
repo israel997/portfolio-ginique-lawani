@@ -1,134 +1,152 @@
 <template>
-  <section id="projects" class="mb-16 md:mb-32 px-4 md:px-0" itemscope itemtype="https://schema.org/CreativeWork">
-    <h2 class="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-center">{{ $t('projects.title') }}</h2>
+  <section id="projects" itemscope itemtype="https://schema.org/CreativeWork">
+    <SectionHeading index="04" :eyebrow="$t('nav.projects')" :title="$t('projects.title')" />
 
-    <div class="flex flex-wrap justify-center gap-2 md:gap-3 mb-8 md:mb-12">
-      <button
-        v-for="filter in projectFilters"
-        :key="filter"
-        @click="activeFilter = filter"
-        :class="[
-          'px-3 md:px-4 py-2 rounded-full text-xs md:text-sm font-bold transition-all duration-300',
-          activeFilter === filter
-            ? 'bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg'
-            : 'bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10'
-        ]"
-      >
-        {{ filter }}
-      </button>
+    <div v-if="categories.length > 1" class="-mx-4 mb-8 md:mb-10 overflow-x-auto px-4 [scrollbar-width:none]">
+      <div class="mx-auto flex w-max gap-2" role="tablist">
+        <button
+          v-for="filter in filters"
+          :key="filter.key"
+          type="button"
+          role="tab"
+          :aria-selected="activeFilter === filter.key"
+          @click="activeFilter = filter.key"
+          :class="[
+            'h-10 rounded-full px-4 text-sm font-medium transition-colors',
+            activeFilter === filter.key
+              ? 'bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg shadow-purple-900/30'
+              : 'border border-white/10 bg-white/5 text-slate-300 hover:bg-white/10'
+          ]"
+        >
+          {{ filter.label }}
+        </button>
+      </div>
     </div>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
-      <div
+    <TransitionGroup tag="div" name="project" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+      <article
         v-for="project in filteredProjects"
         :key="project.id"
-        class="group relative rounded-3xl overflow-hidden bg-slate-800/50 border border-white/5 hover:border-pink-500/40 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-900/20 project-card-mobile"
+        class="group flex flex-col rounded-2xl overflow-hidden bg-slate-900/70 border border-white/[0.08] transition-all duration-300 hover:border-pink-500/40 hover:shadow-2xl hover:shadow-purple-950/40"
       >
-        <div :class="`h-64 bg-gradient-to-br ${project.gradient_class} relative overflow-hidden`">
-          <img :src="project.image_url || '/images/project-default.jpg'" :alt="project.name" loading="lazy" class="absolute inset-0 w-full h-full object-cover object-center z-0" />
-          <div class="absolute inset-0 bg-slate-900/40 z-10"></div>
-          <div class="absolute -right-5 -bottom-5 w-24 h-24 bg-white/20 rounded-full blur-xl group-hover:scale-150 transition-transform duration-700 z-20"></div>
+        <component
+          :is="project.project_url ? 'a' : 'div'"
+          :href="project.project_url || undefined"
+          :target="project.project_url ? '_blank' : undefined"
+          :rel="project.project_url ? 'noopener noreferrer' : undefined"
+          :class="`relative block aspect-[16/10] overflow-hidden bg-gradient-to-br ${project.gradient_class}`"
+          :aria-label="project.project_url ? `${$t('projects.cta2')} — ${project.name}` : undefined"
+        >
+          <img
+            :src="project.image_url || '/images/project-default.jpg'"
+            :alt="project.name"
+            loading="lazy"
+            decoding="async"
+            class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent"></div>
+          <span class="absolute left-3 top-3 rounded-md bg-slate-950/60 px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-white/90 backdrop-blur-md">
+            {{ categoryLabel(project.category) }}
+          </span>
+          <span
+            v-if="project.project_url"
+            class="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white text-slate-900 shadow-lg transition-transform duration-300 md:translate-y-1 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100"
+            aria-hidden="true"
+          >
+            <ArrowUpRight class="h-4 w-4" :stroke-width="2.25" />
+          </span>
+        </component>
 
-          <div class="absolute inset-0 bg-purple-600/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center z-30">
-            <div class="text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-              <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border-2 border-white/30">
-                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                </svg>
-              </div>
-              <p class="text-white font-bold text-lg">{{ $t('projects.hover') }}</p>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="p-6">
-          <h3 class="text-xl font-bold mb-3">{{ project.name }}</h3>
-          <p class="text-slate-400 text-sm mb-4 line-clamp-3">
+        <div class="flex flex-1 flex-col p-5 md:p-6">
+          <h3 class="text-lg md:text-xl font-semibold mb-2">{{ project.name }}</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4 line-clamp-3">
             {{ localized(project, 'description') }}
           </p>
 
-          <div class="flex flex-wrap gap-2 mb-6">
-            <span v-for="tag in project.tags" :key="tag" class="px-3 py-1 text-[10px] uppercase font-bold rounded-full bg-white/5 border border-white/10 text-slate-300">
+          <div class="flex flex-wrap gap-1.5 mb-5">
+            <span v-for="tag in project.tags" :key="tag" class="px-2 py-1 font-mono text-[10px] uppercase tracking-wide rounded-md bg-white/5 border border-white/10 text-slate-300">
               {{ tag }}
             </span>
           </div>
 
-          <div class="flex gap-3">
-            <button class="flex-1 py-3 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 font-bold text-sm shadow-lg opacity-90 hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-              {{ $t('projects.cta1') }}
-            </button>
-            <a v-if="project.project_url" :href="project.project_url" target="_blank" rel="noopener noreferrer" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 font-bold text-sm shadow-lg opacity-90 hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 flex items-center justify-center">
+          <div class="mt-auto">
+            <a
+              v-if="project.project_url"
+              :href="project.project_url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-white/[0.06] border border-white/10 text-sm font-semibold transition-colors hover:bg-gradient-to-r hover:from-pink-600 hover:to-purple-600 hover:border-transparent"
+            >
+              <Globe class="h-4 w-4" />
               {{ $t('projects.cta2') }}
+              <ArrowUpRight class="h-4 w-4 opacity-70" />
             </a>
-            <button v-else class="flex-1 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 font-bold text-sm shadow-lg opacity-90 hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 opacity-50 cursor-not-allowed">
+            <span
+              v-else
+              class="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/15 text-sm font-medium text-slate-500"
+            >
+              <Clock class="h-4 w-4" />
               {{ $t('projects.soon') }}
-            </button>
+            </span>
           </div>
         </div>
-      </div>
-    </div>
+      </article>
+    </TransitionGroup>
   </section>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { ArrowUpRight, Globe, Clock } from 'lucide-vue-next';
 import { useContent } from '../composables/useContent';
+import SectionHeading from './SectionHeading.vue';
 
 const { t } = useI18n();
 const { content, localized } = useContent();
 
-const activeFilter = ref(t('projects.filters.all'));
-
-const projectFilters = computed(() => [
-  t('projects.filters.all'),
-  t('projects.filters.fullstack'),
-  t('projects.filters.frontend'),
-  t('projects.filters.backend')
-]);
+// Filters are keyed by the DB category (not by translated label), so switching
+// language never desyncs the active filter. Only categories that actually have
+// projects get a button.
+const CATEGORY_ORDER = ['Fullstack', 'Frontend', 'Backend', 'Mobile'];
+const activeFilter = ref('all');
 
 const projectsData = computed(() => content.value.projects || []);
 
-const filteredProjects = computed(() => {
-  const filterMap = {
-    [t('projects.filters.all')]: 'Tous',
-    [t('projects.filters.fullstack')]: 'Fullstack',
-    [t('projects.filters.frontend')]: 'Frontend',
-    [t('projects.filters.backend')]: 'Backend'
-  };
+const categories = computed(() =>
+  CATEGORY_ORDER.filter((c) => projectsData.value.some((p) => p.category === c))
+);
 
-  const category = filterMap[activeFilter.value] || 'Tous';
+function categoryLabel(category) {
+  const key = `projects.filters.${String(category).toLowerCase()}`;
+  const label = t(key);
+  return label === key ? category : label;
+}
 
-  if (category === 'Tous') {
-    return projectsData.value;
-  }
-  return projectsData.value.filter(project => project.category === category);
-});
+const filters = computed(() => [
+  { key: 'all', label: t('projects.filters.all') },
+  ...categories.value.map((c) => ({ key: c, label: categoryLabel(c) }))
+]);
+
+const filteredProjects = computed(() =>
+  activeFilter.value === 'all'
+    ? projectsData.value
+    : projectsData.value.filter((p) => p.category === activeFilter.value)
+);
 </script>
 
 <style scoped>
-@keyframes borderGlow {
-  0%, 100% {
-    border-color: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 0 5px rgba(236, 72, 153, 0);
-  }
-  50% {
-    border-color: rgba(236, 72, 153, 0.4);
-    box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
-  }
+.project-enter-active,
+.project-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
-
-.project-card-mobile {
-  animation: borderGlow 3s ease-in-out infinite;
+.project-enter-from,
+.project-leave-to {
+  opacity: 0;
+  transform: translateY(8px);
 }
-
-.project-card-mobile:nth-child(2n) {
-  animation-delay: 1s;
-}
-
-.project-card-mobile:nth-child(3n) {
-  animation-delay: 2s;
+.project-leave-active {
+  position: absolute;
+  visibility: hidden;
 }
 </style>

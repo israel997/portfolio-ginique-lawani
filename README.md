@@ -19,13 +19,14 @@ Vercel Postgres/Neon + Vercel Blob.
    vercel link
    vercel env pull .env.local
    ```
-3. **Generate the admin credentials** and add them to both `.env.local` and the
-   Vercel dashboard (Production + Preview):
+3. **Admin credentials** — nothing to configure. The single admin account
+   (email + bcrypt hash of the password) lives in `api/_lib/auth.js`, and the
+   session-signing key is derived from `POSTGRES_URL` unless `SESSION_SECRET`
+   is set. To change the password:
    ```bash
-   node -e "console.log(require('bcryptjs').hashSync('your-password', 10))"   # -> ADMIN_PASSWORD_HASH
-   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"   # -> SESSION_SECRET
+   node -e "console.log(require('bcryptjs').hashSync('new-password', 12))"
    ```
-   See `.env.example` for the full list of required variables.
+   and replace `ADMIN_PASSWORD_HASH` in `api/_lib/auth.js`.
 4. **Create the schema and seed today's content**:
    ```bash
    npm run db:seed
@@ -39,7 +40,7 @@ Vercel Postgres/Neon + Vercel Blob.
    ```
    (`npm run dev` still works for pure frontend/UI iteration, but `/admin`
    won't be able to reach the API without `vercel dev`.)
-6. Visit `/admin/login` and sign in with the password you hashed in step 3.
+6. Visit `/admin/login` and sign in with the admin email and password.
 
 **Known limitation**: `index.html`'s static SEO meta tags and JSON-LD blocks
 (and `src/composables/useSEO.js`) are build-time and won't reflect edits made

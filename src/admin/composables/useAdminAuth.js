@@ -18,12 +18,12 @@ async function checkSession() {
   return authenticated.value;
 }
 
-async function login(password) {
+async function login(email, password) {
   const res = await fetch('/api/auth/login', {
     method: 'POST',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ password })
+    body: JSON.stringify({ email, password })
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error || 'Login failed');

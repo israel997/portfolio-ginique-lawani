@@ -1,18 +1,127 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
+/* Same type system as the OOffix landing: Space Grotesk for headings,
+   IBM Plex Sans for body copy, IBM Plex Mono for labels and numbers.
+   Fonts are loaded from index.html (<link>) so they don't block CSS parsing. */
+@theme {
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Space Grotesk', 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+}
+
 @layer base {
-  body {
-    @apply bg-[#0f172a] text-white;
-    font-family: 'Poppins', sans-serif;
-  }
-  
   html {
     @apply scroll-smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-[#0f172a] text-white font-sans antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight;
+  }
+
+  /* Anchored sections land below the sticky navbar instead of under it */
+  section[id], header[id] {
+    scroll-margin-top: 5rem;
   }
 }
 
-/* Animation fluide des Blobs */
+/* Section bands: each section gets its own background so the page
+   doesn't read as one flat, monotone surface. */
+.band {
+  position: relative;
+  isolation: isolate;
+  /* clip (not hidden): crops decorative glows without making the band a
+     scroll container that scrollIntoView / anchor jumps could shift */
+  overflow: hidden;
+  overflow: clip;
+  padding-block: 4rem;
+}
+@media (min-width: 768px) {
+  .band { padding-block: 6.5rem; }
+}
+.band + .band {
+  border-top: 1px solid rgb(255 255 255 / 0.05);
+}
+.band-inner {
+  position: relative;
+  margin-inline: auto;
+  max-width: 1180px;
+  padding-inline: 1rem;
+}
+@media (min-width: 768px) {
+  .band-inner { padding-inline: 1.5rem; }
+}
+
+.band-hero {
+  background:
+    radial-gradient(60% 50% at 50% 0%, rgb(219 39 119 / 0.22), transparent 70%),
+    radial-gradient(40% 40% at 100% 30%, rgb(59 130 246 / 0.16), transparent 70%),
+    #0f172a;
+}
+.band-about {
+  background:
+    linear-gradient(rgb(255 255 255 / 0.03) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(90deg, rgb(255 255 255 / 0.03) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(180deg, #111a30, #0f172a);
+}
+.band-skills {
+  background:
+    radial-gradient(rgb(255 255 255 / 0.07) 1px, transparent 1px) 0 0 / 22px 22px,
+    radial-gradient(50% 60% at 0% 50%, rgb(99 102 241 / 0.18), transparent 70%),
+    #0c1324;
+}
+.band-timeline {
+  background:
+    radial-gradient(45% 55% at 100% 0%, rgb(168 85 247 / 0.16), transparent 70%),
+    linear-gradient(180deg, #0f172a, #140f2e);
+}
+.band-projects {
+  background:
+    radial-gradient(50% 45% at 85% 100%, rgb(236 72 153 / 0.16), transparent 70%),
+    radial-gradient(40% 40% at 0% 0%, rgb(79 70 229 / 0.14), transparent 70%),
+    #0b1120;
+}
+.band-testimonials {
+  background: linear-gradient(135deg, #1a1033 0%, #0f172a 55%, #0d1b33 100%);
+}
+.band-contact {
+  background:
+    radial-gradient(55% 60% at 50% 100%, rgb(147 51 234 / 0.22), transparent 70%),
+    #0f172a;
+}
+
+/* Shared section heading: mono eyebrow + display title */
+.section-eyebrow {
+  @apply font-mono text-xs md:text-sm font-medium uppercase tracking-[0.18em] text-pink-400;
+}
+
+/* Back-office primitives */
+@layer components {
+  .admin-label {
+    @apply mb-2 block text-sm font-medium text-slate-300;
+  }
+  .admin-input {
+    /* 16px on mobile so iOS doesn't zoom into the field on focus */
+    @apply w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-base md:text-sm text-white placeholder:text-slate-500 transition-colors focus:border-pink-500/60 focus:outline-none focus:ring-2 focus:ring-pink-500/20;
+  }
+  .admin-btn {
+    @apply inline-flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .admin-btn-primary {
+    @apply inline-flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50 bg-gradient-to-r from-pink-600 to-purple-600 shadow-lg shadow-purple-900/30 hover:from-pink-500 hover:to-purple-500;
+  }
+  .admin-btn-secondary {
+    @apply inline-flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50 border border-white/10 bg-white/5 hover:bg-white/10;
+  }
+  .admin-btn-ghost {
+    @apply inline-flex items-center gap-1.5 rounded-lg px-3 text-xs font-medium text-slate-200 transition-colors hover:bg-white/10;
+  }
+}
+
 @keyframes blob {
   0% { transform: translate(0px, 0px) scale(1); }
   33% { transform: translate(30px, -50px) scale(1.1); }
@@ -32,7 +141,15 @@
 .delay-2000 { animation-delay: 2s; }
 .delay-4000 { animation-delay: 4s; }
 
-/* Masquage Scrollbar */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: #0f172a; }
 ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }

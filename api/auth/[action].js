@@ -1,4 +1,4 @@
-import { verifyPassword, createSessionToken, setSessionCookie, clearSessionCookie, isAuthenticated } from '../_lib/auth.js';
+import { verifyCredentials, createSessionToken, setSessionCookie, clearSessionCookie, isAuthenticated } from '../_lib/auth.js';
 import { sendJson, methodNotAllowed, withErrorHandling } from '../_lib/http.js';
 
 export default async function handler(req, res) {
@@ -7,9 +7,9 @@ export default async function handler(req, res) {
   if (action === 'login') {
     if (req.method !== 'POST') return methodNotAllowed(res, ['POST']);
     return withErrorHandling(res, async () => {
-      const { password } = req.body || {};
-      const valid = await verifyPassword(password);
-      if (!valid) return sendJson(res, 401, { error: 'Invalid password' });
+      const { email, password } = req.body || {};
+      const valid = await verifyCredentials(email, password);
+      if (!valid) return sendJson(res, 401, { error: 'Email ou mot de passe incorrect' });
       setSessionCookie(res, createSessionToken());
       sendJson(res, 200, { authenticated: true });
     });
