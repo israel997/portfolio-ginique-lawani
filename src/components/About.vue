@@ -43,8 +43,8 @@ const { content, localized } = useContent();
 const settings = computed(() => content.value.settings || {});
 
 const stats = [
-  { n: 1, href: '#timeline', color: 'text-accent', border: 'hover:border-accent/40' },
-  { n: 2, href: '#projects', color: 'text-brand-text', border: 'hover:border-accent/40' },
-  { n: 3, href: '#timeline', color: 'text-link', border: 'hover:border-accent/40' }
+  { n: 1, href: '#timeline', color: 'text-stat-1', border: 'hover:border-stat-1/40' },
+  { n: 2, href: '#projects', color: 'text-stat-2', border: 'hover:border-stat-2/40' },
+  { n: 3, href: '#timeline', color: 'text-stat-3', border: 'hover:border-stat-3/40' }
 ];
 </script>

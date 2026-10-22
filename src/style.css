@@ -33,6 +33,10 @@
   --color-brand: var(--brand);
   --color-brand-hover: var(--brand-hover);
   --color-brand-text: var(--brand-text);
+  /* About section key figures */
+  --color-stat-1: var(--stat-1);
+  --color-stat-2: var(--stat-2);
+  --color-stat-3: var(--stat-3);
 }
 
 /* Dark (default) */
@@ -60,6 +64,9 @@
   --brand-text: #5b9bff;
   --pattern: rgb(255 255 255 / 0.03);
   --pattern-dot: rgb(255 255 255 / 0.07);
+  --stat-1: #c084fc; /* purple */
+  --stat-2: #e879f9; /* magenta */
+  --stat-3: #fdba74; /* light orange */
 }
 
 /* Light — OOffix landing palette: white, blue-grey, navy ink, blue accent */
@@ -86,6 +93,9 @@
   --brand-text: #2e5cff;
   --pattern: rgb(11 27 63 / 0.045);
   --pattern-dot: rgb(11 27 63 / 0.09);
+  --stat-1: #7e22ce;
+  --stat-2: #c026d3;
+  --stat-3: #ea580c;
 }
 
 @layer base {
