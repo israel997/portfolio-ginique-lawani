@@ -36,7 +36,22 @@
     <form v-if="form" id="skill-form" @submit.prevent="submit" class="space-y-6">
       <BilingualField v-model:fr="form.title_fr" v-model:en="form.title_en" label="Titre" placeholder="Ex. Backend Development" />
       <BilingualField v-model:fr="form.description_fr" v-model:en="form.description_en" label="Description" multiline :rows="3" />
-      <TagInput v-model="form.techs" label="Technologies" placeholder="Node.js, Laravel…" />
+      <div>
+        <TagInput v-model="form.techs" label="Technologies" placeholder="Node.js, Laravel…" />
+        <div v-if="form.techs.length" class="mt-3 rounded-xl border border-white/10 bg-white/[0.03] p-3">
+          <p class="mb-2 text-xs text-slate-500">Aperçu sur le site</p>
+          <div class="flex flex-wrap items-center gap-2">
+            <template v-for="tech in form.techs" :key="tech">
+              <span v-if="logoFor(tech)" class="grid h-10 w-10 place-items-center rounded-lg border border-white/10 bg-slate-900" :title="tech">
+                <img :src="logoFor(tech).image_url" :alt="tech" :class="['h-6 w-6 object-contain', isMonoLogo(logoFor(tech).image_url) ? 'logo-mono' : '']" />
+              </span>
+              <span v-else class="inline-flex h-10 items-center gap-1.5 rounded-lg border border-dashed border-amber-400/40 px-3 text-xs text-amber-300" :title="'Pas de logo : le nom s\'affiche'">
+                <ImageOff class="h-3.5 w-3.5" /> {{ tech }}
+              </span>
+            </template>
+          </div>
+        </div>
+      </div>
 
       <div>
         <span class="admin-label">Icône</span>
@@ -83,7 +98,10 @@
 </template>
 
 <script setup>
-import { Code2, CircleAlert } from 'lucide-vue-next';
+import { ref, onMounted } from 'vue';
+import { Code2, CircleAlert, ImageOff } from 'lucide-vue-next';
+import { useApi } from '../composables/useApi';
+import { findLogo, isMonoLogo } from '../../composables/techLogos';
 import { useCrudList } from '../composables/useCrudList';
 import Icon from '../../components/icons/Icon.vue';
 import AdminCollection from '../components/AdminCollection.vue';
@@ -110,4 +128,16 @@ const {
   clean: (p) => ({ ...p, title_en: p.title_en || p.title_fr, description_en: p.description_en || p.description_fr }),
   labels: { created: 'Compétence ajoutée', saved: 'Compétence enregistrée', deleted: 'Compétence supprimée' }
 });
+
+// Logo library, to preview which techs get a logo on the site
+const api = useApi();
+const logos = ref([]);
+onMounted(async () => {
+  try {
+    logos.value = await api.get('/api/admin/logos');
+  } catch {
+    // Preview only: without the library every tech just shows as text
+  }
+});
+const logoFor = (tech) => findLogo(tech, logos.value);
 </script>

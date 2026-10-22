@@ -70,7 +70,16 @@
     { "id": 17, "name": "SQLite", "image_url": "/logos/sqlite.svg", "sort_order": 16 },
     { "id": 18, "name": "Docker", "image_url": "/logos/docker.svg", "sort_order": 17 },
     { "id": 19, "name": "Postman", "image_url": "/logos/postman.svg", "sort_order": 18 },
-    { "id": 20, "name": "VS Code", "image_url": "/logos/vscode.svg", "sort_order": 19 }
+    { "id": 20, "name": "VS Code", "image_url": "/logos/vscode.svg", "sort_order": 19 },
+    { "id": 21, "name": "Vue.js", "image_url": "/logos/vuejs.svg", "sort_order": 101 },
+    { "id": 22, "name": "Flask", "image_url": "/logos/flask.svg", "sort_order": 102 },
+    { "id": 23, "name": "Trello", "image_url": "/logos/trello.svg", "sort_order": 103 },
+    { "id": 24, "name": "Notion", "image_url": "/logos/notion.svg", "sort_order": 104 },
+    { "id": 25, "name": "Git", "image_url": "/logos/git.svg", "sort_order": 105 },
+    { "id": 26, "name": "ClickUp", "image_url": "/logos/clickup.svg", "sort_order": 106 },
+    { "id": 27, "name": "Claude", "image_url": "/logos/claude.svg", "sort_order": 107 },
+    { "id": 28, "name": "GitHub Copilot", "image_url": "/logos/githubcopilot.svg", "sort_order": 108 },
+    { "id": 29, "name": "Google Gemini", "image_url": "/logos/googlegemini.svg", "sort_order": 109 }
   ],
   "projects": [
     { "id": 1, "name": "Sanaa", "description_fr": "Réseau social de niche dédié aux Industries Culturelles et Créatives avec option de Crowdfunding intégrée", "description_en": "Niche social network dedicated to Cultural and Creative Industries with integrated Crowdfunding option", "tags": ["Next.js", "TailwindCSS"], "gradient_class": "from-pink-500 to-rose-600", "category": "Fullstack", "image_url": "/images/sanaa.jpg", "project_url": "https://saana-for-creators.vercel.app/", "sort_order": 0 },

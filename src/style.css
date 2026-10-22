@@ -184,6 +184,11 @@
   --band-contact: #ffffff;
 }
 
+/* Black brand logos (Next.js, Notion, Copilot…) stay visible on dark backgrounds */
+:root:not([data-theme="light"]) .logo-mono {
+  filter: invert(1);
+}
+
 /* Shared section heading: mono eyebrow + display title */
 .section-eyebrow {
   @apply font-mono text-xs md:text-sm font-medium uppercase tracking-[0.18em] text-accent;

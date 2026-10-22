@@ -58,6 +58,27 @@ export const MIGRATIONS = [
        FROM generate_series(1, 9) AS n
        WHERE NOT EXISTS (SELECT 1 FROM showcase_items)`
     ]
+  },
+  {
+    version: 3,
+    statements: [
+      // More logos for the skill cards (files in public/logos, from Simple Icons, CC0).
+      // Skipped when a logo with the same name already exists.
+      `INSERT INTO tech_logos (name, image_url, sort_order)
+       SELECT v.name, v.url, 100 + v.ord
+       FROM (VALUES
+         ('Vue.js', '/logos/vuejs.svg', 1),
+         ('Flask', '/logos/flask.svg', 2),
+         ('Trello', '/logos/trello.svg', 3),
+         ('Notion', '/logos/notion.svg', 4),
+         ('Git', '/logos/git.svg', 5),
+         ('ClickUp', '/logos/clickup.svg', 6),
+         ('Claude', '/logos/claude.svg', 7),
+         ('GitHub Copilot', '/logos/githubcopilot.svg', 8),
+         ('Google Gemini', '/logos/googlegemini.svg', 9)
+       ) AS v(name, url, ord)
+       WHERE NOT EXISTS (SELECT 1 FROM tech_logos t WHERE lower(t.name) = lower(v.name))`
+    ]
   }
 ];
 
