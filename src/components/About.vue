@@ -1,6 +1,6 @@
 <template>
   <section id="about" itemscope itemtype="https://schema.org/Person">
-    <SectionHeading index="01" :eyebrow="$t('nav.about')" :title="$t('about.title')" />
+    <SectionHeading :index="index" :eyebrow="$t('nav.about')" :title="$t('about.title')" />
 
     <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 md:gap-14 items-center">
       <div class="relative mx-auto w-full max-w-[18rem] sm:max-w-sm">
@@ -37,6 +37,8 @@
 import { computed } from 'vue';
 import { useContent } from '../composables/useContent';
 import SectionHeading from './SectionHeading.vue';
+
+defineProps({ index: { type: String, default: '' } });
 
 const { content, localized } = useContent();
 const settings = computed(() => content.value.settings || {});

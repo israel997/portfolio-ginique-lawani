@@ -1,161 +1,130 @@
 <template>
-  <div class="max-w-3xl">
-    <h2 class="text-2xl font-bold mb-6">Réseaux sociaux</h2>
+  <AdminCollection
+    title="Réseaux sociaux"
+    create-label="Nouveau lien"
+    :loading="loading"
+    :count="items.length"
+    :visible-count="items.filter((i) => i.is_visible).length"
+    empty-title="Aucun lien pour l'instant"
+    :empty-icon="Share2"
+    @create="openCreate"
+  >
+    <AdminListRow
+      v-for="(item, index) in items"
+      :key="item.id"
+      :title="item.name"
+      :subtitle="item.url"
+      :visible="item.is_visible"
+      :saving="item._saving"
+      :first="index === 0"
+      :last="index === items.length - 1"
+      @up="move(index, -1)"
+      @down="move(index, 1)"
+      @edit="openEdit(item)"
+      @delete="pendingDelete = item"
+      @toggle="toggleVisibility(item, $event)"
+    >
+      <template #thumb>
+        <span class="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5">
+          <span v-if="item.icon_key === 'custom'" v-html="item.custom_svg" class="h-5 w-5 [&>svg]:h-full [&>svg]:w-full"></span>
+          <Icon v-else :name="item.icon_key" class="h-5 w-5" />
+        </span>
+      </template>
+    </AdminListRow>
+  </AdminCollection>
 
-    <div v-if="loading" class="text-slate-400">Chargement...</div>
-
-    <div v-else class="space-y-6">
-      <div v-for="(item, index) in items" :key="item.id" class="flex gap-3 p-4 md:p-6 rounded-2xl bg-white/5 border border-white/10">
-        <ReorderControls
-          :disabled-up="index === 0"
-          :disabled-down="index === items.length - 1"
-          @up="move(index, -1)"
-          @down="move(index, 1)"
-        />
-        <div class="flex-1 space-y-3">
-          <div class="grid md:grid-cols-2 gap-3">
-            <FormField v-model="item.name" label="Nom" />
-            <div>
-              <label class="block text-sm font-bold mb-2 text-slate-300">Icône</label>
-              <select v-model="item.icon_key" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white">
-                <option v-for="opt in iconOptions" :key="opt" :value="opt">{{ opt }}</option>
-              </select>
-            </div>
-          </div>
-          <FormField v-model="item.url" label="URL (ex: mailto:, https://...)" />
-          <FormField v-if="item.icon_key === 'custom'" v-model="item.custom_svg" label="SVG personnalisé" type="textarea" :rows="3" />
-          <div class="flex items-center justify-between gap-3">
-            <label class="flex items-center gap-2 text-sm text-slate-300">
-              <input type="checkbox" v-model="item.is_visible" class="rounded border-white/20" />
-              Visible
-            </label>
-            <div class="flex items-center gap-3">
-              <button @click="save(item)" :disabled="item._saving" class="px-4 py-2 rounded-lg bg-pink-600 text-sm font-bold hover:bg-pink-700 disabled:opacity-50">
-                {{ item._saving ? 'Enregistrement...' : 'Enregistrer' }}
-              </button>
-              <button @click="confirmDelete(item)" class="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-sm font-bold text-red-400 hover:bg-red-950/40">
-                Supprimer
-              </button>
-            </div>
-          </div>
+  <SlideOver :open="!!form" :title="form?.id ? 'Modifier le lien' : 'Nouveau lien'" @close="requestClose">
+    <form v-if="form" id="social-form" @submit.prevent="submit" class="space-y-6">
+      <div>
+        <span class="admin-label">Réseau</span>
+        <div class="grid grid-cols-5 gap-2" role="radiogroup">
+          <button
+            v-for="opt in ICON_OPTIONS"
+            :key="opt.key"
+            type="button"
+            role="radio"
+            :aria-checked="form.icon_key === opt.key"
+            @click="pickIcon(opt)"
+            :class="[
+              'flex flex-col items-center gap-1.5 rounded-xl border py-3 text-[11px] transition-colors',
+              form.icon_key === opt.key ? 'border-pink-500 bg-pink-500/15 text-white' : 'border-white/10 bg-white/5 text-slate-400 hover:text-white'
+            ]"
+          >
+            <Code v-if="opt.key === 'custom'" class="h-5 w-5" />
+            <Icon v-else :name="opt.key" class="h-5 w-5" />
+            {{ opt.label }}
+          </button>
         </div>
       </div>
+      <FormField v-model="form.name" label="Nom affiché" placeholder="LinkedIn" />
+      <FormField v-model="form.url" label="Lien" :placeholder="currentOption?.placeholder || 'https://…'" />
+      <FormField v-if="form.icon_key === 'custom'" v-model="form.custom_svg" label="Code SVG de l'icône" type="textarea" :rows="4" placeholder="<svg …>…</svg>" />
 
-      <div class="p-4 md:p-6 rounded-2xl bg-white/5 border border-dashed border-white/20 space-y-3">
-        <h3 class="text-sm font-bold uppercase tracking-wide text-pink-400">Ajouter un lien</h3>
-        <div class="grid md:grid-cols-2 gap-3">
-          <FormField v-model="draft.name" label="Nom" />
-          <div>
-            <label class="block text-sm font-bold mb-2 text-slate-300">Icône</label>
-            <select v-model="draft.icon_key" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white">
-              <option v-for="opt in iconOptions" :key="opt" :value="opt">{{ opt }}</option>
-            </select>
-          </div>
-        </div>
-        <FormField v-model="draft.url" label="URL (ex: mailto:, https://...)" />
-        <FormField v-if="draft.icon_key === 'custom'" v-model="draft.custom_svg" label="SVG personnalisé" type="textarea" :rows="3" />
-        <button @click="add" :disabled="adding" class="px-4 py-2 rounded-lg bg-gradient-to-r from-pink-600 to-purple-600 text-sm font-bold disabled:opacity-50">
-          {{ adding ? 'Ajout...' : 'Ajouter' }}
-        </button>
+      <div class="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3">
+        <p class="text-sm font-medium">Visible sur le site</p>
+        <ToggleSwitch v-model="form.is_visible" />
       </div>
+      <p v-if="formError" class="flex items-center gap-2 rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-300">
+        <CircleAlert class="h-4 w-4 shrink-0" /> {{ formError }}
+      </p>
+    </form>
+    <template #footer>
+      <FormFooter form="social-form" :saving="saving" :label="form?.id ? 'Enregistrer' : 'Ajouter'" @cancel="requestClose" />
+    </template>
+  </SlideOver>
 
-      <p v-if="error" class="text-sm text-red-400">{{ error }}</p>
-    </div>
-
-    <ConfirmDialog
-      :open="!!pendingDelete"
-      title="Supprimer ce lien ?"
-      message="Ce lien social sera définitivement supprimé."
-      @confirm="handleDelete"
-      @cancel="pendingDelete = null"
-    />
-  </div>
+  <ConfirmDialog
+    :open="!!pendingDelete"
+    title="Supprimer ce lien ?"
+    :message="`« ${pendingDelete?.name || ''} » sera définitivement supprimé.`"
+    @confirm="handleDelete"
+    @cancel="pendingDelete = null"
+  />
+  <ConfirmDialog :open="confirmDiscard" title="Abandonner les modifications ?" message="Les changements non enregistrés seront perdus." confirm-label="Abandonner" @confirm="discard" @cancel="confirmDiscard = false" />
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useApi } from '../composables/useApi';
+import { computed } from 'vue';
+import { Share2, CircleAlert, Code } from 'lucide-vue-next';
+import { useCrudList } from '../composables/useCrudList';
+import Icon from '../../components/icons/Icon.vue';
+import AdminCollection from '../components/AdminCollection.vue';
+import AdminListRow from '../components/AdminListRow.vue';
 import FormField from '../components/FormField.vue';
-import ReorderControls from '../components/ReorderControls.vue';
 import ConfirmDialog from '../components/ConfirmDialog.vue';
+import SlideOver from '../components/SlideOver.vue';
+import ToggleSwitch from '../components/ToggleSwitch.vue';
+import FormFooter from '../components/FormFooter.vue';
 
-const iconOptions = ['linkedin', 'github', 'whatsapp', 'email', 'custom'];
+const ICON_OPTIONS = [
+  { key: 'linkedin', label: 'LinkedIn', placeholder: 'https://linkedin.com/in/…' },
+  { key: 'github', label: 'GitHub', placeholder: 'https://github.com/…' },
+  { key: 'whatsapp', label: 'WhatsApp', placeholder: 'https://wa.me/229…' },
+  { key: 'email', label: 'Email', placeholder: 'mailto:vous@exemple.com' },
+  { key: 'custom', label: 'Autre', placeholder: 'https://…' }
+];
 
-const api = useApi();
-const items = ref([]);
-const loading = ref(true);
-const adding = ref(false);
-const error = ref('');
-const pendingDelete = ref(null);
+const {
+  items, loading, pendingDelete,
+  form, formError, saving, confirmDiscard,
+  openCreate, openEdit, requestClose, discard, submit,
+  toggleVisibility, move, handleDelete
+} = useCrudList('social-links', {
+  fields: ['name', 'url', 'icon_key', 'custom_svg'],
+  defaults: () => ({ name: 'LinkedIn', url: '', icon_key: 'linkedin', custom_svg: '' }),
+  validate: (f) => (!f.name.trim() || !f.url.trim() ? 'Le nom et le lien sont obligatoires.' : ''),
+  clean: (p) => ({ ...p, url: p.url.trim(), custom_svg: p.icon_key === 'custom' ? p.custom_svg : null }),
+  labels: { created: 'Lien ajouté', saved: 'Lien enregistré', deleted: 'Lien supprimé' }
+});
 
-const emptyDraft = () => ({ name: '', url: '', icon_key: 'linkedin', custom_svg: '' });
-const draft = ref(emptyDraft());
+const currentOption = computed(() => ICON_OPTIONS.find((o) => o.key === form.value?.icon_key));
 
-async function load() {
-  loading.value = true;
-  try {
-    items.value = await api.get('/api/admin/social-links');
-  } catch (err) {
-    error.value = err.message;
-  } finally {
-    loading.value = false;
+// Picking a network pre-fills the display name if it still holds another network's default
+function pickIcon(opt) {
+  const defaultNames = ICON_OPTIONS.map((o) => o.label);
+  if (!form.value.name || defaultNames.includes(form.value.name)) {
+    form.value.name = opt.key === 'custom' ? '' : opt.label;
   }
-}
-
-onMounted(load);
-
-function toPayload(item) {
-  const { _saving, ...rest } = item;
-  return { ...rest, custom_svg: rest.icon_key === 'custom' ? rest.custom_svg : null };
-}
-
-async function save(item) {
-  item._saving = true;
-  error.value = '';
-  try {
-    await api.patch(`/api/admin/social-links/${item.id}`, toPayload(item));
-  } catch (err) {
-    error.value = err.message;
-  } finally {
-    item._saving = false;
-  }
-}
-
-async function move(index, direction) {
-  const other = items.value[index + direction];
-  const current = items.value[index];
-  if (!other) return;
-  [current.sort_order, other.sort_order] = [other.sort_order, current.sort_order];
-  items.value.sort((a, b) => a.sort_order - b.sort_order);
-  await Promise.all([save(current), save(other)]);
-}
-
-function confirmDelete(item) {
-  pendingDelete.value = item;
-}
-
-async function handleDelete() {
-  const item = pendingDelete.value;
-  pendingDelete.value = null;
-  try {
-    await api.del(`/api/admin/social-links/${item.id}`);
-    items.value = items.value.filter((i) => i.id !== item.id);
-  } catch (err) {
-    error.value = err.message;
-  }
-}
-
-async function add() {
-  adding.value = true;
-  error.value = '';
-  try {
-    const created = await api.post('/api/admin/social-links', { ...toPayload({ ...draft.value }), sort_order: items.value.length });
-    items.value.push(created);
-    draft.value = emptyDraft();
-  } catch (err) {
-    error.value = err.message;
-  } finally {
-    adding.value = false;
-  }
+  form.value.icon_key = opt.key;
 }
 </script>

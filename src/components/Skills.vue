@@ -1,6 +1,6 @@
 <template>
   <section id="skills">
-    <SectionHeading index="02" :eyebrow="$t('nav.skills')" :title="$t('skills.title')" />
+    <SectionHeading :index="index" :eyebrow="$t('nav.skills')" :title="$t('skills.title')" />
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
       <article v-for="skill in skillsData" :key="skill.id" class="group relative p-5 md:p-6 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-md transition-all duration-300 hover:border-pink-500/40 hover:bg-white/[0.06] md:hover:-translate-y-1">
         <div class="flex items-center gap-3 mb-4">
@@ -47,6 +47,8 @@ import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { useContent } from '../composables/useContent';
 import Icon from './icons/Icon.vue';
 import SectionHeading from './SectionHeading.vue';
+
+defineProps({ index: { type: String, default: '' } });
 
 const { content, localized } = useContent();
 

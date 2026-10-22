@@ -2,27 +2,32 @@
   <section id="contact" itemscope itemtype="https://schema.org/ContactPage">
     <div class="max-w-3xl mx-auto p-5 sm:p-8 lg:p-12 rounded-3xl bg-white/[0.04] border border-white/10 backdrop-blur-md">
       <div class="text-center">
-        <p class="section-eyebrow mb-3"><span class="text-white/30">06</span><span class="mx-2 text-white/20">/</span>{{ $t('nav.contact') }}</p>
+        <p class="section-eyebrow mb-3"><span class="text-white/30">{{ index }}</span><span class="mx-2 text-white/20">/</span>{{ $t('nav.contact') }}</p>
         <h2 class="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-indigo-400 text-balance">
           {{ $t('contact.title') }}
         </h2>
         <p class="text-sm md:text-base text-slate-400 mb-8">{{ $t('contact.subtitle') }}</p>
       </div>
 
-      <div class="grid gap-2.5 sm:grid-cols-2 mb-4">
-        <a v-if="settings.email" :href="`mailto:${settings.email}`" class="flex min-w-0 items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-slate-300 transition-colors hover:border-pink-500/40">
-          <Mail class="h-4 w-4 shrink-0 text-pink-400" />
-          <span class="truncate">{{ settings.email }}</span>
-        </a>
-        <a v-if="settings.phone" :href="`tel:${settings.phone.replace(/\s+/g, '')}`" class="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-slate-300 transition-colors hover:border-pink-500/40">
-          <Phone class="h-4 w-4 shrink-0 text-pink-400" />
-          {{ settings.phone }}
-        </a>
-        <p v-if="settings.location" class="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-slate-300 sm:col-span-2 sm:justify-center">
-          <MapPin class="h-4 w-4 shrink-0 text-pink-400" />
-          {{ settings.location }}
-        </p>
-      </div>
+      <ul class="grid gap-2.5 sm:grid-cols-2 mb-4">
+        <li v-for="(item, i) in contactItems" :key="item.key" :class="i === contactItems.length - 1 && contactItems.length % 2 ? 'sm:col-span-2' : ''">
+          <component
+            :is="item.href ? 'a' : 'div'"
+            :href="item.href"
+            :target="item.external ? '_blank' : undefined"
+            :rel="item.external ? 'noopener noreferrer' : undefined"
+            :aria-label="item.label"
+            :class="[
+              'flex h-full min-w-0 items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm transition-colors',
+              item.href ? 'hover:border-pink-500/40' : '',
+              contactItems.length % 2 && i === contactItems.length - 1 ? 'sm:justify-center' : ''
+            ]"
+          >
+            <component :is="item.icon" :class="['h-4 w-4 shrink-0', item.key === 'whatsapp' ? 'text-sky-400' : 'text-pink-400']" />
+            <span :class="['truncate', item.key === 'whatsapp' ? 'font-medium text-sky-400 underline-offset-4 hover:underline' : 'text-slate-300']">{{ item.text }}</span>
+          </component>
+        </li>
+      </ul>
       <p v-if="localized(settings, 'availability')" class="mb-8 md:mb-10 flex items-center justify-center gap-2 text-sm text-emerald-400">
         <span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-400"></span></span>
         {{ localized(settings, 'availability') }}
@@ -74,12 +79,31 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useContent } from '../composables/useContent';
-import { Mail, Phone, MapPin, Send } from 'lucide-vue-next';
+import { Mail, Phone, MapPin, Send, MessageCircle } from 'lucide-vue-next';
 import Icon from './icons/Icon.vue';
+
+defineProps({ index: { type: String, default: '' } });
 
 const { content, localized } = useContent();
 const settings = computed(() => content.value.settings || {});
 const socialLinks = computed(() => content.value.socialLinks || []);
+
+const digits = (value) => (value || '').replace(/\D/g, '');
+
+const contactItems = computed(() => {
+  const { email, whatsapp, phone, location } = settings.value;
+  const items = [];
+  if (email) items.push({ key: 'email', icon: Mail, text: email, href: `mailto:${email}`, label: email });
+  if (whatsapp) {
+    items.push({ key: 'whatsapp', icon: MessageCircle, text: whatsapp, href: `https://wa.me/${digits(whatsapp)}`, external: true, label: `WhatsApp ${whatsapp}` });
+  }
+  // Hide the call number while it's still the same as the WhatsApp one
+  if (phone && digits(phone) !== digits(whatsapp)) {
+    items.push({ key: 'phone', icon: Phone, text: phone, href: `tel:${phone.trim().startsWith('+') ? '+' : ''}${digits(phone)}`, label: phone });
+  }
+  if (location) items.push({ key: 'location', icon: MapPin, text: location, label: location });
+  return items;
+});
 
 const formData = ref({
   name: '',

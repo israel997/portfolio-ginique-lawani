@@ -47,9 +47,12 @@
         <h3 class="text-sm font-bold uppercase tracking-wide text-pink-400">Contact</h3>
         <div class="grid md:grid-cols-2 gap-4">
           <FormField v-model="form.email" label="Email" type="email" />
-          <FormField v-model="form.phone" label="Téléphone" />
+          <FormField v-model="form.whatsapp" label="WhatsApp" placeholder="+229 01 …" hint="Format international (+229…) : le lien wa.me en dépend." />
         </div>
-        <FormField v-model="form.location" label="Localisation" />
+        <div class="grid md:grid-cols-2 gap-4">
+          <FormField v-model="form.phone" label="Téléphone (appels)" placeholder="+229 01 …" hint="Masqué sur le site s'il est identique au WhatsApp." />
+          <FormField v-model="form.location" label="Localisation" placeholder="Cotonou, Bénin" />
+        </div>
         <div class="grid md:grid-cols-2 gap-4">
           <FormField v-model="form.availability_fr" label="Disponibilité (FR)" />
           <FormField v-model="form.availability_en" label="Disponibilité (EN)" />

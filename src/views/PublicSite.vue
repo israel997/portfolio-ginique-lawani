@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ArrowUp } from 'lucide-vue-next'
 import { useSEO } from '../composables/useSEO'
@@ -9,15 +9,40 @@ import About from '../components/About.vue'
 import Skills from '../components/Skills.vue'
 import Timeline from '../components/Timeline.vue'
 import Projects from '../components/Projects.vue'
+import Showcase from '../components/Showcase.vue'
 import Testimonials from '../components/Testimonials.vue'
 import Contact from '../components/Contact.vue'
 import Footer from '../components/Footer.vue'
 import MobileBottomNav from '../components/MobileBottomNav.vue'
+import { useContent } from '../composables/useContent'
+import { useActiveSection } from '../composables/useActiveSection'
 
 const { t } = useI18n()
 
 // Initialize SEO
 useSEO()
+
+const { content } = useContent()
+
+// Page order. Sections are numbered by position, so hiding an empty one
+// (the showcase carousel with no items) doesn't leave a gap in "01, 02…".
+const sections = computed(() => {
+  const all = [
+    { id: 'about', component: About },
+    { id: 'projects', component: Projects },
+    { id: 'skills', component: Skills },
+    { id: 'showcase', component: Showcase, hidden: !(content.value.showcase || []).length },
+    { id: 'timeline', component: Timeline },
+    { id: 'testimonials', component: Testimonials },
+    { id: 'contact', component: Contact }
+  ]
+  return all
+    .filter((section) => !section.hidden)
+    .map((section, i) => ({ ...section, index: String(i + 1).padStart(2, '0') }))
+})
+
+const { refresh: refreshActiveSection } = useActiveSection()
+watch(() => sections.value.length, () => nextTick(refreshActiveSection))
 
 const scrollProgress = ref(0)
 const showScrollTop = ref(false)
@@ -71,12 +96,9 @@ onUnmounted(() => {
         <div class="band-inner"><Hero /></div>
       </div>
 
-      <div class="band band-about"><div class="band-inner"><About /></div></div>
-      <div class="band band-skills"><div class="band-inner"><Skills /></div></div>
-      <div class="band band-timeline"><div class="band-inner"><Timeline /></div></div>
-      <div class="band band-projects"><div class="band-inner"><Projects /></div></div>
-      <div class="band band-testimonials"><div class="band-inner"><Testimonials /></div></div>
-      <div class="band band-contact"><div class="band-inner"><Contact /></div></div>
+      <div v-for="section in sections" :key="section.id" :class="`band band-${section.id}`">
+        <div class="band-inner"><component :is="section.component" :index="section.index" /></div>
+      </div>
     </main>
 
     <Footer />

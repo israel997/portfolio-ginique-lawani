@@ -1,6 +1,7 @@
 import { sql } from './db.js';
 import { sendJson, methodNotAllowed, parseIdParam, withErrorHandling } from './http.js';
 import { requireAuth } from './auth.js';
+import { ensureSchema } from './migrations.js';
 
 // Registry-based CRUD for the admin list resources, dispatched by the
 // `resource` dynamic path segment (api/admin/[resource]/index.js and [id].js)
@@ -23,7 +24,16 @@ export const RESOURCES = {
   },
   projects: {
     table: 'projects',
-    columns: ['name', 'description_fr', 'description_en', 'tags', 'gradient_class', 'category', 'image_url', 'project_url', 'sort_order', 'is_visible']
+    columns: [
+      'name', 'description_fr', 'description_en', 'tags', 'gradient_class', 'category', 'image_url', 'project_url',
+      'details_fr', 'details_en', 'contributions_fr', 'contributions_en', 'methodology_fr', 'methodology_en', 'gallery',
+      'sort_order', 'is_visible'
+    ],
+    jsonColumns: ['gallery']
+  },
+  showcase: {
+    table: 'showcase_items',
+    columns: ['image_url', 'title_fr', 'title_en', 'description_fr', 'description_en', 'sort_order', 'is_visible']
   },
   testimonials: {
     table: 'testimonials',
@@ -36,6 +46,13 @@ export const RESOURCES = {
   }
 };
 
+// node-postgres serializes JS arrays as Postgres arrays, so JSONB values
+// must be stringified explicitly.
+function valuesFor(config, fields, body) {
+  const json = config.jsonColumns || [];
+  return fields.map((f) => (json.includes(f) ? JSON.stringify(body[f]) : body[f]));
+}
+
 export async function handleListRequest(req, res) {
   if (!requireAuth(req, res)) return;
   const config = RESOURCES[req.query.resource];
@@ -43,6 +60,7 @@ export async function handleListRequest(req, res) {
   const { table, columns, orderBy = 'sort_order' } = config;
 
   await withErrorHandling(res, async () => {
+    await ensureSchema();
     if (req.method === 'GET') {
       const { rows } = await sql.query(`SELECT * FROM ${table} ORDER BY ${orderBy}`);
       return sendJson(res, 200, rows);
@@ -51,7 +69,7 @@ export async function handleListRequest(req, res) {
       const body = req.body || {};
       const fields = columns.filter((c) => body[c] !== undefined);
       if (!fields.length) return sendJson(res, 400, { error: 'No fields provided' });
-      const values = fields.map((f) => body[f]);
+      const values = valuesFor(config, fields, body);
       const placeholders = fields.map((_, i) => `$${i + 1}`).join(', ');
       const { rows } = await sql.query(
         `INSERT INTO ${table} (${fields.join(', ')}) VALUES (${placeholders}) RETURNING *`,
@@ -72,6 +90,7 @@ export async function handleItemRequest(req, res) {
   if (!id) return sendJson(res, 400, { error: 'Invalid id' });
 
   await withErrorHandling(res, async () => {
+    await ensureSchema();
     if (req.method === 'GET') {
       const { rows } = await sql.query(`SELECT * FROM ${table} WHERE id = $1`, [id]);
       if (!rows.length) return sendJson(res, 404, { error: 'Not found' });
@@ -83,7 +102,7 @@ export async function handleItemRequest(req, res) {
       if (!fields.length) return sendJson(res, 400, { error: 'No fields provided' });
       const setClauses = fields.map((f, i) => `${f} = $${i + 1}`);
       if (hasUpdatedAt) setClauses.push('updated_at = now()');
-      const values = fields.map((f) => body[f]);
+      const values = valuesFor(config, fields, body);
       values.push(id);
       const { rows } = await sql.query(
         `UPDATE ${table} SET ${setClauses.join(', ')} WHERE id = $${values.length} RETURNING *`,

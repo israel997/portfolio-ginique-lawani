@@ -1,181 +1,138 @@
 <template>
-  <div class="max-w-4xl">
-    <h2 class="text-2xl font-bold mb-6">Compétences</h2>
+  <AdminCollection
+    title="Compétences"
+    create-label="Nouvelle compétence"
+    :loading="loading"
+    :count="items.length"
+    :visible-count="items.filter((i) => i.is_visible).length"
+    empty-title="Aucune compétence pour l'instant"
+    :empty-icon="Code2"
+    @create="openCreate"
+  >
+    <AdminListRow
+      v-for="(item, index) in items"
+      :key="item.id"
+      :title="item.title_fr"
+      :subtitle="(item.techs || []).join(', ')"
+      :visible="item.is_visible"
+      :saving="item._saving"
+      :first="index === 0"
+      :last="index === items.length - 1"
+      @up="move(index, -1)"
+      @down="move(index, 1)"
+      @edit="openEdit(item)"
+      @delete="pendingDelete = item"
+      @toggle="toggleVisibility(item, $event)"
+    >
+      <template #thumb>
+        <span :class="`grid h-11 w-11 place-items-center rounded-xl border border-white/10 ${item.icon_bg_class}`">
+          <Icon :name="item.icon_key" class="h-5 w-5" />
+        </span>
+      </template>
+    </AdminListRow>
+  </AdminCollection>
 
-    <div v-if="loading" class="text-slate-400">Chargement...</div>
+  <SlideOver :open="!!form" :title="form?.id ? 'Modifier la compétence' : 'Nouvelle compétence'" @close="requestClose">
+    <form v-if="form" id="skill-form" @submit.prevent="submit" class="space-y-6">
+      <BilingualField v-model:fr="form.title_fr" v-model:en="form.title_en" label="Titre" placeholder="Ex. Backend Development" />
+      <BilingualField v-model:fr="form.description_fr" v-model:en="form.description_en" label="Description" multiline :rows="3" />
+      <TagInput v-model="form.techs" label="Technologies" placeholder="Node.js, Laravel…" />
 
-    <div v-else class="space-y-6">
-      <div v-for="(item, index) in items" :key="item.id" class="flex gap-3 p-4 md:p-6 rounded-2xl bg-white/5 border border-white/10">
-        <ReorderControls
-          :disabled-up="index === 0"
-          :disabled-down="index === items.length - 1"
-          @up="move(index, -1)"
-          @down="move(index, 1)"
-        />
-        <div class="flex-1 space-y-3">
-          <div class="grid md:grid-cols-2 gap-3">
-            <FormField v-model="item.title_fr" label="Titre (FR)" />
-            <FormField v-model="item.title_en" label="Titre (EN)" />
-          </div>
-          <div class="grid md:grid-cols-2 gap-3">
-            <FormField v-model="item.description_fr" label="Description (FR)" type="textarea" :rows="2" />
-            <FormField v-model="item.description_en" label="Description (EN)" type="textarea" :rows="2" />
-          </div>
-          <div class="grid md:grid-cols-2 gap-3">
-            <div>
-              <label class="block text-sm font-bold mb-2 text-slate-300">Icône</label>
-              <select v-model="item.icon_key" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white">
-                <option v-for="opt in iconOptions" :key="opt" :value="opt">{{ opt }}</option>
-              </select>
-            </div>
-            <FormField v-model="item.techs_input" label="Technologies (séparées par des virgules)" />
-          </div>
-          <div class="flex items-center justify-between gap-3">
-            <label class="flex items-center gap-2 text-sm text-slate-300">
-              <input type="checkbox" v-model="item.is_visible" class="rounded border-white/20" />
-              Visible
-            </label>
-            <div class="flex items-center gap-3">
-              <button @click="save(item)" :disabled="item._saving" class="px-4 py-2 rounded-lg bg-pink-600 text-sm font-bold hover:bg-pink-700 disabled:opacity-50">
-                {{ item._saving ? 'Enregistrement...' : 'Enregistrer' }}
-              </button>
-              <button @click="confirmDelete(item)" class="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-sm font-bold text-red-400 hover:bg-red-950/40">
-                Supprimer
-              </button>
-            </div>
-          </div>
+      <div>
+        <span class="admin-label">Icône</span>
+        <div class="grid grid-cols-6 gap-2" role="radiogroup">
+          <button
+            v-for="key in ICONS"
+            :key="key"
+            type="button"
+            role="radio"
+            :aria-checked="form.icon_key === key"
+            :title="key"
+            @click="form.icon_key = key"
+            :class="[
+              'grid aspect-square place-items-center rounded-xl border transition-colors',
+              form.icon_key === key ? 'border-pink-500 bg-pink-500/15 text-white' : 'border-white/10 bg-white/5 text-slate-400 hover:text-white'
+            ]"
+          >
+            <Icon :name="key" class="h-5 w-5" />
+          </button>
         </div>
       </div>
 
-      <div class="p-4 md:p-6 rounded-2xl bg-white/5 border border-dashed border-white/20 space-y-3">
-        <h3 class="text-sm font-bold uppercase tracking-wide text-pink-400">Ajouter une compétence</h3>
-        <div class="grid md:grid-cols-2 gap-3">
-          <FormField v-model="draft.title_fr" label="Titre (FR)" />
-          <FormField v-model="draft.title_en" label="Titre (EN)" />
+      <div>
+        <span class="admin-label">Couleur</span>
+        <div class="flex flex-wrap gap-2" role="radiogroup">
+          <button
+            v-for="color in COLORS"
+            :key="color"
+            type="button"
+            role="radio"
+            :aria-checked="form.icon_bg_class === color"
+            @click="form.icon_bg_class = color"
+            :class="[`grid h-11 w-11 place-items-center rounded-xl border-2 ${color}`, form.icon_bg_class === color ? 'border-white' : 'border-transparent']"
+          >
+            <Icon :name="form.icon_key" class="h-5 w-5" />
+          </button>
         </div>
-        <div class="grid md:grid-cols-2 gap-3">
-          <FormField v-model="draft.description_fr" label="Description (FR)" type="textarea" :rows="2" />
-          <FormField v-model="draft.description_en" label="Description (EN)" type="textarea" :rows="2" />
-        </div>
-        <div class="grid md:grid-cols-2 gap-3">
-          <div>
-            <label class="block text-sm font-bold mb-2 text-slate-300">Icône</label>
-            <select v-model="draft.icon_key" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white">
-              <option v-for="opt in iconOptions" :key="opt" :value="opt">{{ opt }}</option>
-            </select>
-          </div>
-          <FormField v-model="draft.techs_input" label="Technologies (séparées par des virgules)" />
-        </div>
-        <button @click="add" :disabled="adding" class="px-4 py-2 rounded-lg bg-gradient-to-r from-pink-600 to-purple-600 text-sm font-bold disabled:opacity-50">
-          {{ adding ? 'Ajout...' : 'Ajouter' }}
-        </button>
       </div>
 
-      <p v-if="error" class="text-sm text-red-400">{{ error }}</p>
-    </div>
+      <div class="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3">
+        <p class="text-sm font-medium">Visible sur le site</p>
+        <ToggleSwitch v-model="form.is_visible" />
+      </div>
+      <p v-if="formError" class="flex items-center gap-2 rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-300">
+        <CircleAlert class="h-4 w-4 shrink-0" /> {{ formError }}
+      </p>
+    </form>
+    <template #footer>
+      <FormFooter form="skill-form" :saving="saving" :label="form?.id ? 'Enregistrer' : 'Ajouter'" @cancel="requestClose" />
+    </template>
+  </SlideOver>
 
-    <ConfirmDialog
-      :open="!!pendingDelete"
-      title="Supprimer cette compétence ?"
-      message="Cette compétence sera définitivement supprimée."
-      @confirm="handleDelete"
-      @cancel="pendingDelete = null"
-    />
-  </div>
+  <ConfirmDialog
+    :open="!!pendingDelete"
+    title="Supprimer cette compétence ?"
+    :message="`« ${pendingDelete?.title_fr || ''} » sera définitivement supprimée.`"
+    @confirm="handleDelete"
+    @cancel="pendingDelete = null"
+  />
+  <ConfirmDialog :open="confirmDiscard" title="Abandonner les modifications ?" message="Les changements non enregistrés seront perdus." confirm-label="Abandonner" @confirm="discard" @cancel="confirmDiscard = false" />
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useApi } from '../composables/useApi';
-import FormField from '../components/FormField.vue';
-import ReorderControls from '../components/ReorderControls.vue';
+import { Code2, CircleAlert } from 'lucide-vue-next';
+import { useCrudList } from '../composables/useCrudList';
+import Icon from '../../components/icons/Icon.vue';
+import AdminCollection from '../components/AdminCollection.vue';
+import AdminListRow from '../components/AdminListRow.vue';
+import BilingualField from '../components/BilingualField.vue';
+import TagInput from '../components/TagInput.vue';
 import ConfirmDialog from '../components/ConfirmDialog.vue';
+import SlideOver from '../components/SlideOver.vue';
+import ToggleSwitch from '../components/ToggleSwitch.vue';
+import FormFooter from '../components/FormFooter.vue';
 
-const iconOptions = ['frontend', 'backend', 'database', 'methodologies', 'tools', 'ai'];
+// Keys understood by components/icons/Icon.vue
+const ICONS = ['frontend', 'backend', 'database', 'methodologies', 'tools', 'ai', 'mobile', 'design', 'cloud', 'security', 'web', 'email'];
+const COLORS = [
+  'bg-gradient-to-br from-pink-500/20 to-rose-500/20',
+  'bg-gradient-to-br from-violet-500/20 to-indigo-500/20',
+  'bg-gradient-to-br from-blue-500/20 to-cyan-500/20',
+  'bg-gradient-to-br from-emerald-500/20 to-teal-500/20',
+  'bg-gradient-to-br from-amber-500/20 to-yellow-500/20',
+  'bg-gradient-to-br from-rose-500/20 to-orange-500/20'
+];
 
-const api = useApi();
-const items = ref([]);
-const loading = ref(true);
-const adding = ref(false);
-const error = ref('');
-const pendingDelete = ref(null);
-
-const emptyDraft = () => ({
-  title_fr: '', title_en: '', description_fr: '', description_en: '',
-  icon_key: 'frontend', icon_bg_class: 'bg-gradient-to-br from-pink-500/20 to-rose-500/20', techs_input: ''
+const {
+  items, loading, pendingDelete,
+  form, formError, saving, confirmDiscard,
+  openCreate, openEdit, requestClose, discard, submit,
+  toggleVisibility, move, handleDelete
+} = useCrudList('skills', {
+  fields: ['title_fr', 'title_en', 'description_fr', 'description_en', 'icon_key', 'icon_bg_class', 'techs'],
+  defaults: () => ({ title_fr: '', title_en: '', description_fr: '', description_en: '', icon_key: 'frontend', icon_bg_class: COLORS[0], techs: [] }),
+  validate: (f) => (!f.title_fr.trim() ? 'Le titre (FR) est obligatoire.' : ''),
+  clean: (p) => ({ ...p, title_en: p.title_en || p.title_fr, description_en: p.description_en || p.description_fr }),
+  labels: { created: 'Compétence ajoutée', saved: 'Compétence enregistrée', deleted: 'Compétence supprimée' }
 });
-const draft = ref(emptyDraft());
-
-function withTechsInput(item) {
-  return { ...item, techs_input: (item.techs || []).join(', ') };
-}
-
-async function load() {
-  loading.value = true;
-  try {
-    const rows = await api.get('/api/admin/skills');
-    items.value = rows.map(withTechsInput);
-  } catch (err) {
-    error.value = err.message;
-  } finally {
-    loading.value = false;
-  }
-}
-
-onMounted(load);
-
-function toPayload(item) {
-  const { _saving, techs_input, ...rest } = item;
-  return { ...rest, techs: techs_input.split(',').map((t) => t.trim()).filter(Boolean) };
-}
-
-async function save(item) {
-  item._saving = true;
-  error.value = '';
-  try {
-    await api.patch(`/api/admin/skills/${item.id}`, toPayload(item));
-  } catch (err) {
-    error.value = err.message;
-  } finally {
-    item._saving = false;
-  }
-}
-
-async function move(index, direction) {
-  const other = items.value[index + direction];
-  const current = items.value[index];
-  if (!other) return;
-  [current.sort_order, other.sort_order] = [other.sort_order, current.sort_order];
-  items.value.sort((a, b) => a.sort_order - b.sort_order);
-  await Promise.all([save(current), save(other)]);
-}
-
-function confirmDelete(item) {
-  pendingDelete.value = item;
-}
-
-async function handleDelete() {
-  const item = pendingDelete.value;
-  pendingDelete.value = null;
-  try {
-    await api.del(`/api/admin/skills/${item.id}`);
-    items.value = items.value.filter((i) => i.id !== item.id);
-  } catch (err) {
-    error.value = err.message;
-  }
-}
-
-async function add() {
-  adding.value = true;
-  error.value = '';
-  try {
-    const created = await api.post('/api/admin/skills', { ...toPayload({ ...draft.value }), sort_order: items.value.length });
-    items.value.push(withTechsInput(created));
-    draft.value = emptyDraft();
-  } catch (err) {
-    error.value = err.message;
-  } finally {
-    adding.value = false;
-  }
-}
 </script>

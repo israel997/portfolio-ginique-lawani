@@ -1,6 +1,6 @@
 <template>
   <section id="testimonials">
-    <SectionHeading index="05" :eyebrow="$t('nav.testimonials')" :title="$t('testimonials.title')" />
+    <SectionHeading :index="index" :eyebrow="$t('nav.testimonials')" :title="$t('testimonials.title')" />
 
     <div class="grid md:grid-cols-2 gap-4 md:gap-6 max-w-5xl mx-auto">
       <figure v-for="testimonial in testimonialsData" :key="testimonial.id" class="relative flex flex-col p-5 md:p-7 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-md transition-colors hover:border-pink-500/30">
@@ -30,6 +30,8 @@ import { computed } from 'vue';
 import { Quote, Star } from 'lucide-vue-next';
 import { useContent } from '../composables/useContent';
 import SectionHeading from './SectionHeading.vue';
+
+defineProps({ index: { type: String, default: '' } });
 
 const { content, localized } = useContent();
 const testimonialsData = computed(() => content.value.testimonials || []);

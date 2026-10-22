@@ -1,6 +1,6 @@
 <template>
   <section id="timeline" class="relative">
-    <SectionHeading index="03" :eyebrow="$t('nav.timeline')" :title="$t('timeline.title')" />
+    <SectionHeading :index="index" :eyebrow="$t('nav.timeline')" :title="$t('timeline.title')" />
 
     <ol class="relative max-w-4xl mx-auto">
       <div class="absolute left-[7px] md:left-1/2 top-2 bottom-0 w-px bg-gradient-to-b from-pink-500 via-purple-500 to-transparent md:-translate-x-1/2" aria-hidden="true"></div>
@@ -28,6 +28,8 @@ import { computed } from 'vue';
 import { useContent } from '../composables/useContent';
 import BackgroundShapes from './BackgroundShapes.vue';
 import SectionHeading from './SectionHeading.vue';
+
+defineProps({ index: { type: String, default: '' } });
 
 const { content, localized } = useContent();
 const timelineItems = computed(() => content.value.timeline || []);

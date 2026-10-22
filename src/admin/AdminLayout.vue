@@ -56,7 +56,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
-import { LayoutDashboard, UserRound, Route, Code2, FolderKanban, MessageSquareQuote, Share2, ExternalLink, LogOut } from 'lucide-vue-next';
+import { LayoutDashboard, UserRound, Route, Code2, FolderKanban, MessageSquareQuote, Share2, ExternalLink, LogOut, GalleryHorizontal } from 'lucide-vue-next';
 import { useAdminAuth } from './composables/useAdminAuth';
 import ToastHost from './components/ToastHost.vue';
 
@@ -65,9 +65,10 @@ const { logout } = useAdminAuth();
 
 const links = [
   { to: '/admin/settings', label: 'Profil & Contact', icon: UserRound },
-  { to: '/admin/timeline', label: 'Parcours', icon: Route },
-  { to: '/admin/skills', label: 'Compétences', icon: Code2 },
   { to: '/admin/projects', label: 'Projets', icon: FolderKanban },
+  { to: '/admin/skills', label: 'Compétences', icon: Code2 },
+  { to: '/admin/showcase', label: 'Savoir-faire', icon: GalleryHorizontal },
+  { to: '/admin/timeline', label: 'Parcours', icon: Route },
   { to: '/admin/testimonials', label: 'Témoignages', icon: MessageSquareQuote },
   { to: '/admin/social-links', label: 'Réseaux sociaux', icon: Share2 }
 ];

@@ -1,167 +1,128 @@
 <template>
-  <div class="max-w-4xl">
-    <h2 class="text-2xl font-bold mb-6">Témoignages</h2>
-    <p class="text-sm text-slate-400 mb-6">Le texte (EN) est optionnel : s'il est vide, le texte (FR) s'affiche aussi en anglais.</p>
+  <AdminCollection
+    title="Témoignages"
+    create-label="Nouveau témoignage"
+    description="Sans traduction anglaise, le texte français s'affiche aussi en anglais."
+    :loading="loading"
+    :count="items.length"
+    :visible-count="items.filter((i) => i.is_visible).length"
+    empty-title="Aucun témoignage pour l'instant"
+    :empty-icon="MessageSquareQuote"
+    @create="openCreate"
+  >
+    <AdminListRow
+      v-for="(item, index) in items"
+      :key="item.id"
+      :title="item.name"
+      :subtitle="item.role_fr"
+      :visible="item.is_visible"
+      :saving="item._saving"
+      :first="index === 0"
+      :last="index === items.length - 1"
+      @up="move(index, -1)"
+      @down="move(index, 1)"
+      @edit="openEdit(item)"
+      @delete="pendingDelete = item"
+      @toggle="toggleVisibility(item, $event)"
+    >
+      <template #thumb>
+        <span :class="`grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br font-display text-sm font-semibold ${item.avatar_gradient_class}`">{{ item.initials }}</span>
+      </template>
+    </AdminListRow>
+  </AdminCollection>
 
-    <div v-if="loading" class="text-slate-400">Chargement...</div>
+  <SlideOver :open="!!form" :title="form?.id ? 'Modifier le témoignage' : 'Nouveau témoignage'" @close="requestClose">
+    <form v-if="form" id="testimonial-form" @submit.prevent="submit" class="space-y-6">
+      <div class="flex items-end gap-3">
+        <span :class="`grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gradient-to-br font-display font-semibold ${form.avatar_gradient_class}`">{{ form.initials || autoInitials || '?' }}</span>
+        <div class="flex-1"><FormField v-model="form.name" label="Nom" placeholder="Prénom NOM" /></div>
+      </div>
+      <FormField v-model="form.initials" label="Initiales" :placeholder="autoInitials || 'AB'" hint="Laissez vide pour les déduire du nom." />
+      <BilingualField v-model:fr="form.role_fr" v-model:en="form.role_en" label="Rôle / entreprise" placeholder="Ex. CTO, Société X" />
+      <BilingualField v-model:fr="form.quote_fr" v-model:en="form.quote_en" label="Citation" multiline :rows="5" />
 
-    <div v-else class="space-y-6">
-      <div v-for="(item, index) in items" :key="item.id" class="flex gap-3 p-4 md:p-6 rounded-2xl bg-white/5 border border-white/10">
-        <ReorderControls
-          :disabled-up="index === 0"
-          :disabled-down="index === items.length - 1"
-          @up="move(index, -1)"
-          @down="move(index, 1)"
-        />
-        <div class="flex-1 space-y-3">
-          <div class="grid md:grid-cols-3 gap-3">
-            <FormField v-model="item.name" label="Nom" />
-            <FormField v-model="item.initials" label="Initiales" />
-            <FormField v-model="item.avatar_gradient_class" label="Dégradé avatar (Tailwind)" />
-          </div>
-          <div class="grid md:grid-cols-2 gap-3">
-            <FormField v-model="item.role_fr" label="Rôle (FR)" />
-            <FormField v-model="item.role_en" label="Rôle (EN, optionnel)" />
-          </div>
-          <div class="grid md:grid-cols-2 gap-3">
-            <FormField v-model="item.quote_fr" label="Citation (FR)" type="textarea" :rows="3" />
-            <FormField v-model="item.quote_en" label="Citation (EN, optionnel)" type="textarea" :rows="3" />
-          </div>
-          <div class="flex items-center justify-between gap-3">
-            <label class="flex items-center gap-2 text-sm text-slate-300">
-              <input type="checkbox" v-model="item.is_visible" class="rounded border-white/20" />
-              Visible
-            </label>
-            <div class="flex items-center gap-3">
-              <button @click="save(item)" :disabled="item._saving" class="px-4 py-2 rounded-lg bg-pink-600 text-sm font-bold hover:bg-pink-700 disabled:opacity-50">
-                {{ item._saving ? 'Enregistrement...' : 'Enregistrer' }}
-              </button>
-              <button @click="confirmDelete(item)" class="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-sm font-bold text-red-400 hover:bg-red-950/40">
-                Supprimer
-              </button>
-            </div>
-          </div>
+      <div>
+        <span class="admin-label">Couleur de l'avatar</span>
+        <div class="flex flex-wrap gap-2" role="radiogroup">
+          <button
+            v-for="color in AVATAR_COLORS"
+            :key="color"
+            type="button"
+            role="radio"
+            :aria-checked="form.avatar_gradient_class === color"
+            @click="form.avatar_gradient_class = color"
+            :class="[`h-10 w-10 rounded-full border-2 bg-gradient-to-br ${color}`, form.avatar_gradient_class === color ? 'border-white' : 'border-transparent']"
+          ></button>
         </div>
       </div>
 
-      <div class="p-4 md:p-6 rounded-2xl bg-white/5 border border-dashed border-white/20 space-y-3">
-        <h3 class="text-sm font-bold uppercase tracking-wide text-pink-400">Ajouter un témoignage</h3>
-        <div class="grid md:grid-cols-3 gap-3">
-          <FormField v-model="draft.name" label="Nom" />
-          <FormField v-model="draft.initials" label="Initiales" />
-          <FormField v-model="draft.avatar_gradient_class" label="Dégradé avatar (Tailwind)" />
-        </div>
-        <div class="grid md:grid-cols-2 gap-3">
-          <FormField v-model="draft.role_fr" label="Rôle (FR)" />
-          <FormField v-model="draft.role_en" label="Rôle (EN, optionnel)" />
-        </div>
-        <div class="grid md:grid-cols-2 gap-3">
-          <FormField v-model="draft.quote_fr" label="Citation (FR)" type="textarea" :rows="3" />
-          <FormField v-model="draft.quote_en" label="Citation (EN, optionnel)" type="textarea" :rows="3" />
-        </div>
-        <button @click="add" :disabled="adding" class="px-4 py-2 rounded-lg bg-gradient-to-r from-pink-600 to-purple-600 text-sm font-bold disabled:opacity-50">
-          {{ adding ? 'Ajout...' : 'Ajouter' }}
-        </button>
+      <div class="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3">
+        <p class="text-sm font-medium">Visible sur le site</p>
+        <ToggleSwitch v-model="form.is_visible" />
       </div>
+      <p v-if="formError" class="flex items-center gap-2 rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-300">
+        <CircleAlert class="h-4 w-4 shrink-0" /> {{ formError }}
+      </p>
+    </form>
+    <template #footer>
+      <FormFooter form="testimonial-form" :saving="saving" :label="form?.id ? 'Enregistrer' : 'Ajouter'" @cancel="requestClose" />
+    </template>
+  </SlideOver>
 
-      <p v-if="error" class="text-sm text-red-400">{{ error }}</p>
-    </div>
-
-    <ConfirmDialog
-      :open="!!pendingDelete"
-      title="Supprimer ce témoignage ?"
-      message="Ce témoignage sera définitivement supprimé."
-      @confirm="handleDelete"
-      @cancel="pendingDelete = null"
-    />
-  </div>
+  <ConfirmDialog
+    :open="!!pendingDelete"
+    title="Supprimer ce témoignage ?"
+    :message="`Le témoignage de ${pendingDelete?.name || ''} sera définitivement supprimé.`"
+    @confirm="handleDelete"
+    @cancel="pendingDelete = null"
+  />
+  <ConfirmDialog :open="confirmDiscard" title="Abandonner les modifications ?" message="Les changements non enregistrés seront perdus." confirm-label="Abandonner" @confirm="discard" @cancel="confirmDiscard = false" />
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useApi } from '../composables/useApi';
+import { computed } from 'vue';
+import { MessageSquareQuote, CircleAlert } from 'lucide-vue-next';
+import { useCrudList } from '../composables/useCrudList';
+import AdminCollection from '../components/AdminCollection.vue';
+import AdminListRow from '../components/AdminListRow.vue';
 import FormField from '../components/FormField.vue';
-import ReorderControls from '../components/ReorderControls.vue';
+import BilingualField from '../components/BilingualField.vue';
 import ConfirmDialog from '../components/ConfirmDialog.vue';
+import SlideOver from '../components/SlideOver.vue';
+import ToggleSwitch from '../components/ToggleSwitch.vue';
+import FormFooter from '../components/FormFooter.vue';
 
-const api = useApi();
-const items = ref([]);
-const loading = ref(true);
-const adding = ref(false);
-const error = ref('');
-const pendingDelete = ref(null);
+const AVATAR_COLORS = [
+  'from-pink-500 to-rose-500',
+  'from-purple-500 to-indigo-500',
+  'from-indigo-500 to-blue-500',
+  'from-cyan-500 to-teal-500',
+  'from-emerald-500 to-lime-500',
+  'from-amber-500 to-orange-500'
+];
 
-const emptyDraft = () => ({
-  name: '', initials: '', avatar_gradient_class: 'from-pink-500 to-rose-500',
-  role_fr: '', role_en: '', quote_fr: '', quote_en: ''
+function initialsOf(name) {
+  const parts = (name || '').trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return '';
+  return (parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase();
+}
+
+const {
+  items, loading, pendingDelete,
+  form, formError, saving, confirmDiscard,
+  openCreate, openEdit, requestClose, discard, submit,
+  toggleVisibility, move, handleDelete
+} = useCrudList('testimonials', {
+  fields: ['name', 'role_fr', 'role_en', 'initials', 'avatar_gradient_class', 'quote_fr', 'quote_en'],
+  defaults: () => ({ name: '', role_fr: '', role_en: '', initials: '', avatar_gradient_class: AVATAR_COLORS[0], quote_fr: '', quote_en: '' }),
+  validate: (f) => {
+    if (!f.name.trim()) return 'Le nom est obligatoire.';
+    if (!f.role_fr.trim() || !f.quote_fr.trim()) return 'Le rôle et la citation (FR) sont obligatoires.';
+    return '';
+  },
+  clean: (p) => ({ ...p, initials: p.initials.trim() || initialsOf(p.name), role_en: p.role_en || null, quote_en: p.quote_en || null }),
+  labels: { created: 'Témoignage ajouté', saved: 'Témoignage enregistré', deleted: 'Témoignage supprimé' }
 });
-const draft = ref(emptyDraft());
 
-async function load() {
-  loading.value = true;
-  try {
-    items.value = await api.get('/api/admin/testimonials');
-  } catch (err) {
-    error.value = err.message;
-  } finally {
-    loading.value = false;
-  }
-}
-
-onMounted(load);
-
-function toPayload(item) {
-  const { _saving, ...rest } = item;
-  return { ...rest, role_en: rest.role_en || null, quote_en: rest.quote_en || null };
-}
-
-async function save(item) {
-  item._saving = true;
-  error.value = '';
-  try {
-    await api.patch(`/api/admin/testimonials/${item.id}`, toPayload(item));
-  } catch (err) {
-    error.value = err.message;
-  } finally {
-    item._saving = false;
-  }
-}
-
-async function move(index, direction) {
-  const other = items.value[index + direction];
-  const current = items.value[index];
-  if (!other) return;
-  [current.sort_order, other.sort_order] = [other.sort_order, current.sort_order];
-  items.value.sort((a, b) => a.sort_order - b.sort_order);
-  await Promise.all([save(current), save(other)]);
-}
-
-function confirmDelete(item) {
-  pendingDelete.value = item;
-}
-
-async function handleDelete() {
-  const item = pendingDelete.value;
-  pendingDelete.value = null;
-  try {
-    await api.del(`/api/admin/testimonials/${item.id}`);
-    items.value = items.value.filter((i) => i.id !== item.id);
-  } catch (err) {
-    error.value = err.message;
-  }
-}
-
-async function add() {
-  adding.value = true;
-  error.value = '';
-  try {
-    const created = await api.post('/api/admin/testimonials', { ...toPayload({ ...draft.value }), sort_order: items.value.length });
-    items.value.push(created);
-    draft.value = emptyDraft();
-  } catch (err) {
-    error.value = err.message;
-  } finally {
-    adding.value = false;
-  }
-}
+const autoInitials = computed(() => initialsOf(form.value?.name));
 </script>

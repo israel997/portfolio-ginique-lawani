@@ -6,6 +6,7 @@ import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { sql } from '@vercel/postgres';
+import { ensureSchema } from '../api/_lib/migrations.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
@@ -183,14 +184,15 @@ async function seedSocialLinks() {
 }
 
 async function writeFallbackSnapshot() {
-  const [settings, timeline, skills, logos, projects, testimonials, socialLinks] = await Promise.all([
+  const [settings, timeline, skills, logos, projects, testimonials, socialLinks, showcase] = await Promise.all([
     sql`SELECT * FROM admin_settings WHERE id = 1`,
     sql`SELECT * FROM timeline_items WHERE is_visible = true ORDER BY sort_order`,
     sql`SELECT * FROM skills WHERE is_visible = true ORDER BY sort_order`,
     sql`SELECT * FROM tech_logos WHERE is_visible = true ORDER BY sort_order`,
     sql`SELECT * FROM projects WHERE is_visible = true ORDER BY sort_order`,
     sql`SELECT * FROM testimonials WHERE is_visible = true ORDER BY sort_order`,
-    sql`SELECT * FROM social_links WHERE is_visible = true ORDER BY sort_order`
+    sql`SELECT * FROM social_links WHERE is_visible = true ORDER BY sort_order`,
+    sql`SELECT * FROM showcase_items WHERE is_visible = true ORDER BY sort_order`
   ]);
 
   const snapshot = {
@@ -200,7 +202,8 @@ async function writeFallbackSnapshot() {
     logos: logos.rows,
     projects: projects.rows,
     testimonials: testimonials.rows,
-    socialLinks: socialLinks.rows
+    socialLinks: socialLinks.rows,
+    showcase: showcase.rows
   };
 
   const outDir = path.join(root, 'src', 'content');
@@ -220,6 +223,8 @@ async function main() {
   await seedProjects();
   await seedTestimonials();
   await seedSocialLinks();
+  console.log('Applying migrations...');
+  await ensureSchema();
   await writeFallbackSnapshot();
   console.log('Done.');
 }

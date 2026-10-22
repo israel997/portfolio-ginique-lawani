@@ -26,13 +26,14 @@
     "stat3_label_en": "International Certifications",
     "email": "ginique.lawani@epitech.eu",
     "phone": "+229 01 61 77 71 86",
-    "location": "Abomey-Calavi, Bénin",
+    "location": "Cotonou, Bénin",
     "availability_fr": "Disponible pour vos missions présentielles et freelance",
     "availability_en": "Available for your on-site and freelance missions",
     "cv_url": "/Ginique-Oriadé-LAWANI-FlowCV-Resume-20251120.pdf",
     "cv_filename": "Ginique-Oriadé-LAWANI-FlowCV-Resume-20251120.pdf",
     "profile_photo_url": "/profile2.jpg",
-    "hero_badge_image_url": "/images/nasa.jpg"
+    "hero_badge_image_url": "/images/nasa.jpg",
+    "whatsapp": "+229 01 61 77 71 86"
   },
   "timeline": [
     { "id": 1, "year_label": "2025-2026", "title_fr": "Certificat Coding Academy", "title_en": "Coding Academy Certificate", "company_fr": "Epitech Bénin", "company_en": "Epitech Benin", "description_fr": "Formation intensive en développement logiciel et technologies avancées", "description_en": "Intensive training in software development and advanced technologies", "sort_order": 0 },
@@ -89,5 +90,6 @@
     { "id": 2, "name": "GitHub", "url": "https://github.com/israel997", "icon_key": "github", "custom_svg": null, "sort_order": 1 },
     { "id": 3, "name": "WhatsApp", "url": "https://kloo.me/whatsapp-israel-oriade", "icon_key": "whatsapp", "custom_svg": null, "sort_order": 2 },
     { "id": 4, "name": "Email", "url": "mailto:ginique.lawani@epitech.eu", "icon_key": "email", "custom_svg": null, "sort_order": 3 }
-  ]
+  ],
+  "showcase": []
 }

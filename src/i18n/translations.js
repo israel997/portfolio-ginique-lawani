@@ -7,7 +7,26 @@ export default {
       timeline: 'Parcours',
       projects: 'Projets',
       testimonials: 'Références',
+      showcase: 'Savoir-faire',
       contact: 'Contact'
+    },
+    showcase: {
+      title: 'Ce que je sais faire'
+    },
+    projectDetail: {
+      back: 'Tous les projets',
+      overview: 'Présentation',
+      contributions: 'Ce que j\'ai fait',
+      methodology: 'Méthodologie',
+      gallery: 'Galerie',
+      stack: 'Stack technique',
+      category: 'Catégorie',
+      link: 'Lien',
+      visit: 'Voir le site en ligne',
+      notFound: 'Ce projet est introuvable.',
+      previous: 'Projet précédent',
+      next: 'Projet suivant',
+      close: 'Fermer'
     },
     hero: {
       typewriter1: 'Fullstack Developper & Tech Lead',
@@ -92,7 +111,8 @@ export default {
         fullstack: 'Fullstack',
         frontend: 'Frontend',
         backend: 'Backend',
-        mobile: 'Mobile'
+        mobile: 'Mobile',
+        ai: 'AI oriented'
       },
       hover: 'Voir le projet',
       cta1: 'Voir les détails',
@@ -149,7 +169,26 @@ export default {
       timeline: 'Journey',
       projects: 'Projects',
       testimonials: 'References',
+      showcase: 'Expertise',
       contact: 'Contact'
+    },
+    showcase: {
+      title: 'What I can do'
+    },
+    projectDetail: {
+      back: 'All projects',
+      overview: 'Overview',
+      contributions: 'What I did',
+      methodology: 'Methodology',
+      gallery: 'Gallery',
+      stack: 'Tech stack',
+      category: 'Category',
+      link: 'Link',
+      visit: 'Visit the live site',
+      notFound: 'This project could not be found.',
+      previous: 'Previous project',
+      next: 'Next project',
+      close: 'Close'
     },
     hero: {
       typewriter1: 'Fullstack Developer & Tech Lead',
@@ -234,7 +273,8 @@ export default {
         fullstack: 'Fullstack',
         frontend: 'Frontend',
         backend: 'Backend',
-        mobile: 'Mobile'
+        mobile: 'Mobile',
+        ai: 'AI oriented'
       },
       hover: 'View project',
       cta1: 'View details',

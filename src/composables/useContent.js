@@ -7,6 +7,7 @@ import fallback from '../content/fallback.json';
 // renders blank while the network request is in flight or if it fails.
 const content = ref(fallback);
 const loading = ref(false);
+const loaded = ref(false); // true once the live API response has arrived
 const error = ref(null);
 let fetchPromise = null;
 
@@ -20,6 +21,7 @@ function load() {
     })
     .then((data) => {
       content.value = data;
+      loaded.value = true;
       error.value = null;
     })
     .catch((err) => {
@@ -43,5 +45,5 @@ export function useContent() {
     return item[`${field}${suffix}`] || item[`${field}_fr`] || '';
   }
 
-  return { content, loading, error, localized };
+  return { content, loading, loaded, error, localized };
 }

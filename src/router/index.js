@@ -3,6 +3,7 @@ import { useAdminAuth } from '../admin/composables/useAdminAuth';
 
 const routes = [
   { path: '/', name: 'home', component: () => import('../views/PublicSite.vue') },
+  { path: '/projets/:id', name: 'project', component: () => import('../views/ProjectDetail.vue') },
   { path: '/admin/login', name: 'admin-login', component: () => import('../admin/views/LoginView.vue') },
   {
     path: '/admin',
@@ -14,6 +15,7 @@ const routes = [
       { path: 'timeline', name: 'admin-timeline', component: () => import('../admin/views/TimelineView.vue') },
       { path: 'skills', name: 'admin-skills', component: () => import('../admin/views/SkillsView.vue') },
       { path: 'projects', name: 'admin-projects', component: () => import('../admin/views/ProjectsView.vue') },
+      { path: 'showcase', name: 'admin-showcase', component: () => import('../admin/views/ShowcaseView.vue') },
       { path: 'testimonials', name: 'admin-testimonials', component: () => import('../admin/views/TestimonialsView.vue') },
       { path: 'social-links', name: 'admin-social-links', component: () => import('../admin/views/SocialLinksView.vue') }
     ]
@@ -26,7 +28,12 @@ const router = createRouter({
   routes,
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition;
-    if (to.hash) return { el: to.hash };
+    // Coming back from a project page, the home sections need a frame to render
+    if (to.hash) {
+      return new Promise((resolve) => {
+        setTimeout(() => resolve({ el: to.hash, behavior: from.name === to.name ? 'smooth' : 'auto' }), from.name === to.name ? 0 : 60);
+      });
+    }
     return { top: 0 };
   }
 });

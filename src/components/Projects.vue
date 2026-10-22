@@ -1,6 +1,6 @@
 <template>
   <section id="projects" itemscope itemtype="https://schema.org/CreativeWork">
-    <SectionHeading index="04" :eyebrow="$t('nav.projects')" :title="$t('projects.title')" />
+    <SectionHeading :index="index" :eyebrow="$t('nav.projects')" :title="$t('projects.title')" />
 
     <div v-if="categories.length > 1" class="-mx-4 mb-8 md:mb-10 overflow-x-auto px-4 [scrollbar-width:none]">
       <div class="mx-auto flex w-max gap-2" role="tablist">
@@ -29,13 +29,10 @@
         :key="project.id"
         class="group flex flex-col rounded-2xl overflow-hidden bg-slate-900/70 border border-white/[0.08] transition-all duration-300 hover:border-pink-500/40 hover:shadow-2xl hover:shadow-purple-950/40"
       >
-        <component
-          :is="project.project_url ? 'a' : 'div'"
-          :href="project.project_url || undefined"
-          :target="project.project_url ? '_blank' : undefined"
-          :rel="project.project_url ? 'noopener noreferrer' : undefined"
+        <RouterLink
+          :to="`/projets/${project.id}`"
           :class="`relative block aspect-[16/10] overflow-hidden bg-gradient-to-br ${project.gradient_class}`"
-          :aria-label="project.project_url ? `${$t('projects.cta2')} — ${project.name}` : undefined"
+          :aria-label="`${$t('projects.cta1')} — ${project.name}`"
         >
           <img
             :src="project.image_url || '/images/project-default.jpg'"
@@ -48,14 +45,12 @@
           <span class="absolute left-3 top-3 rounded-md bg-slate-950/60 px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-white/90 backdrop-blur-md">
             {{ categoryLabel(project.category) }}
           </span>
-          <span
-            v-if="project.project_url"
-            class="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white text-slate-900 shadow-lg transition-transform duration-300 md:translate-y-1 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100"
-            aria-hidden="true"
-          >
-            <ArrowUpRight class="h-4 w-4" :stroke-width="2.25" />
+          <span class="absolute inset-0 hidden items-center justify-center bg-slate-950/40 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover:opacity-100 md:flex" aria-hidden="true">
+            <span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-900 shadow-lg">
+              <Eye class="h-4 w-4" /> {{ $t('projects.hover') }}
+            </span>
           </span>
-        </component>
+        </RouterLink>
 
         <div class="flex flex-1 flex-col p-5 md:p-6">
           <h3 class="text-lg md:text-xl font-semibold mb-2">{{ project.name }}</h3>
@@ -69,25 +64,25 @@
             </span>
           </div>
 
-          <div class="mt-auto">
+          <div class="mt-auto flex gap-2">
+            <RouterLink
+              :to="`/projets/${project.id}`"
+              class="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 text-sm font-semibold shadow-lg shadow-purple-900/30 transition hover:from-pink-500 hover:to-purple-500"
+            >
+              <Eye class="h-4 w-4" />
+              {{ $t('projects.cta1') }}
+            </RouterLink>
             <a
               v-if="project.project_url"
               :href="project.project_url"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-white/[0.06] border border-white/10 text-sm font-semibold transition-colors hover:bg-gradient-to-r hover:from-pink-600 hover:to-purple-600 hover:border-transparent"
+              class="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-white/10 bg-white/[0.06] transition-colors hover:bg-white/10"
+              :title="$t('projects.cta2')"
+              :aria-label="`${$t('projects.cta2')} — ${project.name}`"
             >
-              <Globe class="h-4 w-4" />
-              {{ $t('projects.cta2') }}
-              <ArrowUpRight class="h-4 w-4 opacity-70" />
+              <ArrowUpRight class="h-4 w-4" />
             </a>
-            <span
-              v-else
-              class="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/15 text-sm font-medium text-slate-500"
-            >
-              <Clock class="h-4 w-4" />
-              {{ $t('projects.soon') }}
-            </span>
           </div>
         </div>
       </article>
@@ -98,9 +93,12 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ArrowUpRight, Globe, Clock } from 'lucide-vue-next';
+import { ArrowUpRight, Eye } from 'lucide-vue-next';
+import { PROJECT_CATEGORIES, categoryLabel as labelFor } from '../composables/projectCategories';
 import { useContent } from '../composables/useContent';
 import SectionHeading from './SectionHeading.vue';
+
+defineProps({ index: { type: String, default: '' } });
 
 const { t } = useI18n();
 const { content, localized } = useContent();
@@ -108,20 +106,15 @@ const { content, localized } = useContent();
 // Filters are keyed by the DB category (not by translated label), so switching
 // language never desyncs the active filter. Only categories that actually have
 // projects get a button.
-const CATEGORY_ORDER = ['Fullstack', 'Frontend', 'Backend', 'Mobile'];
 const activeFilter = ref('all');
 
 const projectsData = computed(() => content.value.projects || []);
 
 const categories = computed(() =>
-  CATEGORY_ORDER.filter((c) => projectsData.value.some((p) => p.category === c))
+  PROJECT_CATEGORIES.filter((c) => projectsData.value.some((p) => p.category === c))
 );
 
-function categoryLabel(category) {
-  const key = `projects.filters.${String(category).toLowerCase()}`;
-  const label = t(key);
-  return label === key ? category : label;
-}
+const categoryLabel = (category) => labelFor(t, category);
 
 const filters = computed(() => [
   { key: 'all', label: t('projects.filters.all') },

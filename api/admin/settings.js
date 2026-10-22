@@ -1,6 +1,7 @@
 import { sql } from '../_lib/db.js';
 import { sendJson, methodNotAllowed, withErrorHandling } from '../_lib/http.js';
 import { requireAuth } from '../_lib/auth.js';
+import { ensureSchema } from '../_lib/migrations.js';
 
 const COLUMNS = [
   'full_name', 'brand_label',
@@ -10,7 +11,7 @@ const COLUMNS = [
   'stat1_value', 'stat1_label_fr', 'stat1_label_en',
   'stat2_value', 'stat2_label_fr', 'stat2_label_en',
   'stat3_value', 'stat3_label_fr', 'stat3_label_en',
-  'email', 'phone', 'location', 'availability_fr', 'availability_en',
+  'email', 'phone', 'whatsapp', 'location', 'availability_fr', 'availability_en',
   'cv_url', 'cv_filename', 'profile_photo_url', 'hero_badge_image_url'
 ];
 
@@ -18,6 +19,7 @@ export default async function handler(req, res) {
   if (!requireAuth(req, res)) return;
 
   await withErrorHandling(res, async () => {
+    await ensureSchema();
     if (req.method === 'GET') {
       const { rows } = await sql`SELECT * FROM admin_settings WHERE id = 1`;
       return sendJson(res, 200, rows[0] || null);
