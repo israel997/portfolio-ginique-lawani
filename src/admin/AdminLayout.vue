@@ -55,13 +55,20 @@
 </template>
 
 <script setup>
+import { onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useTheme } from '../composables/useTheme';
 import { LayoutDashboard, UserRound, Route, Code2, FolderKanban, MessageSquareQuote, Share2, ExternalLink, LogOut, GalleryHorizontal } from 'lucide-vue-next';
 import { useAdminAuth } from './composables/useAdminAuth';
 import ToastHost from './components/ToastHost.vue';
 
 const router = useRouter();
 const { logout } = useAdminAuth();
+
+// The back-office is dark-only, whatever theme the public site uses
+const { forceDark, releaseDark } = useTheme();
+onMounted(forceDark);
+onUnmounted(releaseDark);
 
 const links = [
   { to: '/admin/settings', label: 'Profil & Contact', icon: UserRound },

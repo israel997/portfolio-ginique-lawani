@@ -15,7 +15,7 @@
             'h-10 rounded-full px-4 text-sm font-medium transition-colors',
             activeFilter === filter.key
               ? 'bg-brand text-white'
-              : 'border border-white/10 bg-white/5 text-slate-300 hover:bg-white/10'
+              : 'border border-line bg-surface text-ink-2 hover:bg-surface-hover'
           ]"
         >
           {{ filter.label }}
@@ -27,11 +27,11 @@
       <article
         v-for="project in filteredProjects"
         :key="project.id"
-        class="group flex flex-col rounded-2xl overflow-hidden bg-slate-900/70 border border-white/[0.08] transition-all duration-300 hover:border-white/20"
+        class="group flex flex-col rounded-2xl overflow-hidden bg-surface border border-line transition-all duration-300 hover:border-line-strong"
       >
         <RouterLink
           :to="`/projets/${project.id}`"
-          class="relative block aspect-[16/10] overflow-hidden bg-slate-800"
+          class="relative block aspect-[16/10] overflow-hidden bg-panel"
           :aria-label="`${$t('projects.cta1')} — ${project.name}`"
         >
           <img
@@ -54,12 +54,12 @@
 
         <div class="flex flex-1 flex-col p-5 md:p-6">
           <h3 class="text-lg md:text-xl font-semibold mb-2">{{ project.name }}</h3>
-          <p class="text-slate-400 text-sm leading-relaxed mb-4 line-clamp-3">
+          <p class="text-muted text-sm leading-relaxed mb-4 line-clamp-3">
             {{ localized(project, 'description') }}
           </p>
 
           <div class="flex flex-wrap gap-1.5 mb-5">
-            <span v-for="tag in project.tags" :key="tag" class="px-2 py-1 font-mono text-[10px] uppercase tracking-wide rounded-md bg-white/5 border border-white/10 text-slate-300">
+            <span v-for="tag in project.tags" :key="tag" class="px-2 py-1 font-mono text-[10px] uppercase tracking-wide rounded-md bg-surface border border-line text-ink-2">
               {{ tag }}
             </span>
           </div>
@@ -67,7 +67,7 @@
           <div class="mt-auto flex gap-2">
             <RouterLink
               :to="`/projets/${project.id}`"
-              class="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold transition-colors hover:bg-brand-hover"
+              class="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-brand text-white text-sm font-semibold transition-colors hover:bg-brand-hover"
             >
               <Eye class="h-4 w-4" />
               {{ $t('projects.cta1') }}
@@ -77,7 +77,7 @@
               :href="project.project_url"
               target="_blank"
               rel="noopener noreferrer"
-              class="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-white/10 bg-white/[0.06] transition-colors hover:bg-white/10"
+              class="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-line bg-surface-hover transition-colors hover:bg-surface-hover"
               :title="$t('projects.cta2')"
               :aria-label="`${$t('projects.cta2')} — ${project.name}`"
             >

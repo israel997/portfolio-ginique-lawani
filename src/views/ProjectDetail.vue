@@ -6,14 +6,14 @@
       <!-- Waiting for the live API (project may not be in the bundled snapshot) -->
       <div v-if="!project && !loaded" class="band band-projects">
         <div class="band-inner grid min-h-[50vh] place-items-center">
-          <LoaderCircle class="h-6 w-6 animate-spin text-pink-400" />
+          <LoaderCircle class="h-6 w-6 animate-spin text-accent" />
         </div>
       </div>
 
       <div v-else-if="!project" class="band band-projects">
         <div class="band-inner flex min-h-[50vh] flex-col items-center justify-center text-center">
-          <p class="mb-6 text-slate-400">{{ $t('projectDetail.notFound') }}</p>
-          <RouterLink :to="{ path: '/', hash: '#projects' }" class="inline-flex h-11 items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 text-sm font-semibold hover:bg-white/10">
+          <p class="mb-6 text-muted">{{ $t('projectDetail.notFound') }}</p>
+          <RouterLink :to="{ path: '/', hash: '#projects' }" class="inline-flex h-11 items-center gap-2 rounded-xl border border-line bg-surface px-5 text-sm font-semibold hover:bg-surface-hover">
             <ArrowLeft class="h-4 w-4" /> {{ $t('projectDetail.back') }}
           </RouterLink>
         </div>
@@ -23,7 +23,7 @@
         <!-- Header -->
         <div class="band band-projects pb-10! md:pb-14!">
           <div class="band-inner">
-            <RouterLink :to="{ path: '/', hash: '#projects' }" class="mb-8 inline-flex items-center gap-2 text-sm text-slate-400 transition-colors hover:text-white">
+            <RouterLink :to="{ path: '/', hash: '#projects' }" class="mb-8 inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-ink">
               <ArrowLeft class="h-4 w-4" /> {{ $t('projectDetail.back') }}
             </RouterLink>
 
@@ -31,25 +31,25 @@
               <div>
                 <p class="section-eyebrow mb-3">{{ categoryLabel(project.category) }}</p>
                 <h1 class="mb-4 text-4xl font-bold text-balance md:text-6xl">{{ project.name }}</h1>
-                <p class="text-base leading-relaxed text-slate-300 md:text-lg text-pretty">{{ localized(project, 'description') }}</p>
+                <p class="text-base leading-relaxed text-ink-2 md:text-lg text-pretty">{{ localized(project, 'description') }}</p>
               </div>
               <div class="flex flex-col gap-4 lg:items-end">
                 <div v-if="project.tags?.length" class="flex flex-wrap gap-1.5 lg:justify-end">
-                  <span v-for="tag in project.tags" :key="tag" class="rounded-md border border-white/10 bg-white/5 px-2 py-1 font-mono text-[11px] uppercase tracking-wide text-slate-300">{{ tag }}</span>
+                  <span v-for="tag in project.tags" :key="tag" class="rounded-md border border-line bg-surface px-2 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-2">{{ tag }}</span>
                 </div>
                 <a
                   v-if="project.project_url"
                   :href="project.project_url"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand px-6 text-sm font-semibold transition-colors hover:bg-brand-hover"
+                  class="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand text-white px-6 text-sm font-semibold transition-colors hover:bg-brand-hover"
                 >
                   <Globe class="h-4 w-4" /> {{ $t('projectDetail.visit') }} <ArrowUpRight class="h-4 w-4" />
                 </a>
               </div>
             </div>
 
-            <div class="mt-10 overflow-hidden rounded-2xl border border-white/10 bg-slate-800 md:mt-14 md:rounded-3xl">
+            <div class="mt-10 overflow-hidden rounded-2xl border border-line bg-panel md:mt-14 md:rounded-3xl">
               <img v-if="project.image_url" :src="project.image_url" :alt="project.name" class="aspect-[16/9] w-full object-cover" />
             </div>
           </div>
@@ -61,31 +61,31 @@
             <div class="space-y-12">
               <section v-for="block in textBlocks" :key="block.key">
                 <div class="mb-4 flex items-center gap-3">
-                  <span class="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5">
-                    <component :is="block.icon" class="h-5 w-5 text-pink-400" />
+                  <span class="grid h-10 w-10 place-items-center rounded-xl border border-line bg-surface">
+                    <component :is="block.icon" class="h-5 w-5 text-accent" />
                   </span>
                   <h2 class="text-2xl font-bold md:text-3xl">{{ $t(block.title) }}</h2>
                 </div>
-                <p class="whitespace-pre-line text-base leading-relaxed text-slate-300 md:text-[17px]">{{ block.text }}</p>
+                <p class="whitespace-pre-line text-base leading-relaxed text-ink-2 md:text-[17px]">{{ block.text }}</p>
               </section>
             </div>
 
             <aside class="lg:sticky lg:top-24 lg:self-start">
-              <dl class="space-y-5 rounded-2xl border border-white/10 bg-white/[0.04] p-5 md:p-6">
+              <dl class="space-y-5 rounded-2xl border border-line bg-surface p-5 md:p-6">
                 <div>
-                  <dt class="mb-1 font-mono text-[11px] uppercase tracking-wider text-slate-500">{{ $t('projectDetail.category') }}</dt>
+                  <dt class="mb-1 font-mono text-[11px] uppercase tracking-wider text-subtle">{{ $t('projectDetail.category') }}</dt>
                   <dd class="font-medium">{{ categoryLabel(project.category) }}</dd>
                 </div>
                 <div v-if="project.tags?.length">
-                  <dt class="mb-2 font-mono text-[11px] uppercase tracking-wider text-slate-500">{{ $t('projectDetail.stack') }}</dt>
+                  <dt class="mb-2 font-mono text-[11px] uppercase tracking-wider text-subtle">{{ $t('projectDetail.stack') }}</dt>
                   <dd class="flex flex-wrap gap-1.5">
-                    <span v-for="tag in project.tags" :key="tag" class="rounded-md bg-pink-500/10 px-2 py-1 text-xs text-pink-200">{{ tag }}</span>
+                    <span v-for="tag in project.tags" :key="tag" class="rounded-md bg-accent/10 px-2 py-1 text-xs text-accent">{{ tag }}</span>
                   </dd>
                 </div>
                 <div v-if="project.project_url">
-                  <dt class="mb-1 font-mono text-[11px] uppercase tracking-wider text-slate-500">{{ $t('projectDetail.link') }}</dt>
+                  <dt class="mb-1 font-mono text-[11px] uppercase tracking-wider text-subtle">{{ $t('projectDetail.link') }}</dt>
                   <dd>
-                    <a :href="project.project_url" target="_blank" rel="noopener noreferrer" class="inline-flex max-w-full items-center gap-1.5 text-sky-400 hover:underline">
+                    <a :href="project.project_url" target="_blank" rel="noopener noreferrer" class="inline-flex max-w-full items-center gap-1.5 text-link hover:underline">
                       <span class="truncate">{{ hostOf(project.project_url) }}</span> <ArrowUpRight class="h-4 w-4 shrink-0" />
                     </a>
                   </dd>
@@ -99,8 +99,8 @@
         <div v-if="gallery.length" class="band band-showcase">
           <div class="band-inner">
             <div class="mb-10 flex items-center gap-3 md:mb-14">
-              <span class="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5">
-                <Images class="h-5 w-5 text-pink-400" />
+              <span class="grid h-10 w-10 place-items-center rounded-xl border border-line bg-surface">
+                <Images class="h-5 w-5 text-accent" />
               </span>
               <h2 class="text-2xl font-bold md:text-3xl">{{ $t('projectDetail.gallery') }}</h2>
             </div>
@@ -109,17 +109,17 @@
                 <button
                   type="button"
                   @click="lightbox = i"
-                  :class="['group relative overflow-hidden rounded-2xl border border-white/10 bg-slate-900', i % 2 ? 'md:order-2' : '']"
+                  :class="['group relative overflow-hidden rounded-2xl border border-line bg-panel', i % 2 ? 'md:order-2' : '']"
                   :aria-label="captionOf(item) || `${project.name} ${i + 1}`"
                 >
                   <img :src="item.image_url" :alt="captionOf(item)" loading="lazy" decoding="async" class="w-full transition-transform duration-500 group-hover:scale-[1.02]" />
-                  <span class="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-slate-950/60 opacity-0 backdrop-blur-md transition-opacity group-hover:opacity-100">
+                  <span class="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-slate-950/60 text-white opacity-0 backdrop-blur-md transition-opacity group-hover:opacity-100">
                     <Maximize2 class="h-4 w-4" />
                   </span>
                 </button>
                 <div>
-                  <p class="mb-2 font-mono text-xs text-pink-400">{{ String(i + 1).padStart(2, '0') }}</p>
-                  <p class="whitespace-pre-line text-base leading-relaxed text-slate-300 md:text-lg">{{ captionOf(item) }}</p>
+                  <p class="mb-2 font-mono text-xs text-accent">{{ String(i + 1).padStart(2, '0') }}</p>
+                  <p class="whitespace-pre-line text-base leading-relaxed text-ink-2 md:text-lg">{{ captionOf(item) }}</p>
                 </div>
               </li>
             </ol>
@@ -129,20 +129,20 @@
         <!-- Previous / next -->
         <nav class="band band-timeline py-10!" :aria-label="$t('nav.projects')">
           <div class="band-inner grid gap-3 sm:grid-cols-2">
-            <RouterLink v-if="neighbours.prev" :to="`/projets/${neighbours.prev.id}`" class="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition-colors hover:border-pink-500/40">
-              <ArrowLeft class="h-5 w-5 shrink-0 text-slate-500 transition-transform group-hover:-translate-x-0.5" />
+            <RouterLink v-if="neighbours.prev" :to="`/projets/${neighbours.prev.id}`" class="group flex items-center gap-3 rounded-2xl border border-line bg-surface p-4 transition-colors hover:border-accent/40">
+              <ArrowLeft class="h-5 w-5 shrink-0 text-subtle transition-transform group-hover:-translate-x-0.5" />
               <span class="min-w-0">
-                <span class="block font-mono text-[11px] uppercase tracking-wider text-slate-500">{{ $t('projectDetail.previous') }}</span>
+                <span class="block font-mono text-[11px] uppercase tracking-wider text-subtle">{{ $t('projectDetail.previous') }}</span>
                 <span class="block truncate font-semibold">{{ neighbours.prev.name }}</span>
               </span>
             </RouterLink>
             <span v-else class="hidden sm:block"></span>
-            <RouterLink v-if="neighbours.next" :to="`/projets/${neighbours.next.id}`" class="group flex items-center justify-end gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-right transition-colors hover:border-pink-500/40">
+            <RouterLink v-if="neighbours.next" :to="`/projets/${neighbours.next.id}`" class="group flex items-center justify-end gap-3 rounded-2xl border border-line bg-surface p-4 text-right transition-colors hover:border-accent/40">
               <span class="min-w-0">
-                <span class="block font-mono text-[11px] uppercase tracking-wider text-slate-500">{{ $t('projectDetail.next') }}</span>
+                <span class="block font-mono text-[11px] uppercase tracking-wider text-subtle">{{ $t('projectDetail.next') }}</span>
                 <span class="block truncate font-semibold">{{ neighbours.next.name }}</span>
               </span>
-              <ArrowRight class="h-5 w-5 shrink-0 text-slate-500 transition-transform group-hover:translate-x-0.5" />
+              <ArrowRight class="h-5 w-5 shrink-0 text-subtle transition-transform group-hover:translate-x-0.5" />
             </RouterLink>
           </div>
         </nav>
@@ -155,7 +155,7 @@
     <!-- Lightbox -->
     <Teleport to="body">
       <Transition enter-active-class="transition-opacity duration-200" enter-from-class="opacity-0" leave-active-class="transition-opacity duration-150" leave-to-class="opacity-0">
-        <div v-if="lightbox !== null && gallery[lightbox]" class="fixed inset-0 z-[80] flex flex-col bg-slate-950/95 backdrop-blur-md" role="dialog" aria-modal="true" @click.self="lightbox = null">
+        <div v-if="lightbox !== null && gallery[lightbox]" class="fixed inset-0 z-[80] flex flex-col bg-slate-950/95 text-white backdrop-blur-md" role="dialog" aria-modal="true" @click.self="lightbox = null">
           <div class="flex items-center justify-between px-4 py-3">
             <span class="font-mono text-xs text-slate-400">{{ lightbox + 1 }} / {{ gallery.length }}</span>
             <button type="button" @click="lightbox = null" class="grid h-11 w-11 place-items-center rounded-full hover:bg-white/10" :aria-label="$t('projectDetail.close')">

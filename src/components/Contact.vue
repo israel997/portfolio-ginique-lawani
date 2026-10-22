@@ -1,12 +1,12 @@
 <template>
   <section id="contact" itemscope itemtype="https://schema.org/ContactPage">
-    <div class="max-w-3xl mx-auto p-5 sm:p-8 lg:p-12 rounded-3xl bg-white/[0.04] border border-white/10 backdrop-blur-md">
+    <div class="max-w-3xl mx-auto p-5 sm:p-8 lg:p-12 rounded-3xl bg-surface border border-line backdrop-blur-md">
       <div class="text-center">
-        <p class="section-eyebrow mb-3"><span class="text-white/30">{{ index }}</span><span class="mx-2 text-white/20">/</span>{{ $t('nav.contact') }}</p>
+        <p class="section-eyebrow mb-3"><span class="text-subtle">{{ index }}</span><span class="mx-2 text-line-strong">/</span>{{ $t('nav.contact') }}</p>
         <h2 class="text-3xl md:text-4xl font-bold mb-3 text-balance">
           {{ $t('contact.title') }}
         </h2>
-        <p class="text-sm md:text-base text-slate-400 mb-8">{{ $t('contact.subtitle') }}</p>
+        <p class="text-sm md:text-base text-muted mb-8">{{ $t('contact.subtitle') }}</p>
       </div>
 
       <ul class="grid gap-2.5 sm:grid-cols-2 mb-4">
@@ -18,44 +18,44 @@
             :rel="item.external ? 'noopener noreferrer' : undefined"
             :aria-label="item.label"
             :class="[
-              'flex h-full min-w-0 items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm transition-colors',
-              item.href ? 'hover:border-pink-500/40' : '',
+              'flex h-full min-w-0 items-center gap-3 rounded-xl border border-line bg-surface px-4 py-3 text-sm transition-colors',
+              item.href ? 'hover:border-accent/40' : '',
               contactItems.length % 2 && i === contactItems.length - 1 ? 'sm:justify-center' : ''
             ]"
           >
-            <component :is="item.icon" :class="['h-4 w-4 shrink-0', item.key === 'whatsapp' ? 'text-sky-400' : 'text-pink-400']" />
-            <span :class="['truncate', item.key === 'whatsapp' ? 'font-medium text-sky-400 underline-offset-4 hover:underline' : 'text-slate-300']">{{ item.text }}</span>
+            <component :is="item.icon" :class="['h-4 w-4 shrink-0', item.key === 'whatsapp' ? 'text-link' : 'text-accent']" />
+            <span :class="['truncate', item.key === 'whatsapp' ? 'font-medium text-link underline-offset-4 hover:underline' : 'text-ink-2']">{{ item.text }}</span>
           </component>
         </li>
       </ul>
-      <p v-if="localized(settings, 'availability')" class="mb-8 md:mb-10 flex items-center justify-center gap-2 text-sm text-emerald-400">
-        <span class="h-2 w-2 shrink-0 rounded-full bg-emerald-400"></span>
+      <p v-if="localized(settings, 'availability')" class="mb-8 md:mb-10 flex items-center justify-center gap-2 text-sm text-success">
+        <span class="h-2 w-2 shrink-0 rounded-full bg-success"></span>
         {{ localized(settings, 'availability') }}
       </p>
 
       <form @submit.prevent="handleSubmit" class="space-y-5 mb-8">
         <div class="grid sm:grid-cols-2 gap-5">
           <div>
-            <label for="contact-name" class="block text-sm font-medium mb-2 text-slate-300">{{ $t('contact.form.name') }}</label>
+            <label for="contact-name" class="block text-sm font-medium mb-2 text-ink-2">{{ $t('contact.form.name') }}</label>
             <input id="contact-name" v-model="formData.name" type="text" required autocomplete="name" class="contact-input" :placeholder="$t('contact.form.namePlaceholder')" />
           </div>
           <div>
-            <label for="contact-email" class="block text-sm font-medium mb-2 text-slate-300">{{ $t('contact.form.email') }}</label>
+            <label for="contact-email" class="block text-sm font-medium mb-2 text-ink-2">{{ $t('contact.form.email') }}</label>
             <input id="contact-email" v-model="formData.email" type="email" required autocomplete="email" inputmode="email" class="contact-input" :placeholder="$t('contact.form.emailPlaceholder')" />
           </div>
         </div>
         <div>
-          <label for="contact-message" class="block text-sm font-medium mb-2 text-slate-300">{{ $t('contact.form.message') }}</label>
+          <label for="contact-message" class="block text-sm font-medium mb-2 text-ink-2">{{ $t('contact.form.message') }}</label>
           <textarea id="contact-message" v-model="formData.message" required rows="5" class="contact-input resize-none" :placeholder="$t('contact.form.messagePlaceholder')"></textarea>
         </div>
-        <button type="submit" class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand font-semibold transition-colors hover:bg-brand-hover">
+        <button type="submit" class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand text-white font-semibold transition-colors hover:bg-brand-hover">
           <Send class="h-4 w-4" />
           {{ $t('contact.form.submit') }}
         </button>
       </form>
 
-      <div v-if="socialLinks.length" class="border-t border-white/10 pt-6">
-        <p class="text-center text-slate-400 text-xs mb-4">{{ $t('contact.or') }}</p>
+      <div v-if="socialLinks.length" class="border-t border-line pt-6">
+        <p class="text-center text-muted text-xs mb-4">{{ $t('contact.or') }}</p>
         <div class="flex justify-center gap-3">
           <a
             v-for="social in socialLinks"
@@ -63,7 +63,7 @@
             :href="social.url"
             target="_blank"
             rel="noopener noreferrer"
-            class="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 text-white transition-colors hover:border-pink-500/50 hover:bg-white/10"
+            class="grid h-11 w-11 place-items-center rounded-full border border-line bg-surface text-ink transition-colors hover:border-accent/50 hover:bg-surface-hover"
             :title="social.name"
             :aria-label="social.name"
           >
@@ -125,6 +125,6 @@ const handleSubmit = () => {
 @reference "../style.css";
 
 .contact-input {
-  @apply w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-base text-white placeholder:text-slate-500 transition-colors focus:border-pink-500/60 focus:outline-none focus:ring-2 focus:ring-pink-500/20;
+  @apply w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-ink placeholder:text-subtle transition-colors focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/20;
 }
 </style>

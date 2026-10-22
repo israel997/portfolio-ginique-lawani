@@ -81,7 +81,7 @@ onUnmounted(() => {
 <template>
   <div class="relative min-h-screen overflow-x-clip pb-[calc(4.5rem+env(safe-area-inset-bottom))] lg:pb-0">
     <!-- Barre de progression -->
-    <div class="fixed top-0 left-0 w-full h-0.5 bg-white/5 z-[60]">
+    <div class="fixed top-0 left-0 w-full h-0.5 bg-surface z-[60]">
       <div class="h-full bg-blue-500" :style="{ width: scrollProgress + '%' }"></div>
     </div>
 

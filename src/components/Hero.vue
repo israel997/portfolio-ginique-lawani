@@ -1,6 +1,6 @@
 <template>
   <header id="hero" class="text-center flex flex-col items-center relative md:min-h-[70vh] md:justify-center" role="banner">
-    <div class="inline-flex max-w-full items-center px-3 py-1.5 sm:px-4 sm:py-2 mb-5 sm:mb-8 border border-white/10 rounded-full bg-white/5 text-brand-text font-mono text-[11px] sm:text-sm md:text-base font-medium uppercase tracking-wide overflow-hidden">
+    <div class="inline-flex max-w-full items-center px-3 py-1.5 sm:px-4 sm:py-2 mb-5 sm:mb-8 border border-line rounded-full bg-surface text-brand-text font-mono text-[11px] sm:text-sm md:text-base font-medium uppercase tracking-wide overflow-hidden">
       <span :class="['typewriter', { 'erasing': isErasing }]">{{ displayText }}</span>
     </div>
 
@@ -8,22 +8,22 @@
       <span itemprop="name">{{ nameFirstPart }} <span class="text-brand-text">{{ nameLastPart }}</span></span>
     </h1>
 
-    <p class="text-base md:text-lg text-slate-400 max-w-2xl mb-7 sm:mb-10 leading-relaxed text-pretty">
-      <span class="text-white font-semibold">{{ localized(settings, 'hero_intro') }}</span>, {{ localized(settings, 'hero_intro2') }}
+    <p class="text-base md:text-lg text-muted max-w-2xl mb-7 sm:mb-10 leading-relaxed text-pretty">
+      <span class="text-ink font-semibold">{{ localized(settings, 'hero_intro') }}</span>, {{ localized(settings, 'hero_intro2') }}
     </p>
 
     <div class="grid w-full max-w-sm grid-cols-2 gap-2.5 sm:flex sm:w-auto sm:max-w-none sm:gap-3 mb-10 md:mb-12">
-      <a href="#projects" class="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-brand px-4 text-sm font-semibold transition-colors hover:bg-brand-hover sm:h-12 sm:px-6">
+      <a href="#projects" class="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-brand text-white px-4 text-sm font-semibold transition-colors hover:bg-brand-hover sm:h-12 sm:px-6">
         {{ $t('hero.cta1') }}
         <ArrowRight class="hidden h-4 w-4 sm:block" />
       </a>
-      <a v-if="settings.cv_url" :href="settings.cv_url" target="_blank" rel="noopener" class="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-4 text-sm font-semibold transition-colors hover:bg-white/10 sm:h-12 sm:px-6">
+      <a v-if="settings.cv_url" :href="settings.cv_url" target="_blank" rel="noopener" class="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-line-strong bg-surface px-4 text-sm font-semibold transition-colors hover:bg-surface-hover sm:h-12 sm:px-6">
         <FileText class="h-4 w-4" />
         {{ $t('hero.cta3') }}
       </a>
     </div>
 
-    <img v-if="settings.hero_badge_image_url" :src="settings.hero_badge_image_url" alt="NASA Space Apps Challenge" loading="lazy" decoding="async" class="w-full max-w-5xl rounded-xl md:rounded-2xl shadow-2xl border border-white/10 md:transition-transform md:duration-300 md:hover:scale-[1.02]" />
+    <img v-if="settings.hero_badge_image_url" :src="settings.hero_badge_image_url" alt="NASA Space Apps Challenge" loading="lazy" decoding="async" class="w-full max-w-5xl rounded-xl md:rounded-2xl shadow-2xl border border-line md:transition-transform md:duration-300 md:hover:scale-[1.02]" />
   </header>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="fixed inset-x-0 bottom-0 z-50 lg:hidden border-t border-white/10 bg-[#0f172a]/90 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]"
+    class="fixed inset-x-0 bottom-0 z-50 lg:hidden border-t border-line bg-nav backdrop-blur-xl pb-[env(safe-area-inset-bottom)]"
     aria-label="Navigation mobile"
   >
     <ul class="grid grid-cols-5">
@@ -10,7 +10,7 @@
           :aria-current="onHome && activeSection === item.id ? 'true' : undefined"
           :class="[
             'flex h-16 flex-col items-center justify-center gap-1 transition-colors active:scale-95',
-            onHome && activeSection === item.id ? 'text-pink-400' : 'text-slate-400'
+            onHome && activeSection === item.id ? 'text-accent' : 'text-muted'
           ]"
         >
           <component :is="item.icon" class="h-5 w-5" :stroke-width="onHome && activeSection === item.id ? 2.25 : 1.75" />

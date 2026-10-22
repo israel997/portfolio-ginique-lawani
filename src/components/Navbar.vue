@@ -1,8 +1,8 @@
 <template>
-  <header class="sticky top-0 z-50 border-b border-white/5 bg-[#0f172a]/75 backdrop-blur-xl supports-[backdrop-filter]:bg-[#0f172a]/60">
+  <header class="sticky top-0 z-50 border-b border-line bg-nav backdrop-blur-xl supports-[backdrop-filter]:bg-nav">
     <nav class="mx-auto flex h-14 md:h-16 max-w-[1180px] items-center justify-between gap-4 px-4 md:px-6" aria-label="Navigation principale">
       <RouterLink :to="{ path: '/', hash: '#hero' }" class="flex items-center gap-2.5 min-w-0" :aria-label="settings.full_name">
-        <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-brand font-display text-sm font-bold">
+        <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-brand text-white font-display text-sm font-bold">
           {{ initials }}
         </span>
         <span class="truncate font-display text-base md:text-lg font-semibold tracking-tight">{{ shortName }}</span>
@@ -14,15 +14,16 @@
             :to="{ path: '/', hash: `#${link.id}` }"
             :class="[
               'whitespace-nowrap rounded-full px-3 xl:px-3.5 py-2 transition-colors',
-              onHome && activeSection === link.id ? 'bg-white/10 text-white' : 'text-slate-400 hover:text-white'
+              onHome && activeSection === link.id ? 'bg-surface-hover text-ink' : 'text-muted hover:text-ink'
             ]"
           >{{ $t(link.label) }}</RouterLink>
         </li>
       </ul>
 
       <div class="flex items-center gap-2 md:gap-3">
+        <ThemeToggle />
         <LanguageSwitcher />
-        <RouterLink :to="{ path: '/', hash: '#contact' }" class="hidden md:inline-flex items-center rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-200">
+        <RouterLink :to="{ path: '/', hash: '#contact' }" class="hidden md:inline-flex items-center rounded-full bg-ink px-4 py-2 text-sm font-semibold text-page transition hover:bg-ink-2">
           {{ $t('nav.contact') }}
         </RouterLink>
       </div>
@@ -34,6 +35,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import LanguageSwitcher from './LanguageSwitcher.vue'
+import ThemeToggle from './ThemeToggle.vue'
 import { useContent } from '../composables/useContent'
 import { useActiveSection } from '../composables/useActiveSection'
 

@@ -24,9 +24,9 @@
           :aria-label="`${i + 1} / ${items.length}`"
           aria-roledescription="slide"
         >
-          <figure class="h-full overflow-hidden rounded-2xl border border-white/10 bg-slate-900/60">
+          <figure class="h-full overflow-hidden rounded-2xl border border-line bg-surface">
             <!-- Photos come in every orientation: show them whole, letterboxed -->
-            <div class="relative aspect-[4/3] overflow-hidden bg-[#0a0e1a]">
+            <div class="relative aspect-[4/3] overflow-hidden bg-panel-deep">
               <img
                 :src="item.image_url"
                 :alt="localized(item, 'title')"
@@ -40,7 +40,7 @@
             </div>
             <figcaption class="p-5 md:p-6">
               <h3 v-if="localized(item, 'title')" class="text-lg md:text-xl font-semibold mb-2">{{ localized(item, 'title') }}</h3>
-              <p class="text-sm md:text-[15px] leading-relaxed text-slate-400">{{ localized(item, 'description') }}</p>
+              <p class="text-sm md:text-[15px] leading-relaxed text-muted">{{ localized(item, 'description') }}</p>
             </figcaption>
           </figure>
         </li>
@@ -58,14 +58,14 @@
             @click="interacted(); goTo(i)"
             class="grid h-6 place-items-center px-0.5"
           >
-            <span :class="['block h-1.5 rounded-full transition-all duration-300', active === i ? 'w-6 bg-brand-text' : 'w-1.5 bg-white/25']"></span>
+            <span :class="['block h-1.5 rounded-full transition-all duration-300', active === i ? 'w-6 bg-brand-text' : 'w-1.5 bg-line-strong']"></span>
           </button>
         </div>
         <div class="hidden gap-2 md:flex">
-          <button type="button" @click="interacted(); goTo(active - 1)" :disabled="active === 0" class="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 transition-colors hover:bg-white/10 disabled:opacity-30" aria-label="Précédent">
+          <button type="button" @click="interacted(); goTo(active - 1)" :disabled="active === 0" class="grid h-11 w-11 place-items-center rounded-full border border-line bg-surface transition-colors hover:bg-surface-hover disabled:opacity-30" aria-label="Précédent">
             <ChevronLeft class="h-5 w-5" />
           </button>
-          <button type="button" @click="interacted(); goTo(active + 1)" :disabled="active >= items.length - 1" class="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 transition-colors hover:bg-white/10 disabled:opacity-30" aria-label="Suivant">
+          <button type="button" @click="interacted(); goTo(active + 1)" :disabled="active >= items.length - 1" class="grid h-11 w-11 place-items-center rounded-full border border-line bg-surface transition-colors hover:bg-surface-hover disabled:opacity-30" aria-label="Suivant">
             <ChevronRight class="h-5 w-5" />
           </button>
         </div>

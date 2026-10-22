@@ -2,16 +2,16 @@
   <section id="skills">
     <SectionHeading :index="index" :eyebrow="$t('nav.skills')" :title="$t('skills.title')" />
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-      <article v-for="skill in skillsData" :key="skill.id" class="group relative p-5 md:p-6 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-md transition-all duration-300 hover:border-pink-500/40 hover:bg-white/[0.06] md:hover:-translate-y-1">
+      <article v-for="skill in skillsData" :key="skill.id" class="group relative p-5 md:p-6 rounded-2xl bg-surface border border-line backdrop-blur-md transition-all duration-300 hover:border-accent/40 hover:bg-surface-hover md:hover:-translate-y-1">
         <div class="flex items-center gap-3 mb-4">
           <div class="w-11 h-11 shrink-0 rounded-xl flex items-center justify-center bg-brand/15 border border-brand/30 text-brand-text">
             <Icon :name="skill.icon_key" class="w-5 h-5" />
           </div>
           <h3 class="text-lg font-semibold">{{ localized(skill, 'title') }}</h3>
         </div>
-        <p class="text-slate-400 text-sm leading-relaxed">{{ localized(skill, 'description') }}</p>
+        <p class="text-muted text-sm leading-relaxed">{{ localized(skill, 'description') }}</p>
         <div class="mt-4 flex flex-wrap gap-1.5">
-          <span v-for="tech in skill.techs" :key="tech" class="px-2 py-1 font-mono text-[10px] uppercase tracking-wide rounded-md bg-white/5 border border-white/10 text-slate-300">
+          <span v-for="tech in skill.techs" :key="tech" class="px-2 py-1 font-mono text-[10px] uppercase tracking-wide rounded-md bg-surface border border-line text-ink-2">
             {{ tech }}
           </span>
         </div>
@@ -105,7 +105,7 @@ onUnmounted(() => {
 
 .logo-name {
   font-size: 0.75rem;
-  color: rgb(148, 163, 184);
+  color: var(--muted);
   font-weight: 500;
   white-space: nowrap;
   transition: all 0.3s ease;
@@ -117,7 +117,7 @@ onUnmounted(() => {
 }
 
 .logo-item:hover .logo-name {
-  color: rgb(236, 72, 153);
+  color: var(--accent);
 }
 
 @keyframes scroll {

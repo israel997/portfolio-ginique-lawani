@@ -50,11 +50,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { LockKeyhole, Eye, EyeOff, CircleAlert, LoaderCircle } from 'lucide-vue-next';
 import { useAdminAuth } from '../composables/useAdminAuth';
 import FormField from '../components/FormField.vue';
+import { useTheme } from '../../composables/useTheme';
 
 const email = ref('');
 const password = ref('');
@@ -64,6 +65,10 @@ const loading = ref(false);
 const route = useRoute();
 const router = useRouter();
 const { login } = useAdminAuth();
+
+const { forceDark, releaseDark } = useTheme();
+onMounted(forceDark);
+onUnmounted(releaseDark);
 
 async function handleSubmit() {
   loading.value = true;
