@@ -25,7 +25,7 @@
       @toggle="toggleVisibility(item, $event)"
     >
       <template #thumb>
-        <span :class="`grid h-11 w-11 place-items-center rounded-xl border border-white/10 ${item.icon_bg_class}`">
+        <span class="grid h-11 w-11 place-items-center rounded-xl border border-brand/30 bg-brand/15 text-brand-text">
           <Icon :name="item.icon_key" class="h-5 w-5" />
         </span>
       </template>
@@ -55,23 +55,6 @@
             ]"
           >
             <Icon :name="key" class="h-5 w-5" />
-          </button>
-        </div>
-      </div>
-
-      <div>
-        <span class="admin-label">Couleur</span>
-        <div class="flex flex-wrap gap-2" role="radiogroup">
-          <button
-            v-for="color in COLORS"
-            :key="color"
-            type="button"
-            role="radio"
-            :aria-checked="form.icon_bg_class === color"
-            @click="form.icon_bg_class = color"
-            :class="[`grid h-11 w-11 place-items-center rounded-xl border-2 ${color}`, form.icon_bg_class === color ? 'border-white' : 'border-transparent']"
-          >
-            <Icon :name="form.icon_key" class="h-5 w-5" />
           </button>
         </div>
       </div>
@@ -114,14 +97,6 @@ import FormFooter from '../components/FormFooter.vue';
 
 // Keys understood by components/icons/Icon.vue
 const ICONS = ['frontend', 'backend', 'database', 'methodologies', 'tools', 'ai', 'mobile', 'design', 'cloud', 'security', 'web', 'email'];
-const COLORS = [
-  'bg-gradient-to-br from-pink-500/20 to-rose-500/20',
-  'bg-gradient-to-br from-violet-500/20 to-indigo-500/20',
-  'bg-gradient-to-br from-blue-500/20 to-cyan-500/20',
-  'bg-gradient-to-br from-emerald-500/20 to-teal-500/20',
-  'bg-gradient-to-br from-amber-500/20 to-yellow-500/20',
-  'bg-gradient-to-br from-rose-500/20 to-orange-500/20'
-];
 
 const {
   items, loading, pendingDelete,
@@ -129,8 +104,8 @@ const {
   openCreate, openEdit, requestClose, discard, submit,
   toggleVisibility, move, handleDelete
 } = useCrudList('skills', {
-  fields: ['title_fr', 'title_en', 'description_fr', 'description_en', 'icon_key', 'icon_bg_class', 'techs'],
-  defaults: () => ({ title_fr: '', title_en: '', description_fr: '', description_en: '', icon_key: 'frontend', icon_bg_class: COLORS[0], techs: [] }),
+  fields: ['title_fr', 'title_en', 'description_fr', 'description_en', 'icon_key', 'techs'],
+  defaults: () => ({ title_fr: '', title_en: '', description_fr: '', description_en: '', icon_key: 'frontend', techs: [] }),
   validate: (f) => (!f.title_fr.trim() ? 'Le titre (FR) est obligatoire.' : ''),
   clean: (p) => ({ ...p, title_en: p.title_en || p.title_fr, description_en: p.description_en || p.description_fr }),
   labels: { created: 'Compétence ajoutée', saved: 'Compétence enregistrée', deleted: 'Compétence supprimée' }

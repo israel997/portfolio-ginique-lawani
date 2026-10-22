@@ -30,8 +30,11 @@ const router = createRouter({
     if (savedPosition) return savedPosition;
     // Coming back from a project page, the home sections need a frame to render
     if (to.hash) {
+      // Router scrolling ignores CSS scroll-margin: offset for the sticky navbar
+      const top = window.innerWidth >= 768 ? 80 : 68;
+      const sameRoute = from.name === to.name;
       return new Promise((resolve) => {
-        setTimeout(() => resolve({ el: to.hash, behavior: from.name === to.name ? 'smooth' : 'auto' }), from.name === to.name ? 0 : 60);
+        setTimeout(() => resolve({ el: to.hash, top, behavior: sameRoute ? 'smooth' : 'auto' }), sameRoute ? 0 : 60);
       });
     }
     return { top: 0 };

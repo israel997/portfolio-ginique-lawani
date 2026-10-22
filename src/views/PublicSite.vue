@@ -89,10 +89,6 @@ onUnmounted(() => {
 
     <main>
       <div class="band band-hero">
-        <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-          <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[520px] h-[520px] md:w-[700px] md:h-[700px] bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 rounded-full filter blur-[110px] opacity-20 animate-blob"></div>
-          <div class="hidden md:block absolute top-1/3 -right-24 w-96 h-96 bg-blue-500 rounded-full filter blur-[90px] opacity-15 animate-blob delay-2000"></div>
-        </div>
         <div class="band-inner"><Hero /></div>
       </div>
 
@@ -116,7 +112,7 @@ onUnmounted(() => {
       <button
         v-show="showScrollTop"
         @click="scrollToTop"
-        class="fixed right-4 bottom-[calc(5.25rem+env(safe-area-inset-bottom))] lg:bottom-8 lg:right-8 w-11 h-11 md:w-12 md:h-12 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg shadow-purple-900/40 hover:scale-105 transition-transform flex items-center justify-center z-50"
+        class="fixed right-4 bottom-[calc(5.25rem+env(safe-area-inset-bottom))] lg:bottom-8 lg:right-8 w-11 h-11 md:w-12 md:h-12 rounded-full bg-brand text-white shadow-lg shadow-black/30 hover:bg-brand-hover transition-colors flex items-center justify-center z-50"
         :aria-label="t('contact.scrollTop')"
         :title="t('contact.scrollTop')"
       >

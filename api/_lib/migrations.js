@@ -38,6 +38,26 @@ export const MIGRATIONS = [
          updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
        )`
     ]
+  },
+  {
+    version: 2,
+    statements: [
+      // Call number (distinct from the WhatsApp one set in v1)
+      `UPDATE admin_settings SET phone = '+229 01 61 77 71 86' WHERE phone IS NOT DISTINCT FROM whatsapp`,
+
+      // Placeholder carousel from the photos in public/images/showcase,
+      // only if nothing was added from the admin yet. Texts are meant to be
+      // replaced in Admin → Savoir-faire.
+      `INSERT INTO showcase_items (image_url, title_fr, title_en, description_fr, description_en, sort_order)
+       SELECT '/images/showcase/' || n || '.jpg',
+              'Titre à venir ' || lpad(n::text, 2, '0'),
+              'Title coming soon ' || lpad(n::text, 2, '0'),
+              'Description provisoire : expliquez ici ce que montre cette image et le savoir-faire qu''elle illustre.',
+              'Placeholder description: explain what this image shows and the expertise it illustrates.',
+              n - 1
+       FROM generate_series(1, 9) AS n
+       WHERE NOT EXISTS (SELECT 1 FROM showcase_items)`
+    ]
   }
 ];
 

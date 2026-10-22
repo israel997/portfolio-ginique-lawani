@@ -42,14 +42,14 @@
                   :href="project.project_url"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 px-6 text-sm font-semibold shadow-lg shadow-purple-900/30 transition hover:-translate-y-0.5"
+                  class="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand px-6 text-sm font-semibold transition-colors hover:bg-brand-hover"
                 >
                   <Globe class="h-4 w-4" /> {{ $t('projectDetail.visit') }} <ArrowUpRight class="h-4 w-4" />
                 </a>
               </div>
             </div>
 
-            <div :class="`mt-10 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br md:mt-14 md:rounded-3xl ${project.gradient_class}`">
+            <div class="mt-10 overflow-hidden rounded-2xl border border-white/10 bg-slate-800 md:mt-14 md:rounded-3xl">
               <img v-if="project.image_url" :src="project.image_url" :alt="project.name" class="aspect-[16/9] w-full object-cover" />
             </div>
           </div>

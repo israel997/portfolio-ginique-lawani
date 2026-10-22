@@ -26,7 +26,7 @@
       @toggle="toggleVisibility(item, $event)"
     >
       <template #thumb>
-        <span :class="`relative block h-16 w-20 overflow-hidden rounded-xl bg-gradient-to-br sm:h-20 sm:w-28 md:w-36 ${item.gradient_class}`">
+        <span class="relative block h-16 w-20 overflow-hidden rounded-xl bg-slate-800 sm:h-20 sm:w-28 md:w-36">
           <img v-if="item.image_url" :src="item.image_url" alt="" loading="lazy" class="h-full w-full object-cover" />
           <ImageOff v-else class="absolute inset-0 m-auto h-5 w-5 text-white/60" />
         </span>

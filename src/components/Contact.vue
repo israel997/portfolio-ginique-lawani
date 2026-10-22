@@ -3,7 +3,7 @@
     <div class="max-w-3xl mx-auto p-5 sm:p-8 lg:p-12 rounded-3xl bg-white/[0.04] border border-white/10 backdrop-blur-md">
       <div class="text-center">
         <p class="section-eyebrow mb-3"><span class="text-white/30">{{ index }}</span><span class="mx-2 text-white/20">/</span>{{ $t('nav.contact') }}</p>
-        <h2 class="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-indigo-400 text-balance">
+        <h2 class="text-3xl md:text-4xl font-bold mb-3 text-balance">
           {{ $t('contact.title') }}
         </h2>
         <p class="text-sm md:text-base text-slate-400 mb-8">{{ $t('contact.subtitle') }}</p>
@@ -29,7 +29,7 @@
         </li>
       </ul>
       <p v-if="localized(settings, 'availability')" class="mb-8 md:mb-10 flex items-center justify-center gap-2 text-sm text-emerald-400">
-        <span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-400"></span></span>
+        <span class="h-2 w-2 shrink-0 rounded-full bg-emerald-400"></span>
         {{ localized(settings, 'availability') }}
       </p>
 
@@ -48,7 +48,7 @@
           <label for="contact-message" class="block text-sm font-medium mb-2 text-slate-300">{{ $t('contact.form.message') }}</label>
           <textarea id="contact-message" v-model="formData.message" required rows="5" class="contact-input resize-none" :placeholder="$t('contact.form.messagePlaceholder')"></textarea>
         </div>
-        <button type="submit" class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 font-semibold shadow-lg shadow-purple-900/30 transition hover:-translate-y-0.5 hover:shadow-purple-500/40">
+        <button type="submit" class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand font-semibold transition-colors hover:bg-brand-hover">
           <Send class="h-4 w-4" />
           {{ $t('contact.form.submit') }}
         </button>

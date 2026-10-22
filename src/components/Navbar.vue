@@ -2,7 +2,7 @@
   <header class="sticky top-0 z-50 border-b border-white/5 bg-[#0f172a]/75 backdrop-blur-xl supports-[backdrop-filter]:bg-[#0f172a]/60">
     <nav class="mx-auto flex h-14 md:h-16 max-w-[1180px] items-center justify-between gap-4 px-4 md:px-6" aria-label="Navigation principale">
       <RouterLink :to="{ path: '/', hash: '#hero' }" class="flex items-center gap-2.5 min-w-0" :aria-label="settings.full_name">
-        <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-pink-500 to-indigo-500 font-display text-sm font-bold">
+        <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-brand font-display text-sm font-bold">
           {{ initials }}
         </span>
         <span class="truncate font-display text-base md:text-lg font-semibold tracking-tight">{{ shortName }}</span>

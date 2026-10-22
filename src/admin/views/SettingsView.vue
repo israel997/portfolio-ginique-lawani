@@ -70,7 +70,7 @@
         <button
           type="submit"
           :disabled="saving"
-          class="px-6 py-3 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 font-bold hover:shadow-lg hover:shadow-purple-500/40 transition-all disabled:opacity-50"
+          class="admin-btn-primary h-12 px-6"
         >
           {{ saving ? 'Enregistrement...' : 'Enregistrer' }}
         </button>

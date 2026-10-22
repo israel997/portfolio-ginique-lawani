@@ -24,17 +24,17 @@
           :aria-label="`${i + 1} / ${items.length}`"
           aria-roledescription="slide"
         >
-          <figure class="group h-full overflow-hidden rounded-2xl border border-white/10 bg-slate-900/60">
-            <div class="relative aspect-[16/10] overflow-hidden bg-slate-800">
+          <figure class="h-full overflow-hidden rounded-2xl border border-white/10 bg-slate-900/60">
+            <!-- Photos come in every orientation: show them whole, letterboxed -->
+            <div class="relative aspect-[4/3] overflow-hidden bg-[#0a0e1a]">
               <img
                 :src="item.image_url"
                 :alt="localized(item, 'title')"
                 :loading="i < 2 ? 'eager' : 'lazy'"
                 decoding="async"
-                class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                class="h-full w-full object-contain"
               />
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></div>
-              <span class="absolute left-3 top-3 rounded-md bg-slate-950/60 px-2 py-1 font-mono text-[10px] tracking-wider text-white/80 backdrop-blur-md">
+              <span class="absolute left-3 top-3 rounded-md bg-slate-950/70 px-2 py-1 font-mono text-[10px] tracking-wider text-white/80">
                 {{ String(i + 1).padStart(2, '0') }} / {{ String(items.length).padStart(2, '0') }}
               </span>
             </div>
@@ -58,7 +58,7 @@
             @click="interacted(); goTo(i)"
             class="grid h-6 place-items-center px-0.5"
           >
-            <span :class="['block h-1.5 rounded-full transition-all duration-300', active === i ? 'w-6 bg-gradient-to-r from-pink-500 to-purple-500' : 'w-1.5 bg-white/25']"></span>
+            <span :class="['block h-1.5 rounded-full transition-all duration-300', active === i ? 'w-6 bg-brand-text' : 'w-1.5 bg-white/25']"></span>
           </button>
         </div>
         <div class="hidden gap-2 md:flex">

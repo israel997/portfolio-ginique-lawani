@@ -4,8 +4,8 @@
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
       <article v-for="skill in skillsData" :key="skill.id" class="group relative p-5 md:p-6 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-md transition-all duration-300 hover:border-pink-500/40 hover:bg-white/[0.06] md:hover:-translate-y-1">
         <div class="flex items-center gap-3 mb-4">
-          <div :class="`w-11 h-11 shrink-0 rounded-xl flex items-center justify-center ${skill.icon_bg_class} border border-white/10`">
-            <Icon :name="skill.icon_key" class="w-5 h-5 text-white" />
+          <div class="w-11 h-11 shrink-0 rounded-xl flex items-center justify-center bg-brand/15 border border-brand/30 text-brand-text">
+            <Icon :name="skill.icon_key" class="w-5 h-5" />
           </div>
           <h3 class="text-lg font-semibold">{{ localized(skill, 'title') }}</h3>
         </div>

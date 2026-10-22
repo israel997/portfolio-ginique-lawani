@@ -3,10 +3,10 @@
     <SectionHeading :index="index" :eyebrow="$t('nav.timeline')" :title="$t('timeline.title')" />
 
     <ol class="relative max-w-4xl mx-auto">
-      <div class="absolute left-[7px] md:left-1/2 top-2 bottom-0 w-px bg-gradient-to-b from-pink-500 via-purple-500 to-transparent md:-translate-x-1/2" aria-hidden="true"></div>
+      <div class="absolute left-[7px] md:left-1/2 top-2 bottom-0 w-px bg-white/15 md:-translate-x-1/2" aria-hidden="true"></div>
 
       <li v-for="(item, index) in timelineItems" :key="item.id" class="relative pl-9 md:pl-0 mb-8 md:mb-12 md:flex md:justify-between items-center group">
-        <div class="absolute left-0 top-6 md:top-1/2 md:left-1/2 w-[15px] h-[15px] bg-slate-900 border-2 border-pink-500 rounded-full md:-translate-x-1/2 md:-translate-y-1/2 z-20 transition-transform duration-300 group-hover:scale-125 shadow-[0_0_10px_rgba(236,72,153,0.7)]" aria-hidden="true"></div>
+        <div class="absolute left-0 top-6 md:top-1/2 md:left-1/2 w-[15px] h-[15px] bg-slate-900 border-2 border-brand-text rounded-full md:-translate-x-1/2 md:-translate-y-1/2 z-20" aria-hidden="true"></div>
 
         <div :class="[
           'md:w-[45%] p-5 md:p-6 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-md transition-all duration-300 hover:border-pink-500/30 md:hover:-translate-y-1',

@@ -14,7 +14,7 @@
           :class="[
             'h-10 rounded-full px-4 text-sm font-medium transition-colors',
             activeFilter === filter.key
-              ? 'bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg shadow-purple-900/30'
+              ? 'bg-brand text-white'
               : 'border border-white/10 bg-white/5 text-slate-300 hover:bg-white/10'
           ]"
         >
@@ -27,11 +27,11 @@
       <article
         v-for="project in filteredProjects"
         :key="project.id"
-        class="group flex flex-col rounded-2xl overflow-hidden bg-slate-900/70 border border-white/[0.08] transition-all duration-300 hover:border-pink-500/40 hover:shadow-2xl hover:shadow-purple-950/40"
+        class="group flex flex-col rounded-2xl overflow-hidden bg-slate-900/70 border border-white/[0.08] transition-all duration-300 hover:border-white/20"
       >
         <RouterLink
           :to="`/projets/${project.id}`"
-          :class="`relative block aspect-[16/10] overflow-hidden bg-gradient-to-br ${project.gradient_class}`"
+          class="relative block aspect-[16/10] overflow-hidden bg-slate-800"
           :aria-label="`${$t('projects.cta1')} — ${project.name}`"
         >
           <img
@@ -67,7 +67,7 @@
           <div class="mt-auto flex gap-2">
             <RouterLink
               :to="`/projets/${project.id}`"
-              class="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 text-sm font-semibold shadow-lg shadow-purple-900/30 transition hover:from-pink-500 hover:to-purple-500"
+              class="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold transition-colors hover:bg-brand-hover"
             >
               <Eye class="h-4 w-4" />
               {{ $t('projects.cta1') }}

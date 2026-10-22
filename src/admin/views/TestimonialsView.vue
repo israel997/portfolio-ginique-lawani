@@ -26,7 +26,7 @@
       @toggle="toggleVisibility(item, $event)"
     >
       <template #thumb>
-        <span :class="`grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br font-display text-sm font-semibold ${item.avatar_gradient_class}`">{{ item.initials }}</span>
+        <span class="grid h-11 w-11 place-items-center rounded-full bg-brand/25 font-display text-sm font-semibold text-brand-text">{{ item.initials }}</span>
       </template>
     </AdminListRow>
   </AdminCollection>
@@ -34,27 +34,12 @@
   <SlideOver :open="!!form" :title="form?.id ? 'Modifier le témoignage' : 'Nouveau témoignage'" @close="requestClose">
     <form v-if="form" id="testimonial-form" @submit.prevent="submit" class="space-y-6">
       <div class="flex items-end gap-3">
-        <span :class="`grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gradient-to-br font-display font-semibold ${form.avatar_gradient_class}`">{{ form.initials || autoInitials || '?' }}</span>
+        <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-brand/25 font-display font-semibold text-brand-text">{{ form.initials || autoInitials || '?' }}</span>
         <div class="flex-1"><FormField v-model="form.name" label="Nom" placeholder="Prénom NOM" /></div>
       </div>
       <FormField v-model="form.initials" label="Initiales" :placeholder="autoInitials || 'AB'" hint="Laissez vide pour les déduire du nom." />
       <BilingualField v-model:fr="form.role_fr" v-model:en="form.role_en" label="Rôle / entreprise" placeholder="Ex. CTO, Société X" />
       <BilingualField v-model:fr="form.quote_fr" v-model:en="form.quote_en" label="Citation" multiline :rows="5" />
-
-      <div>
-        <span class="admin-label">Couleur de l'avatar</span>
-        <div class="flex flex-wrap gap-2" role="radiogroup">
-          <button
-            v-for="color in AVATAR_COLORS"
-            :key="color"
-            type="button"
-            role="radio"
-            :aria-checked="form.avatar_gradient_class === color"
-            @click="form.avatar_gradient_class = color"
-            :class="[`h-10 w-10 rounded-full border-2 bg-gradient-to-br ${color}`, form.avatar_gradient_class === color ? 'border-white' : 'border-transparent']"
-          ></button>
-        </div>
-      </div>
 
       <div class="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3">
         <p class="text-sm font-medium">Visible sur le site</p>
@@ -92,15 +77,6 @@ import SlideOver from '../components/SlideOver.vue';
 import ToggleSwitch from '../components/ToggleSwitch.vue';
 import FormFooter from '../components/FormFooter.vue';
 
-const AVATAR_COLORS = [
-  'from-pink-500 to-rose-500',
-  'from-purple-500 to-indigo-500',
-  'from-indigo-500 to-blue-500',
-  'from-cyan-500 to-teal-500',
-  'from-emerald-500 to-lime-500',
-  'from-amber-500 to-orange-500'
-];
-
 function initialsOf(name) {
   const parts = (name || '').trim().split(/\s+/).filter(Boolean);
   if (!parts.length) return '';
@@ -113,8 +89,8 @@ const {
   openCreate, openEdit, requestClose, discard, submit,
   toggleVisibility, move, handleDelete
 } = useCrudList('testimonials', {
-  fields: ['name', 'role_fr', 'role_en', 'initials', 'avatar_gradient_class', 'quote_fr', 'quote_en'],
-  defaults: () => ({ name: '', role_fr: '', role_en: '', initials: '', avatar_gradient_class: AVATAR_COLORS[0], quote_fr: '', quote_en: '' }),
+  fields: ['name', 'role_fr', 'role_en', 'initials', 'quote_fr', 'quote_en'],
+  defaults: () => ({ name: '', role_fr: '', role_en: '', initials: '', quote_fr: '', quote_en: '' }),
   validate: (f) => {
     if (!f.name.trim()) return 'Le nom est obligatoire.';
     if (!f.role_fr.trim() || !f.quote_fr.trim()) return 'Le rôle et la citation (FR) sont obligatoires.';

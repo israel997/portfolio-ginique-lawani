@@ -4,7 +4,7 @@
       <div class="flex h-full flex-col">
         <div class="flex items-center justify-between gap-3 px-4 py-3 md:px-5 md:py-6">
           <div class="flex items-center gap-2.5">
-            <span class="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-pink-500 to-indigo-500">
+            <span class="grid h-8 w-8 place-items-center rounded-lg bg-brand">
               <LayoutDashboard class="h-4 w-4" />
             </span>
             <div class="leading-tight">

@@ -12,7 +12,7 @@
           « {{ localized(testimonial, 'quote') }} »
         </blockquote>
         <figcaption class="flex items-center gap-3 border-t border-white/10 pt-4">
-          <div :class="`w-10 h-10 md:w-11 md:h-11 shrink-0 rounded-full bg-gradient-to-br ${testimonial.avatar_gradient_class} flex items-center justify-center font-display font-semibold`">
+          <div class="w-10 h-10 md:w-11 md:h-11 shrink-0 rounded-full bg-brand/25 text-brand-text flex items-center justify-center font-display font-semibold">
             {{ testimonial.initials }}
           </div>
           <div class="min-w-0">

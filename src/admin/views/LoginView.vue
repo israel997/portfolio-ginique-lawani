@@ -1,10 +1,9 @@
 <template>
   <div class="relative flex min-h-svh items-center justify-center overflow-hidden bg-slate-950 px-4 text-white">
-    <div class="pointer-events-none absolute -top-40 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 opacity-20 blur-[120px]" aria-hidden="true"></div>
 
     <form @submit.prevent="handleSubmit" class="relative w-full max-w-sm rounded-2xl border border-white/10 bg-white/[0.04] p-6 shadow-2xl backdrop-blur-xl sm:p-8">
       <div class="mb-7 text-center">
-        <span class="mx-auto mb-4 grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-pink-500 to-indigo-500">
+        <span class="mx-auto mb-4 grid h-11 w-11 place-items-center rounded-xl bg-brand">
           <LockKeyhole class="h-5 w-5" />
         </span>
         <h1 class="font-display text-xl font-semibold">Back-office</h1>

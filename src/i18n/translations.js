@@ -36,7 +36,7 @@ export default {
       description2: 'et les stratégies de croissance business',
       cta1: 'Voir les projets',
       cta2: 'Collaborer',
-      cta3: 'Voir le CV complet'
+      cta3: 'Voir le CV'
     },
     about: {
       title: 'Développeur, mais pas que ...',
@@ -198,7 +198,7 @@ export default {
       description2: 'and business growth strategies',
       cta1: 'View projects',
       cta2: 'Collaborate',
-      cta3: 'View full CV'
+      cta3: 'View CV'
     },
     about: {
       title: 'Developer, but not only...',

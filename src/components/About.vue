@@ -4,14 +4,13 @@
 
     <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 md:gap-14 items-center">
       <div class="relative mx-auto w-full max-w-[18rem] sm:max-w-sm">
-        <div class="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-pink-500/30 via-purple-500/20 to-indigo-500/30 blur-2xl" aria-hidden="true"></div>
         <div class="relative rounded-3xl overflow-hidden border border-white/10 bg-slate-900">
           <img v-if="settings.profile_photo_url" :src="settings.profile_photo_url" :alt="settings.full_name" loading="lazy" decoding="async" class="w-full h-auto">
         </div>
       </div>
 
       <div class="space-y-5">
-        <h3 class="text-xl md:text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-indigo-400">
+        <h3 class="text-xl md:text-2xl font-semibold text-brand-text">
           {{ $t('about.subtitle') }}
         </h3>
         <p class="text-base text-slate-300/90 leading-relaxed">{{ localized(settings, 'bio1') }}</p>

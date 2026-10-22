@@ -33,7 +33,7 @@
     "cv_filename": "Ginique-Oriadé-LAWANI-FlowCV-Resume-20251120.pdf",
     "profile_photo_url": "/profile2.jpg",
     "hero_badge_image_url": "/images/nasa.jpg",
-    "whatsapp": "+229 01 61 77 71 86"
+    "whatsapp": "+229 01 43 69 44 65"
   },
   "timeline": [
     { "id": 1, "year_label": "2025-2026", "title_fr": "Certificat Coding Academy", "title_en": "Coding Academy Certificate", "company_fr": "Epitech Bénin", "company_en": "Epitech Benin", "description_fr": "Formation intensive en développement logiciel et technologies avancées", "description_en": "Intensive training in software development and advanced technologies", "sort_order": 0 },
@@ -91,5 +91,15 @@
     { "id": 3, "name": "WhatsApp", "url": "https://kloo.me/whatsapp-israel-oriade", "icon_key": "whatsapp", "custom_svg": null, "sort_order": 2 },
     { "id": 4, "name": "Email", "url": "mailto:ginique.lawani@epitech.eu", "icon_key": "email", "custom_svg": null, "sort_order": 3 }
   ],
-  "showcase": []
+  "showcase": [
+    { "id": 1, "image_url": "/images/showcase/1.jpg", "title_fr": "Titre à venir 01", "title_en": "Title coming soon 01", "description_fr": "Description provisoire : expliquez ici ce que montre cette image et le savoir-faire qu'elle illustre.", "description_en": "Placeholder description: explain what this image shows and the expertise it illustrates.", "sort_order": 0 },
+    { "id": 2, "image_url": "/images/showcase/2.jpg", "title_fr": "Titre à venir 02", "title_en": "Title coming soon 02", "description_fr": "Description provisoire : expliquez ici ce que montre cette image et le savoir-faire qu'elle illustre.", "description_en": "Placeholder description: explain what this image shows and the expertise it illustrates.", "sort_order": 1 },
+    { "id": 3, "image_url": "/images/showcase/3.jpg", "title_fr": "Titre à venir 03", "title_en": "Title coming soon 03", "description_fr": "Description provisoire : expliquez ici ce que montre cette image et le savoir-faire qu'elle illustre.", "description_en": "Placeholder description: explain what this image shows and the expertise it illustrates.", "sort_order": 2 },
+    { "id": 4, "image_url": "/images/showcase/4.jpg", "title_fr": "Titre à venir 04", "title_en": "Title coming soon 04", "description_fr": "Description provisoire : expliquez ici ce que montre cette image et le savoir-faire qu'elle illustre.", "description_en": "Placeholder description: explain what this image shows and the expertise it illustrates.", "sort_order": 3 },
+    { "id": 5, "image_url": "/images/showcase/5.jpg", "title_fr": "Titre à venir 05", "title_en": "Title coming soon 05", "description_fr": "Description provisoire : expliquez ici ce que montre cette image et le savoir-faire qu'elle illustre.", "description_en": "Placeholder description: explain what this image shows and the expertise it illustrates.", "sort_order": 4 },
+    { "id": 6, "image_url": "/images/showcase/6.jpg", "title_fr": "Titre à venir 06", "title_en": "Title coming soon 06", "description_fr": "Description provisoire : expliquez ici ce que montre cette image et le savoir-faire qu'elle illustre.", "description_en": "Placeholder description: explain what this image shows and the expertise it illustrates.", "sort_order": 5 },
+    { "id": 7, "image_url": "/images/showcase/7.jpg", "title_fr": "Titre à venir 07", "title_en": "Title coming soon 07", "description_fr": "Description provisoire : expliquez ici ce que montre cette image et le savoir-faire qu'elle illustre.", "description_en": "Placeholder description: explain what this image shows and the expertise it illustrates.", "sort_order": 6 },
+    { "id": 8, "image_url": "/images/showcase/8.jpg", "title_fr": "Titre à venir 08", "title_en": "Title coming soon 08", "description_fr": "Description provisoire : expliquez ici ce que montre cette image et le savoir-faire qu'elle illustre.", "description_en": "Placeholder description: explain what this image shows and the expertise it illustrates.", "sort_order": 7 },
+    { "id": 9, "image_url": "/images/showcase/9.jpg", "title_fr": "Titre à venir 09", "title_en": "Title coming soon 09", "description_fr": "Description provisoire : expliquez ici ce que montre cette image et le savoir-faire qu'elle illustre.", "description_en": "Placeholder description: explain what this image shows and the expertise it illustrates.", "sort_order": 8 }
+  ]
 }
