@@ -83,7 +83,7 @@
           hint="Affichée sur la carte (3 lignes max) et en tête de la page du projet."
         />
 
-        <TagInput v-model="form.tags" label="Stack / technologies" />
+        <TagInput v-model="form.tags" label="Stack / technologies" :suggestions="techSuggestions" />
 
         <FormField v-model="form.project_url" label="Lien du site" type="url" placeholder="https://…" optional />
       </fieldset>
@@ -164,6 +164,7 @@
 <script setup>
 import { ImageOff, FolderKanban, Images, Link2, Languages, CircleAlert, Check } from 'lucide-vue-next';
 import { useCrudList } from '../composables/useCrudList';
+import { useTechSuggestions } from '../composables/useTechSuggestions';
 import { PROJECT_CATEGORIES, projectCategories } from '../../composables/projectCategories';
 import AdminCollection from '../components/AdminCollection.vue';
 import AdminListRow from '../components/AdminListRow.vue';
@@ -222,6 +223,8 @@ const {
   }),
   labels: { created: 'Projet créé', saved: 'Projet enregistré', deleted: 'Projet supprimé' }
 });
+
+const { suggestions: techSuggestions } = useTechSuggestions();
 
 function toggleCategory(cat) {
   const list = form.value.categories;

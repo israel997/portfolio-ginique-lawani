@@ -37,7 +37,7 @@
       <BilingualField v-model:fr="form.title_fr" v-model:en="form.title_en" label="Titre" placeholder="Ex. Backend Development" />
       <BilingualField v-model:fr="form.description_fr" v-model:en="form.description_en" label="Description" multiline :rows="3" />
       <div>
-        <TagInput v-model="form.techs" label="Technologies" placeholder="Node.js, Laravel…" />
+        <TagInput v-model="form.techs" label="Technologies" placeholder="Node.js, Laravel…" :suggestions="techSuggestions" />
         <div v-if="form.techs.length" class="mt-3 rounded-xl border border-white/10 bg-white/[0.03] p-3">
           <p class="mb-2 text-xs text-slate-500">Aperçu sur le site</p>
           <div class="flex flex-wrap items-center gap-2">
@@ -101,6 +101,7 @@
 import { ref, onMounted } from 'vue';
 import { Code2, CircleAlert, ImageOff } from 'lucide-vue-next';
 import { useApi } from '../composables/useApi';
+import { useTechSuggestions } from '../composables/useTechSuggestions';
 import { findLogo, isMonoLogo } from '../../composables/techLogos';
 import { useCrudList } from '../composables/useCrudList';
 import Icon from '../../components/icons/Icon.vue';
@@ -140,4 +141,6 @@ onMounted(async () => {
   }
 });
 const logoFor = (tech) => findLogo(tech, logos.value);
+
+const { suggestions: techSuggestions } = useTechSuggestions();
 </script>
