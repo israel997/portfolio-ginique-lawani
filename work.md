@@ -474,7 +474,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 18:37 | `997762e` | Mode clair : **grilles plus visibles** (4,5 % → 7,5 %) ; **Parcours** : vraie grille rectangulaire 64 × 96 px au lieu de lignes verticales seules |
 | 19:20 | `4e5008f` | **Projets sur mobile** : vue **Carrousel** (par défaut) ou **Grille 2 × 4** compacte (image, nom, catégories), au choix et mémorisée ; ordinateur inchangé |
 | 19:32 | `897821a` | Sélecteur « Carrousel / Grille » déplacé **au-dessus** des catégories, avec icône + texte, pour ne plus se confondre avec elles |
-| __TIME__ | __HASH__ | **Carrousel / Grille aussi sur ordinateur et tablette** (3 et 2 cartes visibles, flèches ; grille de tuiles 4 et 3 colonnes) |
+| 20:29 | `556671c` | **Carrousel / Grille aussi sur ordinateur et tablette** (3 et 2 cartes visibles, flèches ; grille de tuiles 4 et 3 colonnes) |
 
 ---
 
