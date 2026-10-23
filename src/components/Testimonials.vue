@@ -3,7 +3,7 @@
     <SectionHeading :index="index" :eyebrow="$t('nav.testimonials')" :title="$t('testimonials.title')" />
 
     <div class="grid md:grid-cols-2 gap-4 md:gap-6 max-w-5xl mx-auto">
-      <figure v-for="testimonial in testimonialsData" :key="testimonial.id" class="relative flex flex-col p-5 md:p-7 rounded-2xl bg-surface border border-line backdrop-blur-md transition-colors hover:border-accent/40">
+      <figure v-for="testimonial in testimonialsData" :key="testimonial.id" class="relative flex flex-col p-5 md:p-7 rounded-2xl bg-surface border border-line shadow-card transition-colors hover:border-accent/40">
         <Quote class="absolute right-5 top-5 h-8 w-8 text-ink/10" aria-hidden="true" />
         <div class="flex gap-0.5 mb-4" :aria-label="'5/5'">
           <Star v-for="i in 5" :key="i" class="h-4 w-4 fill-amber-400 text-amber-400" />

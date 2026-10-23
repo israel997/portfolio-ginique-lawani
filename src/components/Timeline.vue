@@ -9,7 +9,7 @@
         <div class="absolute left-0 top-6 md:top-1/2 md:left-1/2 w-[15px] h-[15px] bg-page border-2 border-brand-text rounded-full md:-translate-x-1/2 md:-translate-y-1/2 z-20" aria-hidden="true"></div>
 
         <div :class="[
-          'md:w-[45%] p-5 md:p-6 rounded-2xl bg-surface border border-line backdrop-blur-md transition-all duration-300 hover:border-accent/40 md:hover:-translate-y-1',
+          'md:w-[45%] p-5 md:p-6 rounded-2xl bg-surface border border-line shadow-card backdrop-blur-md transition-all duration-300 hover:border-accent/40 md:hover:-translate-y-1',
           index % 2 === 0 ? 'md:mr-auto md:text-right' : 'md:ml-auto'
         ]">
           <span class="font-mono text-xs md:text-sm font-medium text-accent">{{ item.year_label }}</span>

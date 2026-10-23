@@ -4,7 +4,7 @@
 
     <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 md:gap-14 items-center">
       <div class="relative mx-auto w-full max-w-[18rem] sm:max-w-sm">
-        <div class="relative rounded-3xl overflow-hidden border border-line bg-panel">
+        <div class="relative rounded-3xl overflow-hidden border border-line bg-panel shadow-card">
           <img v-if="settings.profile_photo_url" :src="settings.profile_photo_url" :alt="settings.full_name" loading="lazy" decoding="async" class="w-full h-auto">
         </div>
       </div>

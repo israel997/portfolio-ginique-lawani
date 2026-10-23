@@ -1,6 +1,6 @@
 <template>
   <section id="contact" itemscope itemtype="https://schema.org/ContactPage">
-    <div class="max-w-3xl mx-auto p-5 sm:p-8 lg:p-12 rounded-3xl bg-surface border border-line backdrop-blur-md">
+    <div class="max-w-3xl mx-auto p-5 sm:p-8 lg:p-12 rounded-3xl bg-surface border border-line shadow-card">
       <div class="text-center">
         <p v-reveal="'left'" class="section-eyebrow mb-3"><span class="text-subtle">{{ index }}</span><span class="mx-2 text-line-strong">/</span>{{ $t('nav.contact') }}</p>
         <h2 v-reveal:150="'right'" class="text-3xl md:text-4xl font-bold mb-3 text-balance">

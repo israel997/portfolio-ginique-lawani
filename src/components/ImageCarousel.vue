@@ -23,12 +23,12 @@
         :aria-label="`${i + 1} / ${items.length}`"
         aria-roledescription="slide"
       >
-        <figure class="h-full overflow-hidden rounded-2xl border border-line bg-surface">
+        <figure class="h-full overflow-hidden rounded-2xl border border-line bg-surface shadow-card">
           <!-- Photos come in every orientation: show them whole, letterboxed -->
           <component
             :is="zoomable ? 'button' : 'div'"
             :type="zoomable ? 'button' : undefined"
-            class="group relative block aspect-[4/3] w-full overflow-hidden bg-panel-deep"
+            class="group relative block aspect-[4/3] w-full overflow-hidden border-b border-line bg-panel-deep"
             :aria-label="zoomable ? `Agrandir l'image ${i + 1}` : undefined"
             @click="zoomable && $emit('open', i)"
           >

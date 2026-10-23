@@ -96,8 +96,8 @@ Les composants n'utilisent **jamais** de couleur brute : ils utilisent des **rô
 | `ink-2` | texte secondaire fort | `#cbd5e1` | `#2a3a5e` |
 | `muted` | texte secondaire | `#94a3b8` | `#5b6478` |
 | `subtle` | texte tertiaire | `#64748b` | `#8891a6` |
-| `line` | bordures | blanc 10 % | `#e3e8f7` |
-| `line-strong` | bordures marquées | blanc 20 % | `#cdd5ec` |
+| `line` | bordures | blanc 10 % | `#d3dcf3` (bleuté, renforcé le 23/10) |
+| `line-strong` | bordures marquées | blanc 20 % | `#aebfeb` |
 | `surface` | cartes | blanc 4 % | `#ffffff` |
 | `surface-hover` | cartes au survol | blanc 8 % | `#eef2fb` |
 | `panel` | fonds d'images | `#0f172a` | `#e9edf8` |
@@ -112,6 +112,8 @@ Les composants n'utilisent **jamais** de couleur brute : ils utilisent des **rô
 | `success` | disponibilité, validations | `#34d399` | `#17a05b` |
 
 Barre de progression de lecture : `bg-blue-500`.
+
+**Ombre des cartes** (`shadow-card`) : aucune en sombre ; en clair `0 1px 2px rgb(11 27 63 / .05), 0 10px 28px -14px rgb(11 27 63 / .18)`. Appliquée aux cartes (projets, compétences, parcours, références, carrousels, contact, photo, image du Hero, image et encadrés de la page projet). Les images en haut des cartes ont un filet `border-b border-line` pour qu'une capture au fond blanc ne se confonde pas avec la carte.
 
 ### 3.4 Fonds de section (variés, unis, avec motifs discrets)
 
@@ -440,6 +442,7 @@ Total : **6 fonctions** sur 12 autorisées par le plan Hobby.
 | ~12:55 | — | **Incident** : un texte en cours a été perdu en actualisant. Le déploiement avait pris 10 min, la page tournait encore sur l'ancienne version sans brouillons. Règle ajoutée : vérifier la mise en ligne avant de l'annoncer |
 | 13:04 | `a247f47` | **Indicateur « Brouillon sauvegardé sur cet appareil · HH:MM:SS »** |
 | 13:43 | `80debd9` | Création de ce document `work.md` (référence complète + journal daté) |
+| __TIME__ | __HASH__ | **Mode clair plus lisible** : bordures bleutées plus visibles (`#d3dcf3` / `#aebfeb`, 1 px), ombre douce sous les cartes (clair uniquement), filet sous les images des cartes ; survol des cartes projet en bleu |
 
 ---
 

@@ -49,7 +49,7 @@
               </div>
             </div>
 
-            <div class="mt-10 overflow-hidden rounded-2xl border border-line bg-panel md:mt-14 md:rounded-3xl">
+            <div class="mt-10 overflow-hidden rounded-2xl border border-line bg-panel shadow-card md:mt-14 md:rounded-3xl">
               <img v-if="project.image_url" :src="project.image_url" :alt="project.name" class="aspect-[16/9] w-full object-cover" />
             </div>
           </div>
@@ -71,7 +71,7 @@
             </div>
 
             <aside class="lg:sticky lg:top-24 lg:self-start">
-              <dl class="space-y-5 rounded-2xl border border-line bg-surface p-5 md:p-6">
+              <dl class="space-y-5 rounded-2xl border border-line bg-surface p-5 shadow-card md:p-6">
                 <div>
                   <dt class="mb-1 font-mono text-[11px] uppercase tracking-wider text-subtle">{{ $t('projectDetail.category') }}</dt>
                   <dd class="font-medium">{{ categoriesText }}</dd>
@@ -111,7 +111,7 @@
         <!-- Previous / next -->
         <nav class="band band-timeline py-10!" :aria-label="$t('nav.projects')">
           <div class="band-inner grid gap-3 sm:grid-cols-2">
-            <RouterLink v-if="neighbours.prev" :to="`/projets/${neighbours.prev.id}`" class="group flex items-center gap-3 rounded-2xl border border-line bg-surface p-4 transition-colors hover:border-accent/40">
+            <RouterLink v-if="neighbours.prev" :to="`/projets/${neighbours.prev.id}`" class="group flex items-center gap-3 rounded-2xl border border-line bg-surface p-4 shadow-card transition-colors hover:border-accent/40">
               <ArrowLeft class="h-5 w-5 shrink-0 text-subtle transition-transform group-hover:-translate-x-0.5" />
               <span class="min-w-0">
                 <span class="block font-mono text-[11px] uppercase tracking-wider text-subtle">{{ $t('projectDetail.previous') }}</span>
@@ -119,7 +119,7 @@
               </span>
             </RouterLink>
             <span v-else class="hidden sm:block"></span>
-            <RouterLink v-if="neighbours.next" :to="`/projets/${neighbours.next.id}`" class="group flex items-center justify-end gap-3 rounded-2xl border border-line bg-surface p-4 text-right transition-colors hover:border-accent/40">
+            <RouterLink v-if="neighbours.next" :to="`/projets/${neighbours.next.id}`" class="group flex items-center justify-end gap-3 rounded-2xl border border-line bg-surface p-4 shadow-card text-right transition-colors hover:border-accent/40">
               <span class="min-w-0">
                 <span class="block font-mono text-[11px] uppercase tracking-wider text-subtle">{{ $t('projectDetail.next') }}</span>
                 <span class="block truncate font-semibold">{{ neighbours.next.name }}</span>

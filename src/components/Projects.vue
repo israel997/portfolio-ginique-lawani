@@ -27,11 +27,11 @@
       <article
         v-for="project in filteredProjects"
         :key="project.id"
-        class="group flex flex-col rounded-2xl overflow-hidden bg-surface border border-line transition-all duration-300 hover:border-line-strong"
+        class="group flex flex-col rounded-2xl overflow-hidden bg-surface border border-line shadow-card transition-all duration-300 hover:border-accent/50"
       >
         <RouterLink
           :to="`/projets/${project.id}`"
-          class="relative block aspect-[16/10] overflow-hidden bg-panel"
+          class="relative block aspect-[16/10] overflow-hidden border-b border-line bg-panel"
           :aria-label="`${$t('projects.cta1')} — ${project.name}`"
         >
           <img
