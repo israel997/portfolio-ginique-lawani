@@ -63,6 +63,7 @@
   --pattern: rgb(255 255 255 / 0.03);
   --pattern-dot: rgb(255 255 255 / 0.07);
   --card-shadow: none;
+  --hero-orb: rgb(46 92 255 / 0.12);
   /* Key figure highlight colors (About), brighter on dark */
   --fig-purple: #c084fc;
   --fig-magenta: #e879f9;
@@ -100,6 +101,7 @@
   --pattern: rgb(11 27 63 / 0.045);
   --pattern-dot: rgb(11 27 63 / 0.09);
   --card-shadow: 0 1px 2px rgb(11 27 63 / 0.05), 0 10px 28px -14px rgb(11 27 63 / 0.18);
+  --hero-orb: #dfe8ff;
   /* Key figure highlight colors, deeper on light for contrast */
   --fig-purple: #7e22ce;
   --fig-magenta: #c026d3;
@@ -165,6 +167,28 @@
 @media (min-width: 768px) {
   .band-hero { padding-top: 6.5rem; }
 }
+/* One large soft disc spilling out of the hero's top-right corner (as on
+   the OOffix landing): breaks the flat background, solid color, no blur. */
+.hero-orb {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  width: 15rem;
+  height: 15rem;
+  top: -7rem;
+  right: -7rem;
+  border-radius: 9999px;
+  background: var(--hero-orb);
+}
+@media (min-width: 768px) {
+  .hero-orb {
+    width: 34rem;
+    height: 34rem;
+    top: -13rem;
+    right: -11rem;
+  }
+}
+
 .band-about {
   background:
     linear-gradient(var(--pattern) 1px, transparent 1px) 0 0 / 48px 48px,

@@ -122,7 +122,7 @@ Chaque section est une « bande » pleine largeur avec son propre fond, pour év
 
 | Section | Sombre | Clair | Motif |
 |---|---|---|---|
-| Hero | `#0f172a` | `#f6f8fe` | aucun |
+| Hero | `#0f172a` | `#f6f8fe` | **grand disque uni** qui déborde du coin supérieur droit, comme sur OOffix (`.hero-orb` : clair `#dfe8ff`, sombre bleu marque à 12 %) ; 15 rem sur mobile, 34 rem dès 768 px |
 | À propos | `#111a30` | `#ffffff` | grille 48 px |
 | Projets | `#0b1120` | `#f6f8fe` | aucun |
 | Compétences | `#0d1426` | `#eef2fb` | points 22 px |
@@ -465,6 +465,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 17:21 | `9f11b1e` | **Couleur des numéros / tirets au choix** pour chaque bloc en liste (par défaut, 8 couleurs, ou Multicolore) (v11) |
 | 17:27 | `90ac1b5` | **Cache du contenu réduit** de 60 s (+5 min) à 3 s (+5 s) : les modifications de l'admin (ex. couleur des points) mettaient jusqu'à plusieurs minutes à apparaître |
 | 17:44 | `12c888d` | **Aperçus de liens à jour** : la photo de profil actuelle (accueil) et l'image, le nom et la description de chaque projet (`/ooffix`) dans WhatsApp, LinkedIn, Facebook… via `api/og.js` ; `index.html` devient `app.html` en production |
+| __TIME__ | __HASH__ | **Disque décoratif** dans le coin supérieur droit de la première section, sobre et uni (clair `#dfe8ff`, sombre bleu à 12 %), comme sur la landing OOffix |
 
 ---
 

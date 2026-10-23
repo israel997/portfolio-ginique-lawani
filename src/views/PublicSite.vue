@@ -89,6 +89,7 @@ onUnmounted(() => {
 
     <main>
       <div class="band band-hero">
+        <div class="hero-orb" aria-hidden="true"></div>
         <div class="band-inner"><Hero /></div>
       </div>
 
