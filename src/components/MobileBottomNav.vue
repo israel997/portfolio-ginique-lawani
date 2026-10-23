@@ -14,7 +14,7 @@
           ]"
         >
           <component :is="item.icon" class="h-5 w-5" :stroke-width="onHome && activeSection === item.id ? 2.25 : 1.75" />
-          <span class="text-[10px] font-medium leading-none">{{ $t(item.label) }}</span>
+          <span class="text-[10px] font-medium leading-none">{{ st(item.id, 'nav') }}</span>
         </RouterLink>
       </li>
     </ul>
@@ -26,6 +26,9 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { UserRound, Code2, LayoutGrid, Route, Mail } from 'lucide-vue-next';
 import { useActiveSection } from '../composables/useActiveSection';
+import { useSectionText } from '../composables/sectionTexts';
+
+const { sectionText: st } = useSectionText();
 
 const { activeSection } = useActiveSection();
 const route = useRoute();

@@ -144,6 +144,14 @@ export const MIGRATIONS = [
       `ALTER TABLE projects ADD CONSTRAINT projects_categories_check
          CHECK (categories <@ ARRAY['Fullstack', 'Frontend', 'Backend', 'Mobile', 'AI oriented']::TEXT[])`
     ]
+  },
+  {
+    version: 8,
+    statements: [
+      // Custom section names / titles set in Admin > Sections:
+      // { <section>: { nav_fr, nav_en, title_fr, title_en, subtitle_fr, subtitle_en } }
+      `ALTER TABLE admin_settings ADD COLUMN IF NOT EXISTS sections JSONB NOT NULL DEFAULT '{}'::jsonb`
+    ]
   }
 ];
 

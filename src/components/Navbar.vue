@@ -9,7 +9,7 @@
               'whitespace-nowrap rounded-full px-3 xl:px-3.5 py-2 transition-colors',
               onHome && activeSection === link.id ? 'bg-surface-hover text-ink' : 'text-muted hover:text-ink'
             ]"
-          >{{ $t(link.label) }}</RouterLink>
+          >{{ st(link.id, 'nav') }}</RouterLink>
         </li>
       </ul>
 
@@ -17,7 +17,7 @@
         <ThemeToggle />
         <LanguageSwitcher />
         <RouterLink :to="{ path: '/', hash: '#contact' }" class="hidden md:inline-flex items-center rounded-full bg-ink px-4 py-2 text-sm font-semibold text-page transition hover:bg-ink-2">
-          {{ $t('nav.contact') }}
+          {{ st('contact', 'nav') }}
         </RouterLink>
       </div>
     </nav>
@@ -30,6 +30,9 @@ import { useRoute } from 'vue-router'
 import LanguageSwitcher from './LanguageSwitcher.vue'
 import ThemeToggle from './ThemeToggle.vue'
 import { useActiveSection } from '../composables/useActiveSection'
+import { useSectionText } from '../composables/sectionTexts'
+
+const { sectionText: st } = useSectionText()
 
 const { activeSection } = useActiveSection()
 const route = useRoute()

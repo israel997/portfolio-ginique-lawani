@@ -2,11 +2,11 @@
   <section id="contact" itemscope itemtype="https://schema.org/ContactPage">
     <div class="max-w-3xl mx-auto p-5 sm:p-8 lg:p-12 rounded-3xl bg-surface border border-line shadow-card">
       <div class="text-center">
-        <p v-reveal="'left'" class="section-eyebrow mb-3"><span class="text-subtle">{{ index }}</span><span class="mx-2 text-line-strong">/</span>{{ $t('nav.contact') }}</p>
+        <p v-reveal="'left'" class="section-eyebrow mb-3"><span class="text-subtle">{{ index }}</span><span class="mx-2 text-line-strong">/</span>{{ st('contact', 'nav') }}</p>
         <h2 v-reveal:150="'right'" class="text-3xl md:text-4xl font-bold mb-3 text-balance">
-          {{ $t('contact.title') }}
+          {{ st('contact', 'title') }}
         </h2>
-        <p class="text-sm md:text-base text-muted mb-8">{{ $t('contact.subtitle') }}</p>
+        <p class="text-sm md:text-base text-muted mb-8">{{ st('contact', 'subtitle') }}</p>
       </div>
 
       <ul class="mx-auto mb-4 grid max-w-xl gap-2.5">
@@ -71,6 +71,9 @@ import { ref, computed } from 'vue';
 import { useContent } from '../composables/useContent';
 import { Mail, Phone, MapPin, MessageCircle, Copy, Check } from 'lucide-vue-next';
 import Icon from './icons/Icon.vue';
+import { useSectionText } from '../composables/sectionTexts';
+
+const { sectionText: st } = useSectionText();
 
 defineProps({ index: { type: String, default: '' } });
 

@@ -12,7 +12,7 @@ const COLUMNS = [
   'stat2_value', 'stat2_label_fr', 'stat2_label_en',
   'stat3_value', 'stat3_label_fr', 'stat3_label_en',
   'email', 'phone', 'whatsapp', 'location', 'availability_fr', 'availability_en',
-  'cv_url', 'cv_filename', 'profile_photo_url', 'hero_badge_image_url'
+  'cv_url', 'cv_filename', 'profile_photo_url', 'hero_badge_image_url', 'sections'
 ];
 
 export default async function handler(req, res) {
@@ -30,7 +30,8 @@ export default async function handler(req, res) {
       if (!fields.length) return sendJson(res, 400, { error: 'No fields provided' });
       const setClauses = fields.map((f, i) => `${f} = $${i + 1}`);
       setClauses.push('updated_at = now()');
-      const values = fields.map((f) => body[f]);
+      // JSONB must be sent as a JSON string
+      const values = fields.map((f) => (f === 'sections' ? JSON.stringify(body[f] || {}) : body[f]));
       const { rows } = await sql.query(
         `UPDATE admin_settings SET ${setClauses.join(', ')} WHERE id = 1 RETURNING *`,
         values

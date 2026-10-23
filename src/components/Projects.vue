@@ -1,6 +1,6 @@
 <template>
   <section id="projects" itemscope itemtype="https://schema.org/CreativeWork">
-    <SectionHeading :index="index" :eyebrow="$t('nav.projects')" :title="$t('projects.title')" />
+    <SectionHeading :index="index" :eyebrow="st('projects', 'nav')" :title="st('projects', 'title')" />
 
     <div v-if="categories.length > 1" class="-mx-4 mb-8 md:mb-10 overflow-x-auto px-4 [scrollbar-width:none]">
       <div class="mx-auto flex w-max gap-2" role="tablist">
@@ -99,6 +99,9 @@ import { ArrowUpRight, Eye } from 'lucide-vue-next';
 import { PROJECT_CATEGORIES, projectCategories, categoryLabel as labelFor } from '../composables/projectCategories';
 import { useContent } from '../composables/useContent';
 import SectionHeading from './SectionHeading.vue';
+import { useSectionText } from '../composables/sectionTexts';
+
+const { sectionText: st } = useSectionText();
 
 defineProps({ index: { type: String, default: '' } });
 

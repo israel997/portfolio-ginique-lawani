@@ -1,6 +1,6 @@
 <template>
   <section id="testimonials">
-    <SectionHeading :index="index" :eyebrow="$t('nav.testimonials')" :title="$t('testimonials.title')" />
+    <SectionHeading :index="index" :eyebrow="st('testimonials', 'nav')" :title="st('testimonials', 'title')" />
 
     <div class="grid md:grid-cols-2 gap-4 md:gap-6 max-w-5xl mx-auto">
       <figure v-for="testimonial in testimonialsData" :key="testimonial.id" class="relative flex flex-col p-5 md:p-7 rounded-2xl bg-surface border border-line shadow-card transition-colors hover:border-accent/40">
@@ -30,6 +30,9 @@ import { computed } from 'vue';
 import { Quote, Star } from 'lucide-vue-next';
 import { useContent } from '../composables/useContent';
 import SectionHeading from './SectionHeading.vue';
+import { useSectionText } from '../composables/sectionTexts';
+
+const { sectionText: st } = useSectionText();
 
 defineProps({ index: { type: String, default: '' } });
 

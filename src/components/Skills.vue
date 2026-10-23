@@ -1,6 +1,6 @@
 <template>
   <section id="skills">
-    <SectionHeading :index="index" :eyebrow="$t('nav.skills')" :title="$t('skills.title')" />
+    <SectionHeading :index="index" :eyebrow="st('skills', 'nav')" :title="st('skills', 'title')" />
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
       <article v-for="skill in skillsData" :key="skill.id" class="group relative flex flex-col p-5 md:p-6 rounded-2xl bg-surface border border-line shadow-card transition-all duration-300 hover:border-accent/40 hover:bg-surface-hover md:hover:-translate-y-1">
         <div class="flex items-center gap-3 mb-4">
@@ -42,6 +42,9 @@ import { useContent } from '../composables/useContent';
 import { findLogo, isMonoLogo } from '../composables/techLogos';
 import Icon from './icons/Icon.vue';
 import SectionHeading from './SectionHeading.vue';
+import { useSectionText } from '../composables/sectionTexts';
+
+const { sectionText: st } = useSectionText();
 
 defineProps({ index: { type: String, default: '' } });
 

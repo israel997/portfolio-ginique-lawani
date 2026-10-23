@@ -1,6 +1,6 @@
 <template>
   <section id="timeline" class="relative">
-    <SectionHeading :index="index" :eyebrow="$t('nav.timeline')" :title="$t('timeline.title')" />
+    <SectionHeading :index="index" :eyebrow="st('timeline', 'nav')" :title="st('timeline', 'title')" />
 
     <ol class="relative max-w-4xl mx-auto">
       <div class="absolute left-[7px] md:left-1/2 top-2 bottom-0 w-px bg-line-strong md:-translate-x-1/2" aria-hidden="true"></div>
@@ -26,6 +26,9 @@
 import { computed } from 'vue';
 import { useContent } from '../composables/useContent';
 import SectionHeading from './SectionHeading.vue';
+import { useSectionText } from '../composables/sectionTexts';
+
+const { sectionText: st } = useSectionText();
 
 defineProps({ index: { type: String, default: '' } });
 

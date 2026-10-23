@@ -1,6 +1,6 @@
 <template>
   <section id="about" itemscope itemtype="https://schema.org/Person">
-    <SectionHeading :index="index" :eyebrow="$t('nav.about')" :title="$t('about.title')" />
+    <SectionHeading :index="index" :eyebrow="st('about', 'nav')" :title="st('about', 'title')" />
 
     <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 md:gap-14 items-center">
       <div class="relative mx-auto w-full max-w-[18rem] sm:max-w-sm">
@@ -11,7 +11,7 @@
 
       <div class="space-y-5">
         <h3 class="text-xl md:text-2xl font-semibold text-brand-text">
-          {{ $t('about.subtitle') }}
+          {{ st('about', 'subtitle') }}
         </h3>
         <p class="text-base text-ink-2 leading-relaxed">{{ localized(settings, 'bio1') }}</p>
         <p class="text-base text-muted leading-relaxed">{{ localized(settings, 'bio2') }}</p>
@@ -36,6 +36,9 @@ import { useContent } from '../composables/useContent';
 import SectionHeading from './SectionHeading.vue';
 import CountUp from './CountUp.vue';
 import { figureColor } from '../composables/figureColors';
+import { useSectionText } from '../composables/sectionTexts';
+
+const { sectionText: st } = useSectionText();
 
 defineProps({ index: { type: String, default: '' } });
 

@@ -149,7 +149,7 @@ Choisies par point dans l'admin ; nuance plus vive en sombre, plus foncée en cl
 
 - **Titres de section** : le surtitre (« 02 / PROJETS ») glisse depuis la gauche, puis le titre depuis la droite, 150 ms plus tard. Directive `v-reveal` (`src/directives/reveal.js`). Déclenchement une seule fois, **après le premier défilement**, quand le titre atteint les 2/3 de l'écran.
 - **Chiffres** (points clés) : comptent de 0 à leur valeur en environ 1,4 s, en ralentissant (`CountUp.vue`).
-- **Carrousels** : défilement fluide ; celui de l'accueil avance seul toutes les 5 s (pause au survol ou au toucher, reprise après 10 s).
+- **Carrousels** : défilement fluide ; les flèches avancent ou reculent d'une image depuis la position actuelle ; celui de l'accueil avance seul toutes les 5 s (pause au survol ou au toucher, reprise après 10 s).
 - **Machine à écrire** dans le Hero (titres animés).
 - Tout est **désactivé** si l'appareil demande de réduire les animations (`prefers-reduced-motion`).
 
@@ -164,9 +164,10 @@ La numérotation suit les sections visibles : si une section est vide (ex. Savoi
 
 ### 4.2 Navigation
 
+- Les **noms des sections** (menus, surtitres, titres) viennent de **Admin → Sections**, sinon du texte d'origine de la langue affichée (`src/composables/sectionTexts.js`).
 - **Navbar collante** en haut : liens des sections (desktop ≥ 1024 px) avec surlignage de la section en cours, bouton thème ☀/☾, sélecteur **FR / EN**, bouton Contact. *(Le bloc « GL Ginique LAWANI » a été retiré le 22/10/2026.)*
 - **Barre de navigation en bas sur mobile et tablette** (< 1024 px) : À propos, Projets, Compétences, Parcours, Contact.
-- Liens d'ancre décalés sous la navbar (80 px desktop, 68 px mobile).
+- Liens d'ancre décalés sous la navbar (80 px desktop, 68 px mobile). Depuis une page projet, le lien attend que la section existe (jusqu'à 3 s), puis reste calé dessus pendant 5 s le temps que les images et le contenu finissent de charger (sauf si l'on fait défiler soi-même).
 - Bouton « Retour en haut » et barre de progression de lecture.
 
 ### 4.3 Sections
@@ -219,6 +220,7 @@ Balises meta, Open Graph, Twitter Card et JSON-LD (Person, WebSite, Professional
 | Menu | Contenu |
 |---|---|
 | Profil & Contact | nom, titres animés, accroche, bio, contact (email, **WhatsApp**, **téléphone d'appel**, localisation), disponibilité, CV, photo de profil, image du Hero |
+| **Sections** | renommer chaque section : nom (menu + surtitre « 02 / … »), titre, et sous-titre pour À propos (« Je suis, ») et Contact ; FR/EN ; champ vide = texte d'origine (affiché en grisé) |
 | **Points clés** | liste à puces d'À propos : chiffre (facultatif), texte FR/EN, **couleur** |
 | Projets | voir §5.3 |
 | Compétences | titre, description, **icône** (12 choix), technos (avec aperçu des logos) |
@@ -290,7 +292,7 @@ Balises meta, Open Graph, Twitter Card et JSON-LD (Person, WebSite, Professional
 
 | Table | Rôle |
 |---|---|
-| `admin_settings` | profil, accroche, bio, contact (`email`, `phone`, `whatsapp`, `location`), disponibilité, CV, photos (ligne unique `id = 1`) |
+| `admin_settings` | profil, accroche, bio, contact (`email`, `phone`, `whatsapp`, `location`), disponibilité, CV, photos, `sections` (noms personnalisés des sections, JSONB) — ligne unique `id = 1` |
 | `timeline_items` | parcours |
 | `skills` | compétences (`techs` = liste de technos, `icon_key`) |
 | `tech_logos` | **bibliothèque de logos** (nom + image), utilisée pour les cartes Compétences et les suggestions |
@@ -318,6 +320,7 @@ Appliquées par l'API au premier appel après un déploiement. Toutes idempotent
 | v5 | 23/10/2026 | table `key_figures`, reprise des 3 anciennes statistiques |
 | v6 | 23/10/2026 | `key_figures.color` (pourpre / magenta / orange pour l'existant) |
 | v7 | 23/10/2026 | `projects.categories` (multi-catégories, reprise de `category`) |
+| v8 | 23/10/2026 | `admin_settings.sections` (JSONB) : noms et titres de sections personnalisés |
 
 Pour ajouter une migration : nouvelle entrée `{ version: N, statements: [...] }` en fin de tableau, avec des requêtes idempotentes (`IF NOT EXISTS`…).
 
@@ -443,6 +446,8 @@ Total : **6 fonctions** sur 12 autorisées par le plan Hobby.
 | 13:04 | `a247f47` | **Indicateur « Brouillon sauvegardé sur cet appareil · HH:MM:SS »** |
 | 13:43 | `80debd9` | Création de ce document `work.md` (référence complète + journal daté) |
 | 13:57 | `03fd6b1` | **Mode clair plus lisible** : bordures bleutées plus visibles (`#d3dcf3` / `#aebfeb`, 1 px), ombre douce sous les cartes (clair uniquement), filet sous les images des cartes ; survol des cartes projet en bleu |
+| 14:16 | `ae79940` | Correctifs : **flèche « Précédent » du carrousel sur PC** (bloquée en fin de carrousel) ; **barre du bas depuis une page projet sur mobile** (le lien n'attendait que 60 ms que la section existe, trop court sur téléphone ; recalage pendant 5 s) |
+| __TIME__ | __HASH__ | **Renommer les sections** : page Admin → Sections (nom, titre, sous-titre, FR/EN), noms utilisés dans les menus et titres du site (v8) |
 
 ---
 
