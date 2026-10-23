@@ -1,7 +1,7 @@
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useApi } from './useApi';
 import { useToast } from './useToast';
-import { readDraft, writeDraft, removeDraft, listDrafts, formatDraftTime } from './drafts';
+import { readDraft, writeDraft, removeDraft, listDrafts, formatDraftTime, formatClock } from './drafts';
 
 // Shared state and actions for an admin list page backed by
 // /api/admin/<resource>: load, create/edit in a slide-over, inline
@@ -35,6 +35,7 @@ export function useCrudList(resource, { fields, defaults, validate = () => '', p
   const draftKey = (id) => `${resource}:${id ?? 'new'}`;
   const drafts = ref([]); // [{ key, label, savedAt, id }] shown above the list
   const restoredAt = ref(null); // set when the open form came from a draft
+  const draftSavedAt = ref(null); // last autosave of the open form (shown in the panel)
 
   const draftLabel = (v) => v?.name || v?.title_fr || v?.label_fr || v?.year_label || v?.value || 'Sans titre';
 
@@ -69,6 +70,7 @@ export function useCrudList(resource, { fields, defaults, validate = () => '', p
     formSnapshot.value = JSON.stringify(form.value);
     formError.value = '';
     restoredAt.value = null;
+    draftSavedAt.value = null;
     // An unsaved draft for this item wins over the stored version
     const draft = readDraft(draftKey(values.id));
     if (draft) {
@@ -117,8 +119,12 @@ export function useCrudList(resource, { fields, defaults, validate = () => '', p
     if (!value) return;
     draftTimer = setTimeout(() => {
       if (!form.value) return;
-      if (isDirty.value) writeDraft(draftKey(form.value.id), form.value, draftLabel(form.value));
-      else removeDraft(draftKey(form.value.id));
+      if (isDirty.value) {
+        if (writeDraft(draftKey(form.value.id), form.value, draftLabel(form.value))) draftSavedAt.value = formatClock();
+      } else {
+        removeDraft(draftKey(form.value.id));
+        draftSavedAt.value = null;
+      }
     }, 400);
   }, { deep: true });
 
@@ -236,7 +242,7 @@ export function useCrudList(resource, { fields, defaults, validate = () => '', p
   return {
     items, loading, pendingDelete,
     form, formError, saving, confirmDiscard, isDirty,
-    drafts, restoredAt, resumeDraft, dropDraft, revertDraft,
+    drafts, restoredAt, draftSavedAt, resumeDraft, dropDraft, revertDraft,
     load, openCreate, openEdit, requestClose, discard, submit,
     toggleVisibility, move, handleDelete
   };

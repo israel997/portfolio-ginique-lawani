@@ -36,7 +36,7 @@
     </AdminListRow>
   </AdminCollection>
 
-  <SlideOver :open="!!form" :title="form?.id ? 'Modifier le lien' : 'Nouveau lien'" :restored-at="restoredAt" @close="requestClose" @revert="revertDraft">
+  <SlideOver :open="!!form" :title="form?.id ? 'Modifier le lien' : 'Nouveau lien'" :restored-at="restoredAt" :saved-at="draftSavedAt" @close="requestClose" @revert="revertDraft">
     <form v-if="form" id="social-form" @submit.prevent="submit" class="space-y-6">
       <div>
         <span class="admin-label">Réseau</span>
@@ -111,7 +111,7 @@ const {
   items, loading, pendingDelete,
   form, formError, saving, confirmDiscard,
   openCreate, openEdit, requestClose, discard, submit,
-  drafts, restoredAt, resumeDraft, dropDraft, revertDraft,
+  drafts, restoredAt, draftSavedAt, resumeDraft, dropDraft, revertDraft,
   toggleVisibility, move, handleDelete
 } = useCrudList('social-links', {
   fields: ['name', 'url', 'icon_key', 'custom_svg'],

@@ -47,6 +47,10 @@ export function listDrafts(scope) {
   return out.sort((a, b) => b.savedAt - a.savedAt);
 }
 
+export function formatClock(ts = Date.now()) {
+  return new Date(ts).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+}
+
 export function formatDraftTime(ts) {
   const d = new Date(ts);
   const sameDay = d.toDateString() === new Date().toDateString();

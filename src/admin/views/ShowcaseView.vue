@@ -37,7 +37,7 @@
     </AdminListRow>
   </AdminCollection>
 
-  <SlideOver :open="!!form" :title="form?.id ? 'Modifier l\'image' : 'Nouvelle image'" :restored-at="restoredAt" @close="requestClose" @revert="revertDraft">
+  <SlideOver :open="!!form" :title="form?.id ? 'Modifier l\'image' : 'Nouvelle image'" :restored-at="restoredAt" :saved-at="draftSavedAt" @close="requestClose" @revert="revertDraft">
     <form v-if="form" id="showcase-form" @submit.prevent="submit" class="space-y-6">
       <ImageUploadField v-model="form.image_url" label="Image" accept="image/*" aspect="4:3" />
       <BilingualField v-model:fr="form.title_fr" v-model:en="form.title_en" label="Titre" optional placeholder="Ex. Architecture d'API" placeholder-en="E.g. API architecture" />
@@ -82,7 +82,7 @@ const {
   items, loading, pendingDelete,
   form, formError, saving, confirmDiscard,
   openCreate, openEdit, requestClose, discard, submit,
-  drafts, restoredAt, resumeDraft, dropDraft, revertDraft,
+  drafts, restoredAt, draftSavedAt, resumeDraft, dropDraft, revertDraft,
   toggleVisibility, move, handleDelete
 } = useCrudList('showcase', {
   fields: ['image_url', 'title_fr', 'title_en', 'description_fr', 'description_en'],

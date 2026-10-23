@@ -43,7 +43,7 @@
     </AdminListRow>
   </AdminCollection>
 
-  <SlideOver :open="!!form" :title="form?.id ? 'Modifier le projet' : 'Nouveau projet'" :restored-at="restoredAt" @close="requestClose" @revert="revertDraft">
+  <SlideOver :open="!!form" :title="form?.id ? 'Modifier le projet' : 'Nouveau projet'" :restored-at="restoredAt" :saved-at="draftSavedAt" @close="requestClose" @revert="revertDraft">
     <form v-if="form" id="project-form" @submit.prevent="submit" class="space-y-8">
       <fieldset class="space-y-6">
         <legend class="mb-4 font-mono text-xs uppercase tracking-wider text-slate-500">Carte du projet</legend>
@@ -192,7 +192,7 @@ const {
   items, loading, pendingDelete,
   form, formError, saving, confirmDiscard,
   openCreate, openEdit, requestClose, discard, submit,
-  drafts, restoredAt, resumeDraft, dropDraft, revertDraft,
+  drafts, restoredAt, draftSavedAt, resumeDraft, dropDraft, revertDraft,
   toggleVisibility, move, handleDelete
 } = useCrudList('projects', {
   fields: FIELDS,

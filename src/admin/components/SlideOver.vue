@@ -23,7 +23,12 @@
       >
         <div class="mx-auto mt-2.5 h-1 w-10 rounded-full bg-white/20 md:hidden" aria-hidden="true"></div>
         <header class="flex items-center justify-between gap-4 border-b border-white/10 px-5 py-4 md:px-6">
-          <h2 class="font-display text-lg font-semibold">{{ title }}</h2>
+          <div class="min-w-0">
+            <h2 class="font-display text-lg font-semibold">{{ title }}</h2>
+            <p v-if="savedAt" class="mt-0.5 flex items-center gap-1 text-xs text-emerald-400">
+              <CircleCheck class="h-3.5 w-3.5" /> Brouillon sauvegardé sur cet appareil · {{ savedAt }}
+            </p>
+          </div>
           <button type="button" @click="$emit('close')" class="grid h-9 w-9 place-items-center rounded-lg text-slate-400 hover:bg-white/5 hover:text-white" aria-label="Fermer">
             <X class="h-5 w-5" />
           </button>
@@ -46,13 +51,15 @@
 
 <script setup>
 import { watch, onUnmounted } from 'vue';
-import { X, FilePen } from 'lucide-vue-next';
+import { X, FilePen, CircleCheck } from 'lucide-vue-next';
 
 const props = defineProps({
   open: Boolean,
   title: { type: String, default: '' },
   // When the form was restored from a local draft: when it was saved
-  restoredAt: { type: String, default: null }
+  restoredAt: { type: String, default: null },
+  // Time of the last local autosave, shown under the title
+  savedAt: { type: String, default: null }
 });
 const emit = defineEmits(['close', 'revert']);
 

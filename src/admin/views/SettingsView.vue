@@ -73,6 +73,7 @@
           {{ spell.checking.value ? 'Vérification…' : saving ? 'Enregistrement...' : 'Enregistrer' }}
         </button>
         <span v-if="saved" class="text-sm text-green-400">Enregistré.</span>
+        <span v-else-if="draftSavedAt" class="text-xs text-emerald-400">Brouillon sauvegardé sur cet appareil · {{ draftSavedAt }}</span>
         <span v-if="error" class="text-sm text-red-400">{{ error }}</span>
       </div>
     </form>
@@ -92,7 +93,7 @@
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { FilePen } from 'lucide-vue-next';
-import { readDraft, writeDraft, removeDraft, formatDraftTime } from '../composables/drafts';
+import { readDraft, writeDraft, removeDraft, formatDraftTime, formatClock } from '../composables/drafts';
 import { useApi } from '../composables/useApi';
 import FormField from '../components/FormField.vue';
 import ConfirmDialog from '../components/ConfirmDialog.vue';
@@ -110,6 +111,7 @@ const form = ref({});
 const DRAFT_KEY = 'settings:1';
 const savedSnapshot = ref('{}');
 const restoredAt = ref(null);
+const draftSavedAt = ref(null);
 const isDirty = computed(() => !loading.value && JSON.stringify(form.value) !== savedSnapshot.value);
 
 onMounted(async () => {
@@ -132,8 +134,12 @@ let draftTimer = null;
 watch(form, () => {
   clearTimeout(draftTimer);
   draftTimer = setTimeout(() => {
-    if (isDirty.value) writeDraft(DRAFT_KEY, form.value, 'Profil & Contact');
-    else removeDraft(DRAFT_KEY);
+    if (isDirty.value) {
+      if (writeDraft(DRAFT_KEY, form.value, 'Profil & Contact')) draftSavedAt.value = formatClock();
+    } else {
+      removeDraft(DRAFT_KEY);
+      draftSavedAt.value = null;
+    }
   }, 400);
 }, { deep: true });
 
@@ -171,6 +177,7 @@ async function handleSave() {
     clearTimeout(draftTimer);
     removeDraft(DRAFT_KEY);
     restoredAt.value = null;
+    draftSavedAt.value = null;
     saved.value = true;
     setTimeout(() => { saved.value = false; }, 3000);
   } catch (err) {

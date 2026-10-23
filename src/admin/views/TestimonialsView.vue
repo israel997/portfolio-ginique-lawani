@@ -34,7 +34,7 @@
     </AdminListRow>
   </AdminCollection>
 
-  <SlideOver :open="!!form" :title="form?.id ? 'Modifier le témoignage' : 'Nouveau témoignage'" :restored-at="restoredAt" @close="requestClose" @revert="revertDraft">
+  <SlideOver :open="!!form" :title="form?.id ? 'Modifier le témoignage' : 'Nouveau témoignage'" :restored-at="restoredAt" :saved-at="draftSavedAt" @close="requestClose" @revert="revertDraft">
     <form v-if="form" id="testimonial-form" @submit.prevent="submit" class="space-y-6">
       <div class="flex items-end gap-3">
         <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-brand/25 font-display font-semibold text-brand-text">{{ form.initials || autoInitials || '?' }}</span>
@@ -90,7 +90,7 @@ const {
   items, loading, pendingDelete,
   form, formError, saving, confirmDiscard,
   openCreate, openEdit, requestClose, discard, submit,
-  drafts, restoredAt, resumeDraft, dropDraft, revertDraft,
+  drafts, restoredAt, draftSavedAt, resumeDraft, dropDraft, revertDraft,
   toggleVisibility, move, handleDelete
 } = useCrudList('testimonials', {
   fields: ['name', 'role_fr', 'role_en', 'initials', 'quote_fr', 'quote_en'],

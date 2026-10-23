@@ -37,7 +37,7 @@
     </AdminListRow>
   </AdminCollection>
 
-  <SlideOver :open="!!form" :title="form?.id ? 'Modifier le point' : 'Nouveau point'" :restored-at="restoredAt" @close="requestClose" @revert="revertDraft">
+  <SlideOver :open="!!form" :title="form?.id ? 'Modifier le point' : 'Nouveau point'" :restored-at="restoredAt" :saved-at="draftSavedAt" @close="requestClose" @revert="revertDraft">
     <form v-if="form" id="figure-form" @submit.prevent="submit" class="space-y-6">
       <FormField v-model="form.value" label="Chiffre" placeholder="8+" hint="Ex. 8+, 15+, 02. Laissez vide pour un point sans chiffre." />
       <BilingualField v-model:fr="form.label_fr" v-model:en="form.label_en" label="Texte" placeholder="années de gestion de projets" placeholder-en="years of project management" />
@@ -113,7 +113,7 @@ const {
   items, loading, pendingDelete,
   form, formError, saving, confirmDiscard,
   openCreate, openEdit, requestClose, discard, submit,
-  drafts, restoredAt, resumeDraft, dropDraft, revertDraft,
+  drafts, restoredAt, draftSavedAt, resumeDraft, dropDraft, revertDraft,
   toggleVisibility, move, handleDelete
 } = useCrudList('key-figures', {
   fields: ['value', 'label_fr', 'label_en', 'color'],
