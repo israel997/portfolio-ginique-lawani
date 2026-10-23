@@ -2,45 +2,44 @@
   <section id="projects" itemscope itemtype="https://schema.org/CreativeWork">
     <SectionHeading :index="index" :eyebrow="st('projects', 'nav')" :title="st('projects', 'title')" />
 
-    <div class="mb-8 flex items-center gap-3 md:mb-10">
-      <div v-if="categories.length > 1" class="-ml-4 min-w-0 flex-1 overflow-x-auto pl-4 [scrollbar-width:none] md:mx-0 md:px-0">
-        <div class="flex w-max gap-2 md:mx-auto" role="tablist">
-          <button
-            v-for="filter in filters"
-            :key="filter.key"
-            type="button"
-            role="tab"
-            :aria-selected="activeFilter === filter.key"
-            @click="activeFilter = filter.key"
-            :class="[
-              'h-10 rounded-full px-4 text-sm font-medium transition-colors',
-              activeFilter === filter.key
-                ? 'bg-brand text-white'
-                : 'border border-line bg-surface text-ink-2 hover:bg-surface-hover'
-            ]"
-          >
-            {{ filter.label }}
-          </button>
-        </div>
-      </div>
-      <div v-else class="flex-1"></div>
-
-      <!-- Phones only: carousel or 2-column grid -->
-      <div v-if="isMobile" class="flex shrink-0 rounded-full border border-line bg-surface p-0.5" role="group" :aria-label="$t('projects.viewLabel')">
+    <!-- Phones only: layout switch, on its own line above the category filters -->
+    <div v-if="isMobile" class="mb-3 flex justify-end">
+      <div class="flex rounded-lg border border-line bg-surface p-0.5 shadow-card" role="group" :aria-label="$t('projects.viewLabel')">
         <button
           v-for="opt in VIEWS"
           :key="opt.value"
           type="button"
           @click="setView(opt.value)"
           :aria-pressed="view === opt.value"
-          :aria-label="$t(opt.label)"
-          :title="$t(opt.label)"
-          :class="['grid h-9 w-9 place-items-center rounded-full transition-colors', view === opt.value ? 'bg-ink text-page' : 'text-muted hover:text-ink']"
+          :class="['inline-flex h-8 items-center gap-1.5 rounded-md px-2.5 text-xs font-medium transition-colors', view === opt.value ? 'bg-ink text-page' : 'text-muted hover:text-ink']"
         >
-          <component :is="opt.icon" class="h-4 w-4" />
+          <component :is="opt.icon" class="h-3.5 w-3.5" />
+          {{ $t(opt.label) }}
         </button>
       </div>
     </div>
+
+    <div v-if="categories.length > 1" class="-mx-4 mb-8 overflow-x-auto px-4 [scrollbar-width:none] md:mb-10">
+      <div class="mx-auto flex w-max gap-2" role="tablist">
+        <button
+          v-for="filter in filters"
+          :key="filter.key"
+          type="button"
+          role="tab"
+          :aria-selected="activeFilter === filter.key"
+          @click="activeFilter = filter.key"
+          :class="[
+            'h-10 rounded-full px-4 text-sm font-medium transition-colors',
+            activeFilter === filter.key
+              ? 'bg-brand text-white'
+              : 'border border-line bg-surface text-ink-2 hover:bg-surface-hover'
+          ]"
+        >
+          {{ filter.label }}
+        </button>
+      </div>
+    </div>
+    <div v-else-if="isMobile" class="mb-5"></div>
 
     <!-- Phone, carousel: one full card at a time, swipe -->
     <div v-if="isMobile && view === 'carousel'">
