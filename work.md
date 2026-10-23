@@ -453,7 +453,7 @@ Total : **6 fonctions** sur 12 autorisées par le plan Hobby.
 | 14:16 | `ae79940` | Correctifs : **flèche « Précédent » du carrousel sur PC** (bloquée en fin de carrousel) ; **barre du bas depuis une page projet sur mobile** (le lien n'attendait que 60 ms que la section existe, trop court sur téléphone ; recalage pendant 5 s) |
 | 14:20 | `4cd5402` | **Renommer les sections** : page Admin → Sections (nom, titre, sous-titre, FR/EN), noms utilisés dans les menus et titres du site (v8) |
 | 14:45 | `61868ee` | **Partager un projet** : lien court `/<nom-du-projet>` (v9), bouton carré « Partager » sur chaque carte, « Partager » + « Voir tout le portfolio » sur la page projet, champ « Lien de partage » dans l'admin ; **suppression des tirets cadratins** (titre d'onglet « OOffix \| Ginique Oriadé LAWANI ») |
-| __TIME__ | __HASH__ | Ajout de `info.md` : fiche à envoyer dans chaque autre projet pour obtenir description courte, stack (liste), présentation, ce que j'ai fait (une phrase par point), méthodologie et images de galerie |
+| 14:50 | `ca2a018` | Ajout de `info.md` : fiche à envoyer dans chaque autre projet pour obtenir description courte, stack (liste), présentation, ce que j'ai fait (une phrase par point), méthodologie et images de galerie |
 
 ---
 
