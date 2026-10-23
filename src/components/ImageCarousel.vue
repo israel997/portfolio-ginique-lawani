@@ -70,10 +70,10 @@
         </button>
       </div>
       <div class="hidden gap-2 md:flex">
-        <button type="button" @click="interacted(); goTo(active - 1)" :disabled="active === 0" class="grid h-11 w-11 place-items-center rounded-full border border-line bg-surface transition-colors hover:bg-surface-hover disabled:opacity-30" aria-label="Précédent">
+        <button type="button" @click="interacted(); step(-1)" :disabled="atStart" class="grid h-11 w-11 place-items-center rounded-full border border-line bg-surface transition-colors hover:bg-surface-hover disabled:opacity-30" aria-label="Précédent">
           <ChevronLeft class="h-5 w-5" />
         </button>
-        <button type="button" @click="interacted(); goTo(active + 1)" :disabled="active >= items.length - 1" class="grid h-11 w-11 place-items-center rounded-full border border-line bg-surface transition-colors hover:bg-surface-hover disabled:opacity-30" aria-label="Suivant">
+        <button type="button" @click="interacted(); step(1)" :disabled="atEnd" class="grid h-11 w-11 place-items-center rounded-full border border-line bg-surface transition-colors hover:bg-surface-hover disabled:opacity-30" aria-label="Suivant">
           <ChevronRight class="h-5 w-5" />
         </button>
       </div>
@@ -103,6 +103,8 @@ const RESUME_AFTER_MS = 10000;
 
 const track = ref(null);
 const active = ref(0);
+const atStart = ref(true);
+const atEnd = ref(false);
 const paused = ref(false);
 const inView = ref(false);
 let lastInteraction = 0;
@@ -124,12 +126,24 @@ function goTo(i) {
   track.value.scrollTo({ left });
 }
 
+// Arrows move by one slide width from wherever the track is. (Computing a
+// target index broke "previous" at the end on desktop, where two slides are
+// visible and the last one can never be first.)
+function step(direction) {
+  const list = slides();
+  if (!list.length) return;
+  const gap = list.length > 1 ? list[1].offsetLeft - list[0].offsetLeft - list[0].clientWidth : 0;
+  track.value.scrollBy({ left: direction * (list[0].clientWidth + gap) });
+}
+
 function onScroll() {
   const list = slides();
   if (!list.length) return;
   const { scrollLeft, clientWidth, scrollWidth } = track.value;
-  // At the right edge on desktop the last slide can never become "first"
-  if (scrollLeft + clientWidth >= scrollWidth - 4) {
+  atStart.value = scrollLeft <= 4;
+  atEnd.value = scrollLeft + clientWidth >= scrollWidth - 4;
+  // At the right edge the last dot lights up, even if two slides are visible
+  if (atEnd.value) {
     active.value = list.length - 1;
     return;
   }
@@ -154,10 +168,12 @@ function interacted() {
 function tick() {
   if (paused.value || !inView.value || props.items.length < 2) return;
   if (Date.now() - lastInteraction < RESUME_AFTER_MS) return;
-  goTo(active.value >= props.items.length - 1 ? 0 : active.value + 1);
+  if (atEnd.value) goTo(0);
+  else step(1);
 }
 
 onMounted(() => {
+  onScroll();
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!props.autoplay || reducedMotion) return;
   // Only autoplay while the carousel is on screen

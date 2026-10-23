@@ -25,18 +25,56 @@ const routes = [
   { path: '/:pathMatch(.*)*', redirect: '/' }
 ];
 
+function waitForElement(selector, timeout = 3000) {
+  return new Promise((resolve) => {
+    const start = performance.now();
+    const check = () => {
+      if (document.querySelector(selector)) return resolve(true);
+      if (performance.now() - start > timeout) return resolve(false);
+      requestAnimationFrame(check);
+    };
+    check();
+  });
+}
+
+// Images above the target can finish loading after we scrolled and push it
+// down. For a short while, re-align on the target unless the visitor has
+// started scrolling themselves.
+function keepAligned(selector, top, duration = 5000) {
+  let userMoved = false;
+  const stop = () => { userMoved = true; };
+  const events = ['wheel', 'touchstart', 'keydown', 'mousedown'];
+  events.forEach((e) => window.addEventListener(e, stop, { once: true, passive: true }));
+  const start = performance.now();
+  const tick = () => {
+    const el = document.querySelector(selector);
+    if (userMoved || !el || performance.now() - start > duration) {
+      events.forEach((e) => window.removeEventListener(e, stop));
+      return;
+    }
+    const offset = el.getBoundingClientRect().top - top;
+    if (Math.abs(offset) > 8) window.scrollTo({ top: window.scrollY + offset, behavior: 'instant' });
+    setTimeout(tick, 120);
+  };
+  setTimeout(tick, 120);
+}
+
 const router = createRouter({
   history: createWebHistory(),
   routes,
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition;
-    // Coming back from a project page, the home sections need a frame to render
     if (to.hash) {
       // Router scrolling ignores CSS scroll-margin: offset for the sticky navbar
       const top = window.innerWidth >= 768 ? 80 : 68;
       const sameRoute = from.name === to.name;
-      return new Promise((resolve) => {
-        setTimeout(() => resolve({ el: to.hash, top, behavior: sameRoute ? 'smooth' : 'auto' }), sameRoute ? 0 : 60);
+      if (sameRoute) return { el: to.hash, top, behavior: 'smooth' };
+      // Coming from another page (e.g. a project page): the home sections are
+      // still being built, slowly on phones. Wait until the target exists.
+      return waitForElement(to.hash).then((found) => {
+        if (!found) return { top: 0 };
+        keepAligned(to.hash, top);
+        return { el: to.hash, top };
       });
     }
     return { top: 0 };
