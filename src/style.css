@@ -168,8 +168,15 @@
   .band-hero { padding-top: 6.5rem; }
 }
 /* One large soft disc spilling out of the hero's top-right corner (as on
-   the OOffix landing): breaks the flat background, solid color, no blur. */
+   the OOffix landing): breaks the flat background, solid color, no blur.
+   It drifts slowly to the opposite side and back (40 s each way).
+   --orb-shift = how far it travels: it ends spilling out of the left edge
+   by the same amount it spills out of the right one. */
+.band-hero {
+  container-type: inline-size; /* gives the animation the band width (cqw) */
+}
 .hero-orb {
+  --orb-shift: 1rem;
   position: absolute;
   z-index: -1;
   pointer-events: none;
@@ -179,13 +186,41 @@
   right: -7rem;
   border-radius: 9999px;
   background: var(--hero-orb);
+  will-change: transform;
+  animation: orb-drift 40s ease-in-out infinite alternate;
 }
 @media (min-width: 768px) {
   .hero-orb {
+    --orb-shift: 12rem;
     width: 34rem;
     height: 34rem;
     top: -13rem;
     right: -11rem;
+  }
+}
+@keyframes orb-drift {
+  from { transform: translate(0, 0); }
+  to { transform: translate(calc(-100cqw + var(--orb-shift)), 9rem); }
+}
+
+/* Smaller still disc in the Contact band's bottom-left corner */
+.section-orb {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  width: 9rem;
+  height: 9rem;
+  bottom: -4rem;
+  left: -4rem;
+  border-radius: 9999px;
+  background: var(--hero-orb);
+}
+@media (min-width: 768px) {
+  .section-orb {
+    width: 18rem;
+    height: 18rem;
+    bottom: -7rem;
+    left: -6rem;
   }
 }
 

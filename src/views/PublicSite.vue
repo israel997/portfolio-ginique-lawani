@@ -94,6 +94,7 @@ onUnmounted(() => {
       </div>
 
       <div v-for="section in sections" :key="section.id" :class="`band band-${section.id}`">
+        <div v-if="section.id === 'contact'" class="section-orb" aria-hidden="true"></div>
         <div class="band-inner"><component :is="section.component" :index="section.index" /></div>
       </div>
     </main>

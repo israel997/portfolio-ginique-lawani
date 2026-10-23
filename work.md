@@ -122,14 +122,14 @@ Chaque section est une « bande » pleine largeur avec son propre fond, pour év
 
 | Section | Sombre | Clair | Motif |
 |---|---|---|---|
-| Hero | `#0f172a` | `#f6f8fe` | **grand disque uni** qui déborde du coin supérieur droit, comme sur OOffix (`.hero-orb` : clair `#dfe8ff`, sombre bleu marque à 12 %) ; 15 rem sur mobile, 34 rem dès 768 px |
+| Hero | `#0f172a` | `#f6f8fe` | **grand disque uni** qui déborde du coin supérieur droit, comme sur OOffix (`.hero-orb` : clair `#dfe8ff`, sombre bleu marque à 12 %) ; 15 rem sur mobile, 34 rem dès 768 px ; **animé** : glisse vers le côté opposé en descendant de 9 rem puis revient (40 s par trajet, `ease-in-out`, boucle aller-retour, coupé si « réduire les animations ») |
 | À propos | `#111a30` | `#ffffff` | grille 48 px |
 | Projets | `#0b1120` | `#f6f8fe` | aucun |
 | Compétences | `#0d1426` | `#eef2fb` | points 22 px |
 | Savoir-faire | `#140f26` | `#ffffff` | aucun |
 | Parcours | `#0f172a` | `#f6f8fe` | lignes verticales 64 px |
 | Références | `#161229` | `#eef2fb` | aucun |
-| Contact | `#0f172a` | `#ffffff` | points 22 px |
+| Contact | `#0f172a` | `#ffffff` | points 22 px + **petit disque uni** immobile en bas à gauche (`.section-orb`, même couleur que celui du Hero ; 9 rem mobile, 18 rem dès 768 px) |
 
 ### 3.5 Couleurs des points clés (À propos)
 
@@ -152,6 +152,7 @@ Choisies par point dans l'admin ; nuance plus vive en sombre, plus foncée en cl
 - **Chiffres** (points clés) : comptent de 0 à leur valeur en environ 1,4 s, en ralentissant (`CountUp.vue`).
 - **Carrousels** : défilement fluide ; les flèches avancent ou reculent d'une image depuis la position actuelle ; celui de l'accueil avance seul toutes les 5 s (pause au survol ou au toucher, reprise après 10 s).
 - **Machine à écrire** dans le Hero (titres animés).
+- **Bulle du Hero** : dérive lente d'un coin à l'autre (40 s, aller-retour).
 - Tout est **désactivé** si l'appareil demande de réduire les animations (`prefers-reduced-motion`).
 
 ---
@@ -466,6 +467,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 17:27 | `90ac1b5` | **Cache du contenu réduit** de 60 s (+5 min) à 3 s (+5 s) : les modifications de l'admin (ex. couleur des points) mettaient jusqu'à plusieurs minutes à apparaître |
 | 17:44 | `12c888d` | **Aperçus de liens à jour** : la photo de profil actuelle (accueil) et l'image, le nom et la description de chaque projet (`/ooffix`) dans WhatsApp, LinkedIn, Facebook… via `api/og.js` ; `index.html` devient `app.html` en production |
 | 17:56 | `e999ff9` | **Disque décoratif** dans le coin supérieur droit de la première section, sobre et uni (clair `#dfe8ff`, sombre bleu à 12 %), comme sur la landing OOffix |
+| __TIME__ | __HASH__ | **Bulle du Hero animée** (glisse lentement vers le côté opposé et revient, 40 s par trajet) ; **petit disque** en bas à gauche de la section Contact |
 
 ---
 
