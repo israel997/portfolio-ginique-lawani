@@ -9,6 +9,12 @@
           </button>
         </header>
 
+        <p v-if="recommended" class="flex items-center gap-2 border-b border-white/10 bg-brand/10 px-4 py-2 text-xs text-slate-300">
+          <Crop class="h-3.5 w-3.5 shrink-0 text-brand-text" />
+          Format utilisé par le site pour cette image : <span class="font-mono font-semibold text-brand-text">{{ recommended }}</span>
+          <span v-if="!isSiteFormat" class="text-amber-300">· autre format choisi : l'image sera affichée avec des bandes</span>
+        </p>
+
         <!-- Format presets -->
         <div class="flex gap-1.5 overflow-x-auto border-b border-white/10 px-4 py-2.5 [scrollbar-width:none]" role="radiogroup" aria-label="Format">
           <button
@@ -19,11 +25,11 @@
             :aria-checked="ratio === preset.value"
             @click="setRatio(preset.value)"
             :class="[
-              'h-9 shrink-0 rounded-lg px-3 text-sm font-medium transition-colors',
-              ratio === preset.value ? 'bg-white text-slate-900' : 'bg-white/5 text-slate-300 hover:bg-white/10'
+              'h-9 shrink-0 rounded-lg border px-3 text-sm font-medium transition-colors',
+              ratio === preset.value || (Number.isNaN(ratio) && Number.isNaN(preset.value)) ? 'border-transparent bg-white text-slate-900' : preset.hint ? 'border-brand bg-brand/15 text-white' : 'border-transparent bg-white/5 text-slate-300 hover:bg-white/10'
             ]"
           >
-            {{ preset.label }}<span v-if="preset.hint" class="ml-1 text-xs opacity-60">· {{ preset.hint }}</span>
+            {{ preset.label }}<span v-if="preset.hint" class="ml-1 text-xs font-semibold opacity-80">· {{ preset.hint }}</span>
           </button>
         </div>
 
@@ -71,10 +77,10 @@
 </template>
 
 <script setup>
-import { ref, watch, onUnmounted } from 'vue';
+import { ref, computed, watch, onUnmounted } from 'vue';
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
-import { X, Check, LoaderCircle, RotateCcw, RotateCw, ZoomIn, ZoomOut, Undo2 } from 'lucide-vue-next';
+import { X, Check, LoaderCircle, RotateCcw, RotateCw, ZoomIn, ZoomOut, Undo2, Crop } from 'lucide-vue-next';
 
 // Full-screen crop editor. Emits `crop` with a Blob of the cropped image,
 // `original` to keep the file as-is, or `cancel`.
@@ -101,10 +107,16 @@ const presets = [
   { label: '1:1', value: 1 },
   { label: '4:5', value: 4 / 5 },
   { label: '3:4', value: 3 / 4 }
-].map((p) => ({ ...p, hint: props.recommended && p.label === props.recommended ? 'site' : '' }));
+].map((p) => ({ ...p, hint: props.recommended && p.label === props.recommended ? 'format du site' : '' }));
 
 const image = ref(null);
+
+const siteRatio = computed(() => {
+  const [w, h] = (props.recommended || '').split(':').map(Number);
+  return w && h ? w / h : NaN;
+});
 const ratio = ref(props.initialRatio);
+const isSiteFormat = computed(() => Number.isNaN(siteRatio.value) || ratio.value === siteRatio.value);
 const ready = ref(false);
 const loadError = ref(false);
 const exporting = ref(false);

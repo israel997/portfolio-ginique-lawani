@@ -26,7 +26,7 @@
         :placeholder="placeholder"
         :lang="lang"
         spellcheck="false"
-        class="admin-input relative resize-y bg-transparent! [scrollbar-gutter:stable]"
+        :class="['admin-input relative block bg-transparent! [scrollbar-gutter:stable]', autosize ? 'resize-none overflow-hidden' : 'resize-y']"
       ></textarea>
       <input
         v-else
@@ -84,7 +84,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, nextTick } from 'vue';
+import { ref, computed, watch, nextTick, onMounted } from 'vue';
 import { SpellCheck, LoaderCircle } from 'lucide-vue-next';
 
 // Text field with proofreading underlines and fixes. The checking itself
@@ -99,7 +99,9 @@ const props = defineProps({
   lang: { type: String, default: 'fr' },
   issues: { type: Array, default: () => [] },
   checking: Boolean,
-  error: { type: String, default: '' }
+  error: { type: String, default: '' },
+  // Grow with the content instead of scrolling (list points)
+  autosize: Boolean
 });
 const emit = defineEmits(['update:modelValue', 'apply', 'fix-all', 'ignore', 'focus']);
 
@@ -150,7 +152,17 @@ function syncScroll() {
   mirror.value.scrollLeft = field.value.scrollLeft;
 }
 
-watch(() => props.modelValue, () => nextTick(syncScroll));
+function fitHeight() {
+  if (!props.autosize || !props.multiline || !field.value) return;
+  field.value.style.height = 'auto';
+  field.value.style.height = `${field.value.scrollHeight + 2}px`;
+}
+
+watch(() => props.modelValue, () => nextTick(() => {
+  fitHeight();
+  syncScroll();
+}));
+onMounted(fitHeight);
 </script>
 
 <style scoped>

@@ -120,31 +120,31 @@
         <legend class="mb-1 font-mono text-xs uppercase tracking-wider text-slate-500">Page du projet</legend>
         <p class="mt-0! text-xs text-slate-500">Chaque bloc n'apparaît sur le site que s'il est rempli.</p>
 
-        <BilingualField
+        <RichTextField
           v-model:fr="form.details_fr"
           v-model:en="form.details_en"
+          v-model:style="form.details_style"
           label="Présentation"
-          multiline
           :rows="6"
           optional
           placeholder="Le contexte, le problème, la solution, les fonctionnalités clés…"
           placeholder-en="Context, problem, solution, key features…"
         />
-        <BilingualField
+        <RichTextField
           v-model:fr="form.contributions_fr"
           v-model:en="form.contributions_en"
+          v-model:style="form.contributions_style"
           label="Ce que j'ai fait"
-          multiline
           :rows="6"
           optional
           placeholder="Mon rôle, ce sur quoi j'ai travaillé, les défis relevés…"
           placeholder-en="My role, what I worked on, challenges solved…"
         />
-        <BilingualField
+        <RichTextField
           v-model:fr="form.methodology_fr"
           v-model:en="form.methodology_en"
+          v-model:style="form.methodology_style"
           label="Méthodologie"
-          multiline
           :rows="5"
           optional
           placeholder="Agile / Scrum, sprints, outils, organisation de l'équipe…"
@@ -200,6 +200,7 @@ import AdminCollection from '../components/AdminCollection.vue';
 import AdminListRow from '../components/AdminListRow.vue';
 import FormField from '../components/FormField.vue';
 import BilingualField from '../components/BilingualField.vue';
+import RichTextField from '../components/RichTextField.vue';
 import ImageUploadField from '../components/ImageUploadField.vue';
 import GalleryEditor from '../components/GalleryEditor.vue';
 import ConfirmDialog from '../components/ConfirmDialog.vue';
@@ -210,7 +211,8 @@ import FormFooter from '../components/FormFooter.vue';
 
 const FIELDS = [
   'name', 'description_fr', 'description_en', 'tags', 'gradient_class', 'category', 'categories', 'image_url', 'project_url',
-  'details_fr', 'details_en', 'contributions_fr', 'contributions_en', 'methodology_fr', 'methodology_en', 'gallery', 'slug'
+  'details_fr', 'details_en', 'contributions_fr', 'contributions_en', 'methodology_fr', 'methodology_en', 'gallery', 'slug',
+  'details_style', 'contributions_style', 'methodology_style'
 ];
 
 let galleryKey = 0;
@@ -228,7 +230,10 @@ const {
     gradient_class: 'from-pink-500 to-rose-600', category: 'Fullstack', categories: ['Fullstack'], image_url: '', project_url: '',
     details_fr: '', details_en: '', contributions_fr: '', contributions_en: '', methodology_fr: '', methodology_en: '',
     gallery: [],
-    slug: ''
+    slug: '',
+    details_style: 'text',
+    contributions_style: 'numbered',
+    methodology_style: 'text'
   }),
   // Client-only keys so gallery rows keep their identity while reordering
   prepare: (values) => ({

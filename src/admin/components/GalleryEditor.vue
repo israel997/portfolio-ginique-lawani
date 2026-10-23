@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="space-y-3">
-          <ImageUploadField :model-value="entry.image_url" @update:model-value="patch(i, { image_url: $event })" accept="image/*" />
+          <ImageUploadField :model-value="entry.image_url" @update:model-value="patch(i, { image_url: $event })" accept="image/*" aspect="4:3" />
           <BilingualField
             :fr="entry.title_fr"
             :en="entry.title_en"
@@ -33,6 +33,34 @@
             placeholder="Ex. Tableau de bord temps réel"
             placeholder-en="E.g. Real-time dashboard"
           />
+          <div>
+            <span class="admin-label">Couleur du titre</span>
+            <div class="flex flex-wrap gap-1.5" role="radiogroup" aria-label="Couleur du titre">
+              <button
+                type="button"
+                role="radio"
+                :aria-checked="!entry.title_color"
+                @click="patch(i, { title_color: '' })"
+                :class="['flex h-8 items-center gap-1.5 rounded-lg border px-2.5 text-xs', !entry.title_color ? 'border-white bg-white/10 text-white' : 'border-white/10 text-slate-400 hover:text-white']"
+              >Par défaut</button>
+              <button
+                v-for="c in FIGURE_COLORS"
+                :key="c.name"
+                type="button"
+                role="radio"
+                :aria-checked="entry.title_color === c.name"
+                :aria-label="c.label"
+                :title="c.label"
+                @click="patch(i, { title_color: c.name })"
+                :class="['grid h-8 w-8 place-items-center rounded-lg border', entry.title_color === c.name ? 'border-white bg-white/10' : 'border-white/10 hover:border-white/30']"
+              >
+                <span class="h-4 w-4 rounded-full" :style="{ background: `var(--fig-${c.name})` }"></span>
+              </button>
+            </div>
+            <p v-if="entry.title_fr || entry.title_en" class="mt-2 font-display text-base font-semibold" :style="entry.title_color ? { color: `var(--fig-${entry.title_color})` } : {}">
+              {{ entry.title_fr || entry.title_en }}
+            </p>
+          </div>
           <BilingualField
             :fr="entry.caption_fr"
             :en="entry.caption_en"
@@ -58,8 +86,9 @@
 import { ChevronUp, ChevronDown, Trash2, ImagePlus } from 'lucide-vue-next';
 import ImageUploadField from './ImageUploadField.vue';
 import BilingualField from './BilingualField.vue';
+import { FIGURE_COLORS } from '../../composables/figureColors';
 
-// Edits a project's gallery: [{ image_url, title_fr, title_en, caption_fr, caption_en }].
+// Edits a project's gallery: [{ image_url, title_fr, title_en, title_color, caption_fr, caption_en }].
 // `_key` is a client-only stable key for v-for (assigned when the form opens,
 // see ProjectsView); it's stripped before saving.
 const props = defineProps({
@@ -75,7 +104,7 @@ function update(next) {
 }
 
 function add() {
-  update([...props.modelValue, { _key: newKey(), image_url: '', title_fr: '', title_en: '', caption_fr: '', caption_en: '' }]);
+  update([...props.modelValue, { _key: newKey(), image_url: '', title_fr: '', title_en: '', title_color: '', caption_fr: '', caption_en: '' }]);
 }
 
 function patch(index, changes) {

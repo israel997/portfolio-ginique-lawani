@@ -172,6 +172,30 @@ export const MIGRATIONS = [
        WHERE EXISTS (SELECT 1 FROM projects q WHERE q.slug = p.slug AND q.id < p.id)`,
       `CREATE UNIQUE INDEX IF NOT EXISTS projects_slug_key ON projects (slug)`
     ]
+  },
+  {
+    version: 10,
+    statements: [
+      // Projects created from an admin tab older than the share-link field
+      // have no slug: generate it like v9 did. (The API now always sets one.)
+      `UPDATE projects
+       SET slug = trim(both '-' from regexp_replace(lower(translate(replace(replace(lower(name), 'œ', 'oe'), 'æ', 'ae'),
+         'àâäáãåçéèêëíìîïñóòôöõúùûüýÿÀÂÄÁÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸ',
+         'aaaaaaceeeeiiiinooooouuuuyyAAAAAACEEEEIIIINOOOOOUUUUYY')), '[^a-z0-9]+', '-', 'g'))
+       WHERE slug IS NULL OR slug = ''`,
+      `UPDATE projects SET slug = 'projet-' || id WHERE slug = ''`,
+      // Words the site already uses as paths (see RESERVED_SLUGS)
+      `UPDATE projects SET slug = slug || '-projet'
+       WHERE slug IN ('admin', 'projets', 'api', 'assets', 'images', 'logos', 'index', 'robots', 'sitemap', 'favicon')`,
+      // Two projects with the same name: suffix the later one with its id
+      `UPDATE projects p SET slug = p.slug || '-' || p.id
+       WHERE EXISTS (SELECT 1 FROM projects q WHERE q.slug = p.slug AND q.id < p.id)`,
+      // Display format of the long project texts: 'text' (paragraphs),
+      // 'numbered' (01, 02…) or 'bullets'. One item per line when a list.
+      `ALTER TABLE projects ADD COLUMN IF NOT EXISTS details_style TEXT NOT NULL DEFAULT 'text'`,
+      `ALTER TABLE projects ADD COLUMN IF NOT EXISTS contributions_style TEXT NOT NULL DEFAULT 'numbered'`,
+      `ALTER TABLE projects ADD COLUMN IF NOT EXISTS methodology_style TEXT NOT NULL DEFAULT 'text'`
+    ]
   }
 ];
 

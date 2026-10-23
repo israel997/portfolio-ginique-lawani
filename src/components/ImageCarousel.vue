@@ -47,7 +47,7 @@
             </span>
           </component>
           <figcaption v-if="item.title || item.text" class="p-5 md:p-6">
-            <h3 v-if="item.title" class="text-lg md:text-xl font-semibold mb-2">{{ item.title }}</h3>
+            <h3 v-if="item.title" class="text-lg md:text-xl font-semibold mb-2" :style="item.titleColor ? { color: item.titleColor } : {}">{{ item.title }}</h3>
             <p v-if="item.text" class="whitespace-pre-line text-sm md:text-[15px] leading-relaxed text-muted">{{ item.text }}</p>
           </figcaption>
         </figure>
@@ -87,7 +87,7 @@ import { ChevronLeft, ChevronRight, Maximize2 } from 'lucide-vue-next';
 
 // Swipeable image carousel with optional title + text under each image.
 // Used by the home "Ce que je sais faire" section and project galleries.
-//   items: [{ key, src, title?, text? }]
+//   items: [{ key, src, title?, titleColor? (CSS color), text? }]
 const props = defineProps({
   items: { type: Array, required: true },
   label: { type: String, default: '' },

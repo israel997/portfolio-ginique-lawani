@@ -1,6 +1,9 @@
 <template>
   <div>
     <label v-if="label" class="admin-label">{{ label }}</label>
+    <p v-if="isImage && aspect" class="-mt-1 mb-2 flex items-center gap-1.5 text-xs text-slate-400">
+      <Crop class="h-3.5 w-3.5 text-brand-text" /> Format sur le site : <span class="font-mono font-semibold text-brand-text">{{ aspect }}</span>
+    </p>
 
     <!-- Image with a preview: large thumbnail + replace/remove actions -->
     <!-- Shown whole (not cropped by the preview) so what you see is what's saved -->

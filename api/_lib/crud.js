@@ -2,6 +2,7 @@ import { sql } from './db.js';
 import { sendJson, methodNotAllowed, parseIdParam, withErrorHandling } from './http.js';
 import { requireAuth } from './auth.js';
 import { ensureSchema } from './migrations.js';
+import { slugify, RESERVED_SLUGS } from '../../src/composables/projectLinks.js';
 
 // Registry-based CRUD for the admin list resources, dispatched by the
 // `resource` dynamic path segment (api/admin/[resource]/index.js and [id].js)
@@ -27,9 +28,11 @@ export const RESOURCES = {
     columns: [
       'name', 'description_fr', 'description_en', 'tags', 'gradient_class', 'category', 'categories', 'image_url', 'project_url',
       'details_fr', 'details_en', 'contributions_fr', 'contributions_en', 'methodology_fr', 'methodology_en', 'gallery', 'slug',
+      'details_style', 'contributions_style', 'methodology_style',
       'sort_order', 'is_visible'
     ],
-    jsonColumns: ['gallery']
+    jsonColumns: ['gallery'],
+    beforeSave: ensureProjectSlug
   },
   'key-figures': {
     table: 'key_figures',
@@ -49,6 +52,28 @@ export const RESOURCES = {
     hasUpdatedAt: false
   }
 };
+
+// Every project gets a share link (/<slug>): when none is sent (older admin
+// tab, empty field), build one from the name and make it unique.
+async function ensureProjectSlug(body, id) {
+  if (body.slug !== undefined && String(body.slug).trim()) return;
+  if (body.slug === undefined && id) return; // PATCH not touching the slug
+  let name = body.name;
+  if (!name && id) {
+    const { rows } = await sql.query('SELECT name FROM projects WHERE id = $1', [id]);
+    name = rows[0]?.name;
+  }
+  let base = slugify(name) || 'projet';
+  if (RESERVED_SLUGS.includes(base)) base = `${base}-projet`;
+  const { rows } = await sql.query(
+    'SELECT slug FROM projects WHERE (slug = $1 OR slug LIKE $2) AND id IS DISTINCT FROM $3::int',
+    [base, `${base}-%`, id || null]
+  );
+  const taken = new Set(rows.map((r) => r.slug));
+  let slug = base;
+  for (let n = 2; taken.has(slug); n++) slug = `${base}-${n}`;
+  body.slug = slug;
+}
 
 // node-postgres serializes JS arrays as Postgres arrays, so JSONB values
 // must be stringified explicitly.
@@ -71,6 +96,7 @@ export async function handleListRequest(req, res) {
     }
     if (req.method === 'POST') {
       const body = req.body || {};
+      if (config.beforeSave) await config.beforeSave(body, null);
       const fields = columns.filter((c) => body[c] !== undefined);
       if (!fields.length) return sendJson(res, 400, { error: 'No fields provided' });
       const values = valuesFor(config, fields, body);
@@ -102,6 +128,7 @@ export async function handleItemRequest(req, res) {
     }
     if (req.method === 'PATCH') {
       const body = req.body || {};
+      if (config.beforeSave) await config.beforeSave(body, id);
       const fields = columns.filter((c) => body[c] !== undefined);
       if (!fields.length) return sendJson(res, 400, { error: 'No fields provided' });
       const setClauses = fields.map((f, i) => `${f} = $${i + 1}`);
