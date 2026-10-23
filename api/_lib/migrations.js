@@ -132,6 +132,18 @@ export const MIGRATIONS = [
       `UPDATE key_figures SET color = (ARRAY['purple', 'magenta', 'orange'])[(sort_order % 3) + 1]
        WHERE color IS NULL AND sort_order >= 0`
     ]
+  },
+  {
+    version: 7,
+    statements: [
+      // A project can belong to several categories (e.g. Fullstack + AI oriented).
+      // `category` stays, kept equal to the first one, for anything still reading it.
+      `ALTER TABLE projects ADD COLUMN IF NOT EXISTS categories TEXT[] NOT NULL DEFAULT '{}'`,
+      `UPDATE projects SET categories = ARRAY[category] WHERE cardinality(categories) = 0 AND category IS NOT NULL`,
+      `ALTER TABLE projects DROP CONSTRAINT IF EXISTS projects_categories_check`,
+      `ALTER TABLE projects ADD CONSTRAINT projects_categories_check
+         CHECK (categories <@ ARRAY['Fullstack', 'Frontend', 'Backend', 'Mobile', 'AI oriented']::TEXT[])`
+    ]
   }
 ];
 

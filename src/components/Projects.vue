@@ -42,8 +42,10 @@
             class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
           />
           <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent"></div>
-          <span class="absolute left-3 top-3 rounded-md bg-slate-950/60 px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-white/90 backdrop-blur-md">
-            {{ categoryLabel(project.category) }}
+          <span class="absolute left-3 top-3 flex max-w-[calc(100%-1.5rem)] flex-wrap gap-1.5">
+            <span v-for="cat in projectCategories(project)" :key="cat" class="rounded-md bg-slate-950/60 px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-white/90 backdrop-blur-md">
+              {{ categoryLabel(cat) }}
+            </span>
           </span>
           <span class="absolute inset-0 hidden items-center justify-center bg-slate-950/40 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover:opacity-100 md:flex" aria-hidden="true">
             <span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-900 shadow-lg">
@@ -94,7 +96,7 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ArrowUpRight, Eye } from 'lucide-vue-next';
-import { PROJECT_CATEGORIES, categoryLabel as labelFor } from '../composables/projectCategories';
+import { PROJECT_CATEGORIES, projectCategories, categoryLabel as labelFor } from '../composables/projectCategories';
 import { useContent } from '../composables/useContent';
 import SectionHeading from './SectionHeading.vue';
 
@@ -111,7 +113,7 @@ const activeFilter = ref('all');
 const projectsData = computed(() => content.value.projects || []);
 
 const categories = computed(() =>
-  PROJECT_CATEGORIES.filter((c) => projectsData.value.some((p) => p.category === c))
+  PROJECT_CATEGORIES.filter((c) => projectsData.value.some((p) => projectCategories(p).includes(c)))
 );
 
 const categoryLabel = (category) => labelFor(t, category);
@@ -124,7 +126,7 @@ const filters = computed(() => [
 const filteredProjects = computed(() =>
   activeFilter.value === 'all'
     ? projectsData.value
-    : projectsData.value.filter((p) => p.category === activeFilter.value)
+    : projectsData.value.filter((p) => projectCategories(p).includes(activeFilter.value))
 );
 </script>
 

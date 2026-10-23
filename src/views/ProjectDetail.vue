@@ -29,7 +29,7 @@
 
             <div class="grid gap-8 lg:grid-cols-[1.1fr_1fr] lg:items-end lg:gap-12">
               <div>
-                <p class="section-eyebrow mb-3">{{ categoryLabel(project.category) }}</p>
+                <p class="section-eyebrow mb-3">{{ categoriesText }}</p>
                 <h1 class="mb-4 text-4xl font-bold text-balance md:text-6xl">{{ project.name }}</h1>
                 <p class="text-base leading-relaxed text-ink-2 md:text-lg text-pretty">{{ localized(project, 'description') }}</p>
               </div>
@@ -74,7 +74,7 @@
               <dl class="space-y-5 rounded-2xl border border-line bg-surface p-5 md:p-6">
                 <div>
                   <dt class="mb-1 font-mono text-[11px] uppercase tracking-wider text-subtle">{{ $t('projectDetail.category') }}</dt>
-                  <dd class="font-medium">{{ categoryLabel(project.category) }}</dd>
+                  <dd class="font-medium">{{ categoriesText }}</dd>
                 </div>
                 <div v-if="project.tags?.length">
                   <dt class="mb-2 font-mono text-[11px] uppercase tracking-wider text-subtle">{{ $t('projectDetail.stack') }}</dt>
@@ -188,7 +188,7 @@ import {
   ArrowLeft, ArrowRight, ArrowUpRight, Globe, LoaderCircle, FileText, Hammer, Workflow, Images, Maximize2, X, ChevronLeft, ChevronRight
 } from 'lucide-vue-next';
 import { useContent } from '../composables/useContent';
-import { categoryLabel as labelFor } from '../composables/projectCategories';
+import { projectCategories, categoryLabel as labelFor } from '../composables/projectCategories';
 import Navbar from '../components/Navbar.vue';
 import Footer from '../components/Footer.vue';
 import MobileBottomNav from '../components/MobileBottomNav.vue';
@@ -200,7 +200,7 @@ const { content, loaded, localized } = useContent();
 const projects = computed(() => content.value.projects || []);
 const project = computed(() => projects.value.find((p) => String(p.id) === String(route.params.id)));
 
-const categoryLabel = (category) => labelFor(t, category);
+const categoriesText = computed(() => projectCategories(project.value).map((c) => labelFor(t, c)).join(' · '));
 
 function hostOf(url) {
   try {

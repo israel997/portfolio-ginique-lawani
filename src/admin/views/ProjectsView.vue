@@ -32,7 +32,7 @@
         </span>
       </template>
       <template #meta>
-        <span class="rounded-md bg-white/5 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-slate-400">{{ item.category }}</span>
+        <span v-for="cat in projectCategories(item)" :key="cat" class="rounded-md bg-white/5 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-slate-400">{{ cat }}</span>
         <span v-if="item.gallery?.length" class="flex items-center gap-1"><Images class="h-3.5 w-3.5" />{{ item.gallery.length }}</span>
         <span v-if="item.project_url" class="flex min-w-0 items-center gap-1"><Link2 class="h-3.5 w-3.5" /><span class="truncate">{{ hostOf(item.project_url) }}</span></span>
         <span v-if="!item.description_en" class="flex items-center gap-1 text-amber-400/80"><Languages class="h-3.5 w-3.5" />EN manquant</span>
@@ -50,20 +50,25 @@
         <FormField v-model="form.name" label="Nom du projet" placeholder="Ex. OOffix" />
 
         <div>
-          <span class="admin-label">Catégorie</span>
-          <div class="grid grid-cols-2 gap-1.5 rounded-xl border border-white/10 bg-white/5 p-1 sm:grid-cols-3" role="radiogroup">
+          <span class="admin-label">Catégories <span class="font-normal text-slate-500">(une ou plusieurs)</span></span>
+          <div class="grid grid-cols-2 gap-1.5 sm:grid-cols-3" role="group" aria-label="Catégories">
             <button
               v-for="opt in PROJECT_CATEGORIES"
               :key="opt"
               type="button"
-              role="radio"
-              :aria-checked="form.category === opt"
-              @click="form.category = opt"
+              role="checkbox"
+              :aria-checked="form.categories.includes(opt)"
+              @click="toggleCategory(opt)"
               :class="[
-                'h-9 rounded-lg text-sm font-medium transition-colors',
-                form.category === opt ? 'bg-white text-slate-900' : 'text-slate-400 hover:text-white'
+                'flex h-10 items-center gap-2 rounded-lg border px-3 text-sm font-medium transition-colors',
+                form.categories.includes(opt) ? 'border-brand bg-brand/15 text-white' : 'border-white/10 bg-white/5 text-slate-400 hover:text-white'
               ]"
-            >{{ opt }}</button>
+            >
+              <span :class="['grid h-4 w-4 shrink-0 place-items-center rounded border', form.categories.includes(opt) ? 'border-brand bg-brand' : 'border-white/30']">
+                <Check v-if="form.categories.includes(opt)" class="h-3 w-3 text-white" :stroke-width="3" />
+              </span>
+              {{ opt }}
+            </button>
           </div>
         </div>
 
@@ -157,9 +162,9 @@
 </template>
 
 <script setup>
-import { ImageOff, FolderKanban, Images, Link2, Languages, CircleAlert } from 'lucide-vue-next';
+import { ImageOff, FolderKanban, Images, Link2, Languages, CircleAlert, Check } from 'lucide-vue-next';
 import { useCrudList } from '../composables/useCrudList';
-import { PROJECT_CATEGORIES } from '../../composables/projectCategories';
+import { PROJECT_CATEGORIES, projectCategories } from '../../composables/projectCategories';
 import AdminCollection from '../components/AdminCollection.vue';
 import AdminListRow from '../components/AdminListRow.vue';
 import FormField from '../components/FormField.vue';
@@ -173,7 +178,7 @@ import ToggleSwitch from '../components/ToggleSwitch.vue';
 import FormFooter from '../components/FormFooter.vue';
 
 const FIELDS = [
-  'name', 'description_fr', 'description_en', 'tags', 'gradient_class', 'category', 'image_url', 'project_url',
+  'name', 'description_fr', 'description_en', 'tags', 'gradient_class', 'category', 'categories', 'image_url', 'project_url',
   'details_fr', 'details_en', 'contributions_fr', 'contributions_en', 'methodology_fr', 'methodology_en', 'gallery'
 ];
 
@@ -188,27 +193,40 @@ const {
   fields: FIELDS,
   defaults: () => ({
     name: '', description_fr: '', description_en: '', tags: [],
-    gradient_class: 'from-brand to-rose-600', category: 'Fullstack', image_url: '', project_url: '',
+    gradient_class: 'from-pink-500 to-rose-600', category: 'Fullstack', categories: ['Fullstack'], image_url: '', project_url: '',
     details_fr: '', details_en: '', contributions_fr: '', contributions_en: '', methodology_fr: '', methodology_en: '',
     gallery: []
   }),
   // Client-only keys so gallery rows keep their identity while reordering
-  prepare: (values) => ({ ...values, gallery: (values.gallery || []).map((g) => ({ ...g, _key: `g${galleryKey++}` })) }),
+  prepare: (values) => ({
+    ...values,
+    categories: projectCategories(values),
+    gallery: (values.gallery || []).map((g) => ({ ...g, _key: `g${galleryKey++}` }))
+  }),
   validate: (f) => {
     if (!f.name.trim()) return 'Le nom du projet est obligatoire.';
     if (!f.description_fr.trim()) return 'Ajoutez au moins la description courte en français.';
+    if (!f.categories.length) return 'Choisissez au moins une catégorie.';
     if (f.gallery.some((g) => !g.image_url)) return 'Chaque entrée de la galerie doit avoir une image (ou retirez-la).';
     return '';
   },
   clean: (p) => ({
     ...p,
     name: p.name.trim(),
+    // Keep the older single-category column in step (first one in display order)
+    categories: PROJECT_CATEGORIES.filter((c) => p.categories.includes(c)),
+    category: PROJECT_CATEGORIES.find((c) => p.categories.includes(c)),
     project_url: p.project_url?.trim() || null,
     image_url: p.image_url || null,
     gallery: p.gallery.map(({ _key, ...entry }) => entry)
   }),
   labels: { created: 'Projet créé', saved: 'Projet enregistré', deleted: 'Projet supprimé' }
 });
+
+function toggleCategory(cat) {
+  const list = form.value.categories;
+  form.value.categories = list.includes(cat) ? list.filter((c) => c !== cat) : [...list, cat];
+}
 
 function hostOf(url) {
   try {
