@@ -95,34 +95,16 @@
           </div>
         </div>
 
-        <!-- Gallery: image + caption, alternating sides on desktop -->
+        <!-- Gallery: swipeable carousel, click an image to view it full screen -->
         <div v-if="gallery.length" class="band band-showcase">
           <div class="band-inner">
-            <div class="mb-10 flex items-center gap-3 md:mb-14">
+            <div class="mb-8 flex items-center gap-3 md:mb-10">
               <span class="grid h-10 w-10 place-items-center rounded-xl border border-line bg-surface">
                 <Images class="h-5 w-5 text-accent" />
               </span>
               <h2 class="text-2xl font-bold md:text-3xl">{{ $t('projectDetail.gallery') }}</h2>
             </div>
-            <ol class="space-y-12 md:space-y-20">
-              <li v-for="(item, i) in gallery" :key="i" class="grid items-center gap-5 md:grid-cols-2 md:gap-12">
-                <button
-                  type="button"
-                  @click="lightbox = i"
-                  :class="['group relative overflow-hidden rounded-2xl border border-line bg-panel', i % 2 ? 'md:order-2' : '']"
-                  :aria-label="captionOf(item) || `${project.name} ${i + 1}`"
-                >
-                  <img :src="item.image_url" :alt="captionOf(item)" loading="lazy" decoding="async" class="w-full transition-transform duration-500 group-hover:scale-[1.02]" />
-                  <span class="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-slate-950/60 text-white opacity-0 backdrop-blur-md transition-opacity group-hover:opacity-100">
-                    <Maximize2 class="h-4 w-4" />
-                  </span>
-                </button>
-                <div>
-                  <p class="mb-2 font-mono text-xs text-accent">{{ String(i + 1).padStart(2, '0') }}</p>
-                  <p class="whitespace-pre-line text-base leading-relaxed text-ink-2 md:text-lg">{{ captionOf(item) }}</p>
-                </div>
-              </li>
-            </ol>
+            <ImageCarousel :items="gallerySlides" :label="`${$t('projectDetail.gallery')} — ${project.name}`" :autoplay="false" zoomable @open="lightbox = $event" />
           </div>
         </div>
 
@@ -169,7 +151,10 @@
             <button type="button" @click="step(-1)" class="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/10 hover:bg-white/10" :aria-label="$t('projectDetail.previous')">
               <ChevronLeft class="h-5 w-5" />
             </button>
-            <p class="line-clamp-3 flex-1 text-center text-sm text-slate-300">{{ captionOf(gallery[lightbox]) }}</p>
+            <p class="line-clamp-3 flex-1 text-center text-sm text-slate-300">
+              <span v-if="titleOf(gallery[lightbox])" class="block font-semibold text-white">{{ titleOf(gallery[lightbox]) }}</span>
+              {{ captionOf(gallery[lightbox]) }}
+            </p>
             <button type="button" @click="step(1)" class="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/10 hover:bg-white/10" :aria-label="$t('projectDetail.next')">
               <ChevronRight class="h-5 w-5" />
             </button>
@@ -185,13 +170,14 @@ import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import {
-  ArrowLeft, ArrowRight, ArrowUpRight, Globe, LoaderCircle, FileText, Hammer, Workflow, Images, Maximize2, X, ChevronLeft, ChevronRight
+  ArrowLeft, ArrowRight, ArrowUpRight, Globe, LoaderCircle, FileText, Hammer, Workflow, Images, X, ChevronLeft, ChevronRight
 } from 'lucide-vue-next';
 import { useContent } from '../composables/useContent';
 import { projectCategories, categoryLabel as labelFor } from '../composables/projectCategories';
 import Navbar from '../components/Navbar.vue';
 import Footer from '../components/Footer.vue';
 import MobileBottomNav from '../components/MobileBottomNav.vue';
+import ImageCarousel from '../components/ImageCarousel.vue';
 
 const route = useRoute();
 const { t, locale } = useI18n();
@@ -232,6 +218,18 @@ function captionOf(item) {
   if (!item) return '';
   return (locale.value === 'en' && item.caption_en) || item.caption_fr || '';
 }
+
+function titleOf(item) {
+  if (!item) return '';
+  return (locale.value === 'en' && item.title_en) || item.title_fr || '';
+}
+
+const gallerySlides = computed(() => gallery.value.map((item, i) => ({
+  key: `${i}-${item.image_url}`,
+  src: item.image_url,
+  title: titleOf(item),
+  text: captionOf(item)
+})));
 
 const neighbours = computed(() => {
   const i = projects.value.findIndex((p) => p === project.value);

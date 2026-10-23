@@ -3,7 +3,7 @@
     <div class="mb-2 flex items-center justify-between">
       <span class="admin-label mb-0">Galerie <span class="font-normal text-slate-500">({{ modelValue.length }})</span></span>
     </div>
-    <p class="mb-3 text-xs text-slate-500">Chaque image s'affiche avec sa légende sur la page du projet, dans cet ordre.</p>
+    <p class="mb-3 text-xs text-slate-500">Affichée en carrousel sur la page du projet, dans cet ordre : chaque image avec son titre et sa description.</p>
 
     <ol class="space-y-3">
       <li v-for="(entry, i) in modelValue" :key="entry._key || i" class="rounded-xl border border-white/10 bg-white/[0.03] p-3">
@@ -24,11 +24,21 @@
         <div class="space-y-3">
           <ImageUploadField :model-value="entry.image_url" @update:model-value="patch(i, { image_url: $event })" accept="image/*" />
           <BilingualField
+            :fr="entry.title_fr"
+            :en="entry.title_en"
+            @update:fr="patch(i, { title_fr: $event })"
+            @update:en="patch(i, { title_en: $event })"
+            label="Titre"
+            optional
+            placeholder="Ex. Tableau de bord temps réel"
+            placeholder-en="E.g. Real-time dashboard"
+          />
+          <BilingualField
             :fr="entry.caption_fr"
             :en="entry.caption_en"
             @update:fr="patch(i, { caption_fr: $event })"
             @update:en="patch(i, { caption_en: $event })"
-            label="Légende"
+            label="Description"
             multiline
             :rows="3"
             placeholder="Ce que montre cette image, ce qui a été fait…"
@@ -49,7 +59,7 @@ import { ChevronUp, ChevronDown, Trash2, ImagePlus } from 'lucide-vue-next';
 import ImageUploadField from './ImageUploadField.vue';
 import BilingualField from './BilingualField.vue';
 
-// Edits a project's gallery: [{ image_url, caption_fr, caption_en }].
+// Edits a project's gallery: [{ image_url, title_fr, title_en, caption_fr, caption_en }].
 // `_key` is a client-only stable key for v-for (assigned when the form opens,
 // see ProjectsView); it's stripped before saving.
 const props = defineProps({
@@ -65,7 +75,7 @@ function update(next) {
 }
 
 function add() {
-  update([...props.modelValue, { _key: newKey(), image_url: '', caption_fr: '', caption_en: '' }]);
+  update([...props.modelValue, { _key: newKey(), image_url: '', title_fr: '', title_en: '', caption_fr: '', caption_en: '' }]);
 }
 
 function patch(index, changes) {
