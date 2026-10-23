@@ -471,7 +471,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 17:56 | `e999ff9` | **Disque décoratif** dans le coin supérieur droit de la première section, sobre et uni (clair `#dfe8ff`, sombre bleu à 12 %), comme sur la landing OOffix |
 | 17:59 | `0f50ee0` | **Bulle du Hero animée** (glisse lentement vers le côté opposé et revient, 40 s par trajet) ; **petit disque** en bas à gauche de la section Contact |
 | 18:11 | `68bf1be` | Mode clair : fond de la section **À propos** passé du blanc à `#f1f4fc` (teinte du Hero, un peu plus foncée) |
-| __TIME__ | __HASH__ | Mode clair : **grilles plus visibles** (4,5 % → 7,5 %) ; **Parcours** : vraie grille rectangulaire 64 × 96 px au lieu de lignes verticales seules |
+| 18:37 | `997762e` | Mode clair : **grilles plus visibles** (4,5 % → 7,5 %) ; **Parcours** : vraie grille rectangulaire 64 × 96 px au lieu de lignes verticales seules |
 
 ---
 
