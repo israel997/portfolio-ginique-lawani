@@ -464,7 +464,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 17:15 | `6454bad` | **Lien de partage toujours présent** (créé par le serveur si absent, ex. Vibe & Go affichait `/projets/7`) ; **listes numérotées / à tirets** dans Présentation, Ce que j'ai fait, Méthodologie (fini la numérotation à la main) ; **couleur des titres de galerie** ; **format de recadrage du site** affiché partout, galerie en 4:3 (v10) |
 | 17:21 | `9f11b1e` | **Couleur des numéros / tirets au choix** pour chaque bloc en liste (par défaut, 8 couleurs, ou Multicolore) (v11) |
 | 17:27 | `90ac1b5` | **Cache du contenu réduit** de 60 s (+5 min) à 3 s (+5 s) : les modifications de l'admin (ex. couleur des points) mettaient jusqu'à plusieurs minutes à apparaître |
-| __TIME__ | __HASH__ | **Aperçus de liens à jour** : la photo de profil actuelle (accueil) et l'image, le nom et la description de chaque projet (`/ooffix`) dans WhatsApp, LinkedIn, Facebook… via `api/og.js` ; `index.html` devient `app.html` en production |
+| 17:44 | `12c888d` | **Aperçus de liens à jour** : la photo de profil actuelle (accueil) et l'image, le nom et la description de chaque projet (`/ooffix`) dans WhatsApp, LinkedIn, Facebook… via `api/og.js` ; `index.html` devient `app.html` en production |
 
 ---
 
