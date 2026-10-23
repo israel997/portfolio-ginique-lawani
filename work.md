@@ -185,7 +185,7 @@ La numérotation suit les sections visibles : si une section est vide (ex. Savoi
 ### 4.4 Page détail d'un projet : `/<lien>` (ex. `/ooffix`)
 
 - **Adresse courte** : `/<lien>` (ex. `portfolio-ginique-lawani.vercel.app/ooffix`), le « lien de partage » du projet ; l'ancien format `/projets/<id>` fonctionne toujours ; un lien court inconnu renvoie à l'accueil.
-- Retour « Tous les projets », catégories, nom, description, technos, boutons « Voir le site en ligne », **« Partager »** et **« Voir tout le portfolio »**.
+- Retour « Tous les projets », catégories, nom, description, technos, boutons « Voir le site en ligne » et **« Partager »** ; tout en bas, après « Projet précédent / suivant », le bouton **« Voir tout le portfolio »**.
 - Image de couverture.
 - Blocs **Présentation**, **Ce que j'ai fait**, **Méthodologie** (chacun affiché seulement s'il est rempli ; sinon la description courte sert de présentation).
 - Encadré : catégories, stack, lien.
@@ -455,6 +455,7 @@ Total : **6 fonctions** sur 12 autorisées par le plan Hobby.
 | 14:45 | `61868ee` | **Partager un projet** : lien court `/<nom-du-projet>` (v9), bouton carré « Partager » sur chaque carte, « Partager » + « Voir tout le portfolio » sur la page projet, champ « Lien de partage » dans l'admin ; **suppression des tirets cadratins** (titre d'onglet « OOffix \| Ginique Oriadé LAWANI ») |
 | 14:50 | `ca2a018` | Ajout de `info.md` : fiche à envoyer dans chaque autre projet pour obtenir description courte, stack (liste), présentation, ce que j'ai fait (une phrase par point), méthodologie et images de galerie |
 | 14:51 | `071b592` | `info.md` complété avec les règles précises de « Ce que j'ai fait » (projet client, 5 à 8 points commençant par un nom d'action, termes techniques exacts, honnêteté) et une partie « À vérifier avec toi » |
+| __TIME__ | __HASH__ | Bouton « Voir tout le portfolio » déplacé **tout en bas** de la page projet, après « Projet précédent / suivant » (bouton plein, pleine largeur sur mobile) |
 
 ---
 

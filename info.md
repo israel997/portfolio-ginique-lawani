@@ -14,7 +14,7 @@
 ## Rubrique « Ce que j'ai fait » : règles précises
 
 **Format**
-- Entre **5 et 8 points**, selon ce que le projet justifie. Ne pas forcer un nombre.
+- Entre **5 et 10 points**, selon ce que le projet justifie. Ne pas forcer un nombre.
 - Un point = **une ligne courte, une seule idée**.
 - Chaque point commence par un **nom d'action** : Conception, Modélisation, Mise en place, Développement, Intégration, Déploiement, Réalisation, Tests.
 - Utiliser le **terme technique exact** (RBAC, multi-tenant, API REST, CI/CD, i18n, ORM…), sans le définir.

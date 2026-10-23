@@ -48,9 +48,6 @@
                     <Globe class="h-4 w-4" /> {{ $t('projectDetail.visit') }} <ArrowUpRight class="h-4 w-4" />
                   </a>
                   <ShareButton :project="project" variant="button" />
-                  <RouterLink to="/" class="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-line bg-surface px-5 text-sm font-semibold shadow-card transition-colors hover:border-accent/50">
-                    <LayoutGrid class="h-4 w-4" /> {{ $t('projectDetail.viewPortfolio') }}
-                  </RouterLink>
                 </div>
               </div>
             </div>
@@ -132,6 +129,12 @@
               </span>
               <ArrowRight class="h-5 w-5 shrink-0 text-subtle transition-transform group-hover:translate-x-0.5" />
             </RouterLink>
+            <!-- Last thing on the page: the way into the whole portfolio -->
+            <div class="flex justify-center pt-5 sm:col-span-2">
+              <RouterLink to="/" class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand px-6 text-sm font-semibold text-white transition-colors hover:bg-brand-hover sm:w-auto">
+                <LayoutGrid class="h-4 w-4" /> {{ $t('projectDetail.viewPortfolio') }}
+              </RouterLink>
+            </div>
           </div>
         </nav>
       </template>
