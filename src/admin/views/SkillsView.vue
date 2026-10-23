@@ -7,7 +7,10 @@
     :visible-count="items.filter((i) => i.is_visible).length"
     empty-title="Aucune compétence pour l'instant"
     :empty-icon="Code2"
+    :drafts="drafts"
     @create="openCreate"
+    @resume="resumeDraft"
+    @drop-draft="dropDraft"
   >
     <AdminListRow
       v-for="(item, index) in items"
@@ -32,7 +35,7 @@
     </AdminListRow>
   </AdminCollection>
 
-  <SlideOver :open="!!form" :title="form?.id ? 'Modifier la compétence' : 'Nouvelle compétence'" @close="requestClose">
+  <SlideOver :open="!!form" :title="form?.id ? 'Modifier la compétence' : 'Nouvelle compétence'" :restored-at="restoredAt" @close="requestClose" @revert="revertDraft">
     <form v-if="form" id="skill-form" @submit.prevent="submit" class="space-y-6">
       <BilingualField v-model:fr="form.title_fr" v-model:en="form.title_en" label="Titre" placeholder="Ex. Backend Development" />
       <BilingualField v-model:fr="form.description_fr" v-model:en="form.description_en" label="Description" multiline :rows="3" />
@@ -121,6 +124,7 @@ const {
   items, loading, pendingDelete,
   form, formError, saving, confirmDiscard,
   openCreate, openEdit, requestClose, discard, submit,
+  drafts, restoredAt, resumeDraft, dropDraft, revertDraft,
   toggleVisibility, move, handleDelete
 } = useCrudList('skills', {
   fields: ['title_fr', 'title_en', 'description_fr', 'description_en', 'icon_key', 'techs'],

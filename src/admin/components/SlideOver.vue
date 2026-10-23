@@ -29,6 +29,11 @@
           </button>
         </header>
         <div class="flex-1 overflow-y-auto overscroll-contain px-5 py-5 md:px-6">
+          <div v-if="restoredAt" class="mb-5 flex flex-wrap items-center gap-2 rounded-xl border border-amber-400/30 bg-amber-400/[0.07] px-3.5 py-2.5 text-sm">
+            <FilePen class="h-4 w-4 shrink-0 text-amber-300" />
+            <span class="flex-1 text-slate-200">Brouillon restauré ({{ restoredAt }}), pas encore enregistré.</span>
+            <button type="button" @click="$emit('revert')" class="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/5 hover:text-white">Revenir à la version enregistrée</button>
+          </div>
           <slot />
         </div>
         <footer v-if="$slots.footer" class="border-t border-white/10 bg-slate-950/95 px-5 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))] md:px-6">
@@ -41,13 +46,15 @@
 
 <script setup>
 import { watch, onUnmounted } from 'vue';
-import { X } from 'lucide-vue-next';
+import { X, FilePen } from 'lucide-vue-next';
 
 const props = defineProps({
   open: Boolean,
-  title: { type: String, default: '' }
+  title: { type: String, default: '' },
+  // When the form was restored from a local draft: when it was saved
+  restoredAt: { type: String, default: null }
 });
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'revert']);
 
 function onKeydown(event) {
   if (event.key === 'Escape') emit('close');

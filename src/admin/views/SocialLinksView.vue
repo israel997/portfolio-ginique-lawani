@@ -7,7 +7,10 @@
     :visible-count="items.filter((i) => i.is_visible).length"
     empty-title="Aucun lien pour l'instant"
     :empty-icon="Share2"
+    :drafts="drafts"
     @create="openCreate"
+    @resume="resumeDraft"
+    @drop-draft="dropDraft"
   >
     <AdminListRow
       v-for="(item, index) in items"
@@ -33,7 +36,7 @@
     </AdminListRow>
   </AdminCollection>
 
-  <SlideOver :open="!!form" :title="form?.id ? 'Modifier le lien' : 'Nouveau lien'" @close="requestClose">
+  <SlideOver :open="!!form" :title="form?.id ? 'Modifier le lien' : 'Nouveau lien'" :restored-at="restoredAt" @close="requestClose" @revert="revertDraft">
     <form v-if="form" id="social-form" @submit.prevent="submit" class="space-y-6">
       <div>
         <span class="admin-label">Réseau</span>
@@ -108,6 +111,7 @@ const {
   items, loading, pendingDelete,
   form, formError, saving, confirmDiscard,
   openCreate, openEdit, requestClose, discard, submit,
+  drafts, restoredAt, resumeDraft, dropDraft, revertDraft,
   toggleVisibility, move, handleDelete
 } = useCrudList('social-links', {
   fields: ['name', 'url', 'icon_key', 'custom_svg'],

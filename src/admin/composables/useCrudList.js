@@ -1,6 +1,7 @@
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useApi } from './useApi';
 import { useToast } from './useToast';
+import { readDraft, writeDraft, removeDraft, listDrafts, formatDraftTime } from './drafts';
 
 // Shared state and actions for an admin list page backed by
 // /api/admin/<resource>: load, create/edit in a slide-over, inline
@@ -12,6 +13,9 @@ import { useToast } from './useToast';
 //   prepare   (values) => values, adjust form values when the panel opens
 //   clean     (payload) => payload, last-minute normalisation before saving
 //   labels    { created, saved, deleted } toast messages
+//
+// Unsaved edits are autosaved as local drafts (see drafts.js) and offered
+// back after a refresh or when the item is reopened.
 export function useCrudList(resource, { fields, defaults, validate = () => '', prepare = (v) => v, clean = (p) => p, labels }) {
   const api = useApi();
   const toast = useToast();
@@ -27,6 +31,20 @@ export function useCrudList(resource, { fields, defaults, validate = () => '', p
   const saving = ref(false);
   const confirmDiscard = ref(false);
 
+  // --- Drafts ----------------------------------------------------------------
+  const draftKey = (id) => `${resource}:${id ?? 'new'}`;
+  const drafts = ref([]); // [{ key, label, savedAt, id }] shown above the list
+  const restoredAt = ref(null); // set when the open form came from a draft
+
+  const draftLabel = (v) => v?.name || v?.title_fr || v?.label_fr || v?.year_label || v?.value || 'Sans titre';
+
+  function refreshDrafts() {
+    drafts.value = listDrafts(`${resource}:`).map((d) => {
+      const id = d.key.slice(resource.length + 1);
+      return { ...d, id: id === 'new' ? null : Number(id), when: formatDraftTime(d.savedAt) };
+    });
+  }
+
   async function load() {
     loading.value = true;
     try {
@@ -38,7 +56,10 @@ export function useCrudList(resource, { fields, defaults, validate = () => '', p
     }
   }
 
-  onMounted(load);
+  onMounted(() => {
+    load();
+    refreshDrafts();
+  });
 
   // --- Create / edit panel -------------------------------------------------
 
@@ -47,6 +68,34 @@ export function useCrudList(resource, { fields, defaults, validate = () => '', p
     form.value = prepare(JSON.parse(JSON.stringify(values)));
     formSnapshot.value = JSON.stringify(form.value);
     formError.value = '';
+    restoredAt.value = null;
+    // An unsaved draft for this item wins over the stored version
+    const draft = readDraft(draftKey(values.id));
+    if (draft) {
+      form.value = { ...form.value, ...draft.values };
+      restoredAt.value = formatDraftTime(draft.savedAt);
+    }
+  }
+
+  // Throw the draft away and go back to the saved version
+  function revertDraft() {
+    if (!form.value) return;
+    removeDraft(draftKey(form.value.id));
+    form.value = JSON.parse(formSnapshot.value);
+    restoredAt.value = null;
+    refreshDrafts();
+  }
+
+  function resumeDraft(draft) {
+    if (draft.id === null) return openCreate();
+    const item = items.value.find((i) => i.id === draft.id);
+    if (item) openEdit(item);
+    else dropDraft(draft); // the item was deleted meanwhile
+  }
+
+  function dropDraft(draft) {
+    removeDraft(draft.key);
+    refreshDrafts();
   }
 
   function openCreate() {
@@ -61,14 +110,50 @@ export function useCrudList(resource, { fields, defaults, validate = () => '', p
 
   const isDirty = computed(() => !!form.value && JSON.stringify(form.value) !== formSnapshot.value);
 
+  // Autosave while there are unsaved changes (debounced); no changes, no draft
+  let draftTimer = null;
+  watch(form, (value) => {
+    clearTimeout(draftTimer);
+    if (!value) return;
+    draftTimer = setTimeout(() => {
+      if (!form.value) return;
+      if (isDirty.value) writeDraft(draftKey(form.value.id), form.value, draftLabel(form.value));
+      else removeDraft(draftKey(form.value.id));
+    }, 400);
+  }, { deep: true });
+
+  // Last line of defence: the browser asks before leaving with unsaved edits
+  function beforeUnload(event) {
+    if (!isDirty.value) return;
+    if (form.value) writeDraft(draftKey(form.value.id), form.value, draftLabel(form.value));
+    event.preventDefault();
+    event.returnValue = '';
+  }
+  window.addEventListener('beforeunload', beforeUnload);
+  onUnmounted(() => {
+    clearTimeout(draftTimer);
+    window.removeEventListener('beforeunload', beforeUnload);
+  });
+
+  // Closing never loses work: unsaved changes stay as a draft to resume later
   function requestClose() {
-    if (isDirty.value) confirmDiscard.value = true;
-    else form.value = null;
+    if (isDirty.value && form.value) {
+      writeDraft(draftKey(form.value.id), form.value, draftLabel(form.value));
+      toast.success('Brouillon gardé : vous pourrez le reprendre');
+    }
+    closeForm();
+  }
+
+  function closeForm() {
+    clearTimeout(draftTimer);
+    form.value = null;
+    refreshDrafts();
   }
 
   function discard() {
     confirmDiscard.value = false;
-    form.value = null;
+    removeDraft(draftKey(form.value?.id));
+    closeForm();
   }
 
   async function submit() {
@@ -92,7 +177,8 @@ export function useCrudList(resource, { fields, defaults, validate = () => '', p
         items.value.push(created);
         toast.success(labels.created);
       }
-      form.value = null;
+      removeDraft(draftKey(form.value.id));
+      closeForm();
     } catch (err) {
       formError.value = err.message;
     } finally {
@@ -150,6 +236,7 @@ export function useCrudList(resource, { fields, defaults, validate = () => '', p
   return {
     items, loading, pendingDelete,
     form, formError, saving, confirmDiscard, isDirty,
+    drafts, restoredAt, resumeDraft, dropDraft, revertDraft,
     load, openCreate, openEdit, requestClose, discard, submit,
     toggleVisibility, move, handleDelete
   };

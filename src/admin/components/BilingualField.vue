@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="root">
     <div class="mb-2 flex items-center justify-between gap-3">
       <label :for="inputId" class="admin-label mb-0">
         {{ label }}
@@ -19,26 +19,27 @@
           ]"
         >
           {{ lang }}
-          <span v-if="!valueFor(lang)" class="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-amber-400" :title="`${lang.toUpperCase()} vide`"></span>
+          <!-- Red: proofreading issues in that language; amber: still empty -->
+          <span v-if="checks[lang].issues.value.length" class="absolute -right-1 -top-1 grid h-3.5 min-w-3.5 place-items-center rounded-full bg-red-500 px-0.5 text-[9px] font-bold leading-none text-white" :title="`${checks[lang].issues.value.length} faute(s) en ${lang.toUpperCase()}`">{{ checks[lang].issues.value.length }}</span>
+          <span v-else-if="!valueFor(lang)" class="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-amber-400" :title="`${lang.toUpperCase()} vide`"></span>
         </button>
       </div>
     </div>
-    <textarea
-      v-if="multiline"
+    <SpellField
       :id="inputId"
-      :value="valueFor(current)"
-      @input="update($event.target.value)"
+      :model-value="valueFor(current)"
+      @update:model-value="update"
+      :multiline="multiline"
       :rows="rows"
       :placeholder="current === 'fr' ? placeholder : placeholderEn || placeholder"
-      class="admin-input resize-y"
-    ></textarea>
-    <input
-      v-else
-      :id="inputId"
-      :value="valueFor(current)"
-      @input="update($event.target.value)"
-      :placeholder="current === 'fr' ? placeholder : placeholderEn || placeholder"
-      class="admin-input"
+      :lang="current"
+      :issues="checks[current].issues.value"
+      :checking="checks[current].checking.value"
+      :error="checks[current].error.value"
+      @focus="checks[current].refresh()"
+      @apply="(issue, rep) => checks[current].apply(issue, rep, update)"
+      @fix-all="checks[current].applyAll(update)"
+      @ignore="(issue) => checks[current].ignore(issue)"
     />
     <p v-if="hint" class="mt-1.5 text-xs text-slate-500">{{ hint }}</p>
   </div>
@@ -46,9 +47,11 @@
 
 <script setup>
 import { ref, useId } from 'vue';
+import SpellField from './SpellField.vue';
+import { useSpellcheck } from '../composables/useSpellcheck';
 
-// One field, two languages: v-model:fr and v-model:en, with FR/EN tabs and
-// an amber dot on any language still empty.
+// One field, two languages: v-model:fr and v-model:en, with FR/EN tabs, an
+// amber dot on a language still empty, and proofreading in each language.
 const props = defineProps({
   fr: { type: String, default: '' },
   en: { type: String, default: '' },
@@ -63,8 +66,14 @@ const props = defineProps({
 const emit = defineEmits(['update:fr', 'update:en']);
 
 const inputId = useId();
+const root = ref(null);
 const current = ref('fr');
 
 const valueFor = (lang) => (lang === 'fr' ? props.fr : props.en) || '';
 const update = (value) => emit(`update:${current.value}`, value);
+
+const checks = {
+  fr: useSpellcheck(() => props.fr, 'fr', { el: () => root.value }),
+  en: useSpellcheck(() => props.en, 'en', { el: () => root.value })
+};
 </script>

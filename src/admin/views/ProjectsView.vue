@@ -8,7 +8,10 @@
     empty-title="Aucun projet pour l'instant"
     empty-hint="Ajoutez votre premier projet, il apparaîtra sur le site."
     :empty-icon="FolderKanban"
+    :drafts="drafts"
     @create="openCreate"
+    @resume="resumeDraft"
+    @drop-draft="dropDraft"
   >
     <AdminListRow
       v-for="(item, index) in items"
@@ -40,7 +43,7 @@
     </AdminListRow>
   </AdminCollection>
 
-  <SlideOver :open="!!form" :title="form?.id ? 'Modifier le projet' : 'Nouveau projet'" @close="requestClose">
+  <SlideOver :open="!!form" :title="form?.id ? 'Modifier le projet' : 'Nouveau projet'" :restored-at="restoredAt" @close="requestClose" @revert="revertDraft">
     <form v-if="form" id="project-form" @submit.prevent="submit" class="space-y-8">
       <fieldset class="space-y-6">
         <legend class="mb-4 font-mono text-xs uppercase tracking-wider text-slate-500">Carte du projet</legend>
@@ -189,6 +192,7 @@ const {
   items, loading, pendingDelete,
   form, formError, saving, confirmDiscard,
   openCreate, openEdit, requestClose, discard, submit,
+  drafts, restoredAt, resumeDraft, dropDraft, revertDraft,
   toggleVisibility, move, handleDelete
 } = useCrudList('projects', {
   fields: FIELDS,

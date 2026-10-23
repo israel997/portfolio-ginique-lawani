@@ -1,6 +1,7 @@
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useApi } from './useApi';
 import { findLogo } from '../../composables/techLogos';
+import { setExtraWords } from './useSpellcheck';
 
 // Autocomplete options for technology fields: every logo in the library plus
 // every tech already used in projects and skills, deduplicated, each with its
@@ -34,6 +35,9 @@ const suggestions = computed(() => {
   }
   return [...byKey.values()].sort((a, b) => a.name.localeCompare(b.name));
 });
+
+// Tech names are never spelling mistakes
+watch(suggestions, (list) => setExtraWords(list.map((s) => s.name)));
 
 export function useTechSuggestions() {
   load();

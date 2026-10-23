@@ -8,7 +8,10 @@
     empty-title="Aucune étape pour l'instant"
     empty-hint="Ajoutez vos expériences et formations."
     :empty-icon="Route"
+    :drafts="drafts"
     @create="openCreate"
+    @resume="resumeDraft"
+    @drop-draft="dropDraft"
   >
     <AdminListRow
       v-for="(item, index) in items"
@@ -28,7 +31,7 @@
     />
   </AdminCollection>
 
-  <SlideOver :open="!!form" :title="form?.id ? 'Modifier l\'étape' : 'Nouvelle étape'" @close="requestClose">
+  <SlideOver :open="!!form" :title="form?.id ? 'Modifier l\'étape' : 'Nouvelle étape'" :restored-at="restoredAt" @close="requestClose" @revert="revertDraft">
     <form v-if="form" id="timeline-form" @submit.prevent="submit" class="space-y-6">
       <FormField v-model="form.year_label" label="Année / période" placeholder="Ex. 2022-2025" />
       <BilingualField v-model:fr="form.title_fr" v-model:en="form.title_en" label="Titre" placeholder="Ex. Responsable de projets digitaux" placeholder-en="E.g. Digital projects manager" />
@@ -74,6 +77,7 @@ const {
   items, loading, pendingDelete,
   form, formError, saving, confirmDiscard,
   openCreate, openEdit, requestClose, discard, submit,
+  drafts, restoredAt, resumeDraft, dropDraft, revertDraft,
   toggleVisibility, move, handleDelete
 } = useCrudList('timeline', {
   fields: ['year_label', 'title_fr', 'title_en', 'company_fr', 'company_en', 'description_fr', 'description_en'],
