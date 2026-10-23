@@ -467,7 +467,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 17:27 | `90ac1b5` | **Cache du contenu réduit** de 60 s (+5 min) à 3 s (+5 s) : les modifications de l'admin (ex. couleur des points) mettaient jusqu'à plusieurs minutes à apparaître |
 | 17:44 | `12c888d` | **Aperçus de liens à jour** : la photo de profil actuelle (accueil) et l'image, le nom et la description de chaque projet (`/ooffix`) dans WhatsApp, LinkedIn, Facebook… via `api/og.js` ; `index.html` devient `app.html` en production |
 | 17:56 | `e999ff9` | **Disque décoratif** dans le coin supérieur droit de la première section, sobre et uni (clair `#dfe8ff`, sombre bleu à 12 %), comme sur la landing OOffix |
-| __TIME__ | __HASH__ | **Bulle du Hero animée** (glisse lentement vers le côté opposé et revient, 40 s par trajet) ; **petit disque** en bas à gauche de la section Contact |
+| 17:59 | `0f50ee0` | **Bulle du Hero animée** (glisse lentement vers le côté opposé et revient, 40 s par trajet) ; **petit disque** en bas à gauche de la section Contact |
 
 ---
 
