@@ -123,6 +123,15 @@ export const MIGRATIONS = [
        WHERE s.id = 1 AND COALESCE(x.v, '') <> ''
          AND NOT EXISTS (SELECT 1 FROM key_figures)`
     ]
+  },
+  {
+    version: 6,
+    statements: [
+      // Highlight color per key point (a preset name, see src/composables/figureColors.js)
+      `ALTER TABLE key_figures ADD COLUMN IF NOT EXISTS color TEXT`,
+      `UPDATE key_figures SET color = (ARRAY['purple', 'magenta', 'orange'])[(sort_order % 3) + 1]
+       WHERE color IS NULL AND sort_order >= 0`
+    ]
   }
 ];
 

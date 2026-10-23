@@ -33,7 +33,7 @@ export const RESOURCES = {
   },
   'key-figures': {
     table: 'key_figures',
-    columns: ['value', 'label_fr', 'label_en', 'sort_order', 'is_visible']
+    columns: ['value', 'label_fr', 'label_en', 'color', 'sort_order', 'is_visible']
   },
   showcase: {
     table: 'showcase_items',

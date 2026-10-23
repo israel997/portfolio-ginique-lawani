@@ -25,7 +25,13 @@
       @edit="openEdit(item)"
       @delete="pendingDelete = item"
       @toggle="toggleVisibility(item, $event)"
-    />
+    >
+      <template #thumb>
+        <span class="grid h-11 w-11 place-items-center rounded-xl border border-white/10 bg-white/5" :title="colorLabel(item.color)">
+          <span class="h-3.5 w-3.5 rounded-full" :style="{ background: figureColor(item.color, index) }"></span>
+        </span>
+      </template>
+    </AdminListRow>
   </AdminCollection>
 
   <SlideOver :open="!!form" :title="form?.id ? 'Modifier le point' : 'Nouveau point'" @close="requestClose">
@@ -33,11 +39,34 @@
       <FormField v-model="form.value" label="Chiffre" placeholder="8+" hint="Ex. 8+, 15+, 02. Laissez vide pour un point sans chiffre." />
       <BilingualField v-model:fr="form.label_fr" v-model:en="form.label_en" label="Texte" placeholder="années de gestion de projets" placeholder-en="years of project management" />
 
+      <div>
+        <span class="admin-label">Couleur de mise en avant <span class="font-normal text-slate-500">(chiffre et puce)</span></span>
+        <div class="grid grid-cols-4 gap-2 sm:grid-cols-8" role="radiogroup">
+          <button
+            v-for="c in FIGURE_COLORS"
+            :key="c.name"
+            type="button"
+            role="radio"
+            :aria-checked="form.color === c.name"
+            :aria-label="c.label"
+            :title="c.label"
+            @click="form.color = c.name"
+            :class="[
+              'flex flex-col items-center gap-1 rounded-xl border py-2 text-[10px] transition-colors',
+              form.color === c.name ? 'border-white bg-white/10 text-white' : 'border-white/10 text-slate-400 hover:text-white'
+            ]"
+          >
+            <span class="h-5 w-5 rounded-full" :style="{ background: `var(--fig-${c.name})` }"></span>
+            {{ c.label }}
+          </button>
+        </div>
+      </div>
+
       <div class="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3">
         <p class="mb-1 text-xs text-slate-500">Aperçu</p>
         <p class="flex items-baseline gap-3 text-sm text-slate-200">
-          <span class="h-2 w-2 shrink-0 rounded-full bg-brand-text"></span>
-          <span><span v-if="form.value" class="mr-1.5 font-mono text-lg font-semibold text-brand-text">{{ form.value }}</span>{{ form.label_fr || '…' }}</span>
+          <span class="h-2 w-2 shrink-0 rounded-full" :style="{ background: figureColor(form.color) }"></span>
+          <span><span v-if="form.value" class="mr-1.5 font-mono text-lg font-semibold" :style="{ color: figureColor(form.color) }">{{ form.value }}</span>{{ form.label_fr || '…' }}</span>
         </p>
       </div>
 
@@ -67,6 +96,7 @@
 <script setup>
 import { ListChecks, CircleAlert } from 'lucide-vue-next';
 import { useCrudList } from '../composables/useCrudList';
+import { FIGURE_COLORS, figureColor } from '../../composables/figureColors';
 import AdminCollection from '../components/AdminCollection.vue';
 import AdminListRow from '../components/AdminListRow.vue';
 import FormField from '../components/FormField.vue';
@@ -82,10 +112,12 @@ const {
   openCreate, openEdit, requestClose, discard, submit,
   toggleVisibility, move, handleDelete
 } = useCrudList('key-figures', {
-  fields: ['value', 'label_fr', 'label_en'],
-  defaults: () => ({ value: '', label_fr: '', label_en: '' }),
+  fields: ['value', 'label_fr', 'label_en', 'color'],
+  defaults: () => ({ value: '', label_fr: '', label_en: '', color: 'purple' }),
   validate: (f) => (!f.label_fr.trim() ? 'Le texte (FR) est obligatoire.' : ''),
   clean: (p) => ({ ...p, value: p.value.trim(), label_fr: p.label_fr.trim(), label_en: p.label_en?.trim() || null }),
   labels: { created: 'Point ajouté', saved: 'Point enregistré', deleted: 'Point supprimé' }
 });
+
+const colorLabel = (name) => FIGURE_COLORS.find((c) => c.name === name)?.label || 'Automatique';
 </script>
