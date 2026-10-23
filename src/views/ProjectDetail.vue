@@ -37,15 +37,21 @@
                 <div v-if="project.tags?.length" class="flex flex-wrap gap-1.5 lg:justify-end">
                   <span v-for="tag in project.tags" :key="tag" class="rounded-md border border-line bg-surface px-2 py-1 font-mono text-[11px] uppercase tracking-wide text-ink-2">{{ tag }}</span>
                 </div>
-                <a
-                  v-if="project.project_url"
-                  :href="project.project_url"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand text-white px-6 text-sm font-semibold transition-colors hover:bg-brand-hover"
-                >
-                  <Globe class="h-4 w-4" /> {{ $t('projectDetail.visit') }} <ArrowUpRight class="h-4 w-4" />
-                </a>
+<div class="flex flex-wrap gap-2 lg:justify-end">
+                  <a
+                    v-if="project.project_url"
+                    :href="project.project_url"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand text-white px-6 text-sm font-semibold transition-colors hover:bg-brand-hover"
+                  >
+                    <Globe class="h-4 w-4" /> {{ $t('projectDetail.visit') }} <ArrowUpRight class="h-4 w-4" />
+                  </a>
+                  <ShareButton :project="project" variant="button" />
+                  <RouterLink to="/" class="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-line bg-surface px-5 text-sm font-semibold shadow-card transition-colors hover:border-accent/50">
+                    <LayoutGrid class="h-4 w-4" /> {{ $t('projectDetail.viewPortfolio') }}
+                  </RouterLink>
+                </div>
               </div>
             </div>
 
@@ -104,14 +110,14 @@
               </span>
               <h2 class="text-2xl font-bold md:text-3xl">{{ $t('projectDetail.gallery') }}</h2>
             </div>
-            <ImageCarousel :items="gallerySlides" :label="`${$t('projectDetail.gallery')} — ${project.name}`" :autoplay="false" zoomable @open="lightbox = $event" />
+            <ImageCarousel :items="gallerySlides" :label="`${$t('projectDetail.gallery')} : ${project.name}`" :autoplay="false" zoomable @open="lightbox = $event" />
           </div>
         </div>
 
         <!-- Previous / next -->
         <nav class="band band-timeline py-10!" :aria-label="$t('nav.projects')">
           <div class="band-inner grid gap-3 sm:grid-cols-2">
-            <RouterLink v-if="neighbours.prev" :to="`/projets/${neighbours.prev.id}`" class="group flex items-center gap-3 rounded-2xl border border-line bg-surface p-4 shadow-card transition-colors hover:border-accent/40">
+            <RouterLink v-if="neighbours.prev" :to="projectPath(neighbours.prev)" class="group flex items-center gap-3 rounded-2xl border border-line bg-surface p-4 shadow-card transition-colors hover:border-accent/40">
               <ArrowLeft class="h-5 w-5 shrink-0 text-subtle transition-transform group-hover:-translate-x-0.5" />
               <span class="min-w-0">
                 <span class="block font-mono text-[11px] uppercase tracking-wider text-subtle">{{ $t('projectDetail.previous') }}</span>
@@ -119,7 +125,7 @@
               </span>
             </RouterLink>
             <span v-else class="hidden sm:block"></span>
-            <RouterLink v-if="neighbours.next" :to="`/projets/${neighbours.next.id}`" class="group flex items-center justify-end gap-3 rounded-2xl border border-line bg-surface p-4 shadow-card text-right transition-colors hover:border-accent/40">
+            <RouterLink v-if="neighbours.next" :to="projectPath(neighbours.next)" class="group flex items-center justify-end gap-3 rounded-2xl border border-line bg-surface p-4 shadow-card text-right transition-colors hover:border-accent/40">
               <span class="min-w-0">
                 <span class="block font-mono text-[11px] uppercase tracking-wider text-subtle">{{ $t('projectDetail.next') }}</span>
                 <span class="block truncate font-semibold">{{ neighbours.next.name }}</span>
@@ -167,10 +173,10 @@
 
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import {
-  ArrowLeft, ArrowRight, ArrowUpRight, Globe, LoaderCircle, FileText, Hammer, Workflow, Images, X, ChevronLeft, ChevronRight
+  ArrowLeft, ArrowRight, ArrowUpRight, Globe, LayoutGrid, LoaderCircle, FileText, Hammer, Workflow, Images, X, ChevronLeft, ChevronRight
 } from 'lucide-vue-next';
 import { useContent } from '../composables/useContent';
 import { projectCategories, categoryLabel as labelFor } from '../composables/projectCategories';
@@ -178,13 +184,17 @@ import Navbar from '../components/Navbar.vue';
 import Footer from '../components/Footer.vue';
 import MobileBottomNav from '../components/MobileBottomNav.vue';
 import ImageCarousel from '../components/ImageCarousel.vue';
+import ShareButton from '../components/ShareButton.vue';
+import { findProject, projectPath } from '../composables/projectLinks';
 
 const route = useRoute();
+const router = useRouter();
 const { t, locale } = useI18n();
 const { content, loaded, localized } = useContent();
 
 const projects = computed(() => content.value.projects || []);
-const project = computed(() => projects.value.find((p) => String(p.id) === String(route.params.id)));
+// Reached by short link (/ooffix) or by id (/projets/6)
+const project = computed(() => findProject(projects.value, route.params.slug ?? route.params.id));
 
 const categoriesText = computed(() => projectCategories(project.value).map((c) => labelFor(t, c)).join(' · '));
 
@@ -257,13 +267,18 @@ watch(lightbox, (value) => {
 });
 
 // Moving to another project via prev/next reuses this component
-watch(() => route.params.id, () => {
+watch(() => route.params.slug ?? route.params.id, () => {
   lightbox.value = null;
   window.scrollTo({ top: 0 });
 });
 
+// A mistyped short link (/xyz) isn't a project: go to the home page
+watch([loaded, project], ([isLoaded, p]) => {
+  if (isLoaded && !p && route.name === 'project-short') router.replace('/');
+});
+
 watch(project, (p) => {
-  if (p) document.title = `${p.name} — ${content.value.settings?.full_name || 'Portfolio'}`;
+  if (p) document.title = `${p.name} | ${content.value.settings?.full_name || 'Portfolio'}`;
 }, { immediate: true });
 
 onMounted(() => window.addEventListener('keydown', onKeydown));

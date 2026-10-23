@@ -17,6 +17,11 @@ export async function withErrorHandling(res, fn) {
   try {
     await fn();
   } catch (err) {
+    // Unique constraint (e.g. a project share link already taken)
+    if (err?.code === '23505') {
+      sendJson(res, 409, { error: 'Cette valeur est déjà utilisée par un autre élément (ex. lien de partage).' });
+      return;
+    }
     console.error(err);
     sendJson(res, 500, { error: 'Internal server error' });
   }

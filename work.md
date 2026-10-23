@@ -82,6 +82,7 @@ Chargées depuis Google Fonts dans `index.html` (balise `<link>`, pas `@import`,
 - **Une seule couleur d'accent** : le **bleu OOffix `#2e5cff`**, identique en mode clair et en mode sombre. *(Le pourpre `#7e22ce` a été essayé puis abandonné le 22/10/2026 : changer de couleur en changeant de thème était déroutant.)*
 - Icônes : **Lucide** partout ; logos de marques en SVG (voir §9).
 - Boutons pleins en `bg-brand` (survol `bg-brand-hover`), toujours avec texte blanc.
+- **Aucun tiret cadratin (—)** dans le site (titres d'onglet, textes, libellés) : on utilise « | », « : » ou « , ». *(Demandé le 23/10/2026.)*
 - Coins : `rounded-xl` (boutons, champs), `rounded-2xl` (cartes), `rounded-full` (puces, pastilles).
 - Conteneur max **1180 px** (`.band-inner`), marges latérales 16 px (mobile) / 24 px.
 
@@ -174,22 +175,24 @@ La numérotation suit les sections visibles : si une section est vide (ex. Savoi
 
 - **Hero** : surtitre animé (machine à écrire), nom complet **sur une seule ligne** à toutes les largeurs (taille fluide `clamp(1.6rem, 8.4vw, 6rem)`), « LAWANI » en couleur d'accent, accroche en texte normal (non gras), deux boutons « **Voir les projets** » (plein) et « **Voir le CV** » (contour), côte à côte sur mobile, image du certificat NASA chargée en priorité.
 - **À propos** : photo, « Je suis, », deux paragraphes de bio, **liste à puces des points clés** (puce + chiffre animé coloré + texte), gérée depuis l'admin.
-- **Projets** : filtres par catégorie (seulement ceux qui ont des projets), cartes avec image, **badges de toutes les catégories**, nom, description (3 lignes), technos, bouton « **Voir les détails** » (icône œil) vers la page projet, petit bouton ↗ vers le site en ligne.
+- **Projets** : filtres par catégorie (seulement ceux qui ont des projets), cartes avec image, **badges de toutes les catégories**, nom, description (3 lignes), technos, bouton « **Voir les détails** » (icône œil) vers la page projet, petit bouton carré ↗ vers le site en ligne, petit bouton carré **Partager**.
 - **Compétences** : cartes par domaine ; les technos s'affichent en **logos avec leur nom dessous** ; une techno sans logo garde une étiquette texte. *(La bande de logos défilante a été retirée le 22/10/2026.)*
 - **Savoir-faire** (« Ce que je sais faire ») : **carrousel** d'images avec titre et description. Images affichées entières, quel que soit leur format. Glisser au doigt, flèches, points, défilement automatique. Masqué tant qu'il est vide.
 - **Parcours** : frise verticale (alternée sur desktop), année, titre, organisation, description.
 - **Références** : cartes témoignages (citation, étoiles, initiales sur pastille unie).
 - **Contact** : email, **WhatsApp** (lien `wa.me` en bleu, icône bulle de discussion), **numéro d'appel** (masqué s'il est identique au WhatsApp), localisation **Cotonou, Bénin**, disponibilité, **bouton « Copier » sur l'email et chaque numéro**, réseaux sociaux. *(Formulaire nom/email/message supprimé le 22/10/2026.)*
 
-### 4.4 Page détail d'un projet — `/projets/:id`
+### 4.4 Page détail d'un projet : `/<lien>` (ex. `/ooffix`)
 
-- Retour « Tous les projets », catégories, nom, description, technos, bouton « Voir le site en ligne ».
+- **Adresse courte** : `/<lien>` (ex. `portfolio-ginique-lawani.vercel.app/ooffix`), le « lien de partage » du projet ; l'ancien format `/projets/<id>` fonctionne toujours ; un lien court inconnu renvoie à l'accueil.
+- Retour « Tous les projets », catégories, nom, description, technos, boutons « Voir le site en ligne », **« Partager »** et **« Voir tout le portfolio »**.
 - Image de couverture.
 - Blocs **Présentation**, **Ce que j'ai fait**, **Méthodologie** (chacun affiché seulement s'il est rempli ; sinon la description courte sert de présentation).
 - Encadré : catégories, stack, lien.
 - **Galerie en carrousel** (titre + description par image), clic sur une image → **plein écran** (flèches, Échap).
 - Projet précédent / suivant.
-- Titre de l'onglet = nom du projet.
+- Titre de l'onglet : « Nom du projet | Ginique Oriadé LAWANI ».
+- **Partager** : sur téléphone, menu de partage natif (WhatsApp, Messenger…) ; sur PC, le lien court est copié (bulle « Lien copié »).
 
 ### 4.5 Thèmes clair et sombre
 
@@ -240,7 +243,7 @@ Balises meta, Open Graph, Twitter Card et JSON-LD (Person, WebSite, Professional
 
 ### 5.3 Projets
 
-- Image de couverture (recadrage 16:10 conseillé), nom, **catégories multiples** à cocher (Fullstack, Frontend, Backend, Mobile, **AI oriented**), description courte FR/EN.
+- Image de couverture (recadrage 16:10 conseillé), nom, **lien de partage** (`/ooffix` : rempli depuis le nom, modifiable, unique, mots réservés refusés, bouton « Copier »), **catégories multiples** à cocher (Fullstack, Frontend, Backend, Mobile, **AI oriented**), description courte FR/EN.
 - **Stack / technologies** avec **suggestions** au fil de la frappe (logo + nom, lettres tapées en gras) : taper « ne » propose Nest.js, Next.js… On peut aussi **ajouter n'importe quelle techno absente** (ligne « Ajouter « … » », bouton « + Ajouter », Entrée ou virgule, y compris sur clavier mobile).
 - Lien du site (facultatif).
 - Page du projet : **Présentation**, **Ce que j'ai fait**, **Méthodologie** (FR/EN).
@@ -296,7 +299,7 @@ Balises meta, Open Graph, Twitter Card et JSON-LD (Person, WebSite, Professional
 | `timeline_items` | parcours |
 | `skills` | compétences (`techs` = liste de technos, `icon_key`) |
 | `tech_logos` | **bibliothèque de logos** (nom + image), utilisée pour les cartes Compétences et les suggestions |
-| `projects` | projets (`categories` TEXT[], `tags`, `details_*`, `contributions_*`, `methodology_*`, `gallery` JSONB) |
+| `projects` | projets (`slug` = lien de partage unique, `categories` TEXT[], `tags`, `details_*`, `contributions_*`, `methodology_*`, `gallery` JSONB) |
 | `testimonials` | références |
 | `social_links` | réseaux sociaux |
 | `showcase_items` | carrousel Savoir-faire |
@@ -321,6 +324,7 @@ Appliquées par l'API au premier appel après un déploiement. Toutes idempotent
 | v6 | 23/10/2026 | `key_figures.color` (pourpre / magenta / orange pour l'existant) |
 | v7 | 23/10/2026 | `projects.categories` (multi-catégories, reprise de `category`) |
 | v8 | 23/10/2026 | `admin_settings.sections` (JSONB) : noms et titres de sections personnalisés |
+| v9 | 23/10/2026 | `projects.slug` (lien de partage) généré depuis le nom (accents retirés, doublons suffixés par l'id, mots réservés évités), index unique |
 
 Pour ajouter une migration : nouvelle entrée `{ version: N, statements: [...] }` en fin de tableau, avec des requêtes idempotentes (`IF NOT EXISTS`…).
 
@@ -448,6 +452,7 @@ Total : **6 fonctions** sur 12 autorisées par le plan Hobby.
 | 13:57 | `03fd6b1` | **Mode clair plus lisible** : bordures bleutées plus visibles (`#d3dcf3` / `#aebfeb`, 1 px), ombre douce sous les cartes (clair uniquement), filet sous les images des cartes ; survol des cartes projet en bleu |
 | 14:16 | `ae79940` | Correctifs : **flèche « Précédent » du carrousel sur PC** (bloquée en fin de carrousel) ; **barre du bas depuis une page projet sur mobile** (le lien n'attendait que 60 ms que la section existe, trop court sur téléphone ; recalage pendant 5 s) |
 | 14:20 | `4cd5402` | **Renommer les sections** : page Admin → Sections (nom, titre, sous-titre, FR/EN), noms utilisés dans les menus et titres du site (v8) |
+| __TIME__ | __HASH__ | **Partager un projet** : lien court `/<nom-du-projet>` (v9), bouton carré « Partager » sur chaque carte, « Partager » + « Voir tout le portfolio » sur la page projet, champ « Lien de partage » dans l'admin ; **suppression des tirets cadratins** (titre d'onglet « OOffix \| Ginique Oriadé LAWANI ») |
 
 ---
 
@@ -457,14 +462,13 @@ Total : **6 fonctions** sur 12 autorisées par le plan Hobby.
 
 **Besoin** : quand quelqu'un demande « tu as déjà fait un projet dans tel domaine ? », envoyer **le lien de ce projet seulement**, plutôt que tout le portfolio. La personne voit le projet, puis peut cliquer sur **« Voir tout le portfolio »**.
 
-**Ce qui existe déjà** : chaque projet a sa page `/projets/:id`, qui peut déjà être ouverte directement.
+**Fait le 23/10/2026** : lien court `/<nom-du-projet>`, bouton « Partager » (cartes + page projet, partage natif sur mobile, copie sur PC), champ « Lien de partage » dans l'admin, bouton « Voir tout le portfolio ».
 
-**À faire :**
-1. **Bouton « Partager »** sur la page du projet et dans l'admin (sur chaque projet) : copier le lien, partage natif du téléphone (WhatsApp, Telegram…) via l'API Web Share, avec repli sur « Copier ».
-2. **Lien lisible** : `/projets/cinemania` (champ `slug` généré depuis le nom, modifiable) au lieu de `/projets/3` ; l'ancien format reste valable.
-3. **Aperçu du lien** (image + titre + description du projet dans WhatsApp, LinkedIn, Messenger) : les robots de ces applis ne lisent pas le JavaScript. Il faut donc servir, pour `/projets/:slug`, une page HTML avec les balises Open Graph du projet. Piste : une fonction Vercel dédiée (7e fonction sur 12) qui renvoie le `index.html` avec les balises du projet injectées.
-4. **Page d'arrivée « mode partage »** : bouton bien visible « **Voir tout le portfolio** » (vers l'accueil), plus un court rappel de qui tu es (photo, nom, titre, contact) pour un visiteur qui arrive sans contexte.
-5. Optionnel : mesurer les ouvertures de chaque lien partagé (Vercel Analytics, événement par projet).
+**Reste à faire :**
+
+1. **Aperçu du lien** (image + titre + description du projet dans WhatsApp, LinkedIn, Messenger) : les robots de ces applis ne lisent pas le JavaScript. Il faut donc servir, pour `/projets/:slug`, une page HTML avec les balises Open Graph du projet. Piste : une fonction Vercel dédiée (7e fonction sur 12) qui renvoie le `index.html` avec les balises du projet injectées.
+2. **Page d'arrivée « mode partage »** : un court rappel de qui tu es (photo, nom, titre, contact) pour un visiteur qui arrive sans contexte.
+3. Optionnel : mesurer les ouvertures de chaque lien partagé (Vercel Analytics, événement par projet).
 
 ### 13.2 Autres évolutions notées
 

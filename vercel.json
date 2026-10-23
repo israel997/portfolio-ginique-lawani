@@ -64,6 +64,10 @@
     {
       "source": "/projets/(.*)",
       "destination": "/index.html"
+    },
+    {
+      "source": "/:slug",
+      "destination": "/index.html"
     }
   ]
 }

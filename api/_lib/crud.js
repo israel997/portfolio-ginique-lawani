@@ -26,7 +26,7 @@ export const RESOURCES = {
     table: 'projects',
     columns: [
       'name', 'description_fr', 'description_en', 'tags', 'gradient_class', 'category', 'categories', 'image_url', 'project_url',
-      'details_fr', 'details_en', 'contributions_fr', 'contributions_en', 'methodology_fr', 'methodology_en', 'gallery',
+      'details_fr', 'details_en', 'contributions_fr', 'contributions_en', 'methodology_fr', 'methodology_en', 'gallery', 'slug',
       'sort_order', 'is_visible'
     ],
     jsonColumns: ['gallery']

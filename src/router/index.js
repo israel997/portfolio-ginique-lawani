@@ -23,6 +23,8 @@ const routes = [
       { path: 'security', name: 'admin-security', component: () => import('../admin/views/SecurityView.vue') }
     ]
   },
+  // Short project share link: /<slug>, e.g. /ooffix (one path segment only)
+  { path: '/:slug', name: 'project-short', component: () => import('../views/ProjectDetail.vue') },
   { path: '/:pathMatch(.*)*', redirect: '/' }
 ];
 

@@ -26,7 +26,8 @@ export default {
       notFound: 'Ce projet est introuvable.',
       previous: 'Projet précédent',
       next: 'Projet suivant',
-      close: 'Fermer'
+      close: 'Fermer',
+      viewPortfolio: 'Voir tout le portfolio'
     },
     hero: {
       typewriter1: 'Fullstack Developper & Tech Lead',
@@ -118,6 +119,8 @@ export default {
       cta1: 'Voir les détails',
       cta2: 'Aller sur le site',
       soon: 'Bientôt disponible',
+      share: 'Partager',
+      linkCopied: 'Lien copié',
       items: {
         sanaa: {
           desc: 'Réseau social de niche dédié aux Industries Culturelles et Créatives avec option de Crowdfunding intégrée'
@@ -181,7 +184,8 @@ export default {
       notFound: 'This project could not be found.',
       previous: 'Previous project',
       next: 'Next project',
-      close: 'Close'
+      close: 'Close',
+      viewPortfolio: 'View the full portfolio'
     },
     hero: {
       typewriter1: 'Fullstack Developer & Tech Lead',
@@ -273,6 +277,8 @@ export default {
       cta1: 'View details',
       cta2: 'Visit website',
       soon: 'Coming soon',
+      share: 'Share',
+      linkCopied: 'Link copied',
       items: {
         sanaa: {
           desc: 'Niche social network dedicated to Cultural and Creative Industries with integrated Crowdfunding option'

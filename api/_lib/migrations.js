@@ -152,6 +152,26 @@ export const MIGRATIONS = [
       // { <section>: { nav_fr, nav_en, title_fr, title_en, subtitle_fr, subtitle_en } }
       `ALTER TABLE admin_settings ADD COLUMN IF NOT EXISTS sections JSONB NOT NULL DEFAULT '{}'::jsonb`
     ]
+  },
+  {
+    version: 9,
+    statements: [
+      // Short share link per project: /<slug> (e.g. /ooffix), from the name
+      `ALTER TABLE projects ADD COLUMN IF NOT EXISTS slug TEXT`,
+      `UPDATE projects
+       SET slug = trim(both '-' from regexp_replace(lower(translate(replace(replace(lower(name), 'œ', 'oe'), 'æ', 'ae'),
+         'àâäáãåçéèêëíìîïñóòôöõúùûüýÿÀÂÄÁÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸ',
+         'aaaaaaceeeeiiiinooooouuuuyyAAAAAACEEEEIIIINOOOOOUUUUYY')), '[^a-z0-9]+', '-', 'g'))
+       WHERE slug IS NULL OR slug = ''`,
+      `UPDATE projects SET slug = 'projet-' || id WHERE slug = ''`,
+      // Words the site already uses as paths (see RESERVED_SLUGS)
+      `UPDATE projects SET slug = slug || '-projet'
+       WHERE slug IN ('admin', 'projets', 'api', 'assets', 'images', 'logos', 'index', 'robots', 'sitemap', 'favicon')`,
+      // Two projects with the same name: suffix the later one with its id
+      `UPDATE projects p SET slug = p.slug || '-' || p.id
+       WHERE EXISTS (SELECT 1 FROM projects q WHERE q.slug = p.slug AND q.id < p.id)`,
+      `CREATE UNIQUE INDEX IF NOT EXISTS projects_slug_key ON projects (slug)`
+    ]
   }
 ];
 

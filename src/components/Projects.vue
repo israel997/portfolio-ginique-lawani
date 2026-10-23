@@ -30,9 +30,9 @@
         class="group flex flex-col rounded-2xl overflow-hidden bg-surface border border-line shadow-card transition-all duration-300 hover:border-accent/50"
       >
         <RouterLink
-          :to="`/projets/${project.id}`"
+          :to="projectPath(project)"
           class="relative block aspect-[16/10] overflow-hidden border-b border-line bg-panel"
-          :aria-label="`${$t('projects.cta1')} — ${project.name}`"
+          :aria-label="`${$t('projects.cta1')} : ${project.name}`"
         >
           <img
             :src="project.image_url || '/images/project-default.jpg'"
@@ -68,7 +68,7 @@
 
           <div class="mt-auto flex gap-2">
             <RouterLink
-              :to="`/projets/${project.id}`"
+              :to="projectPath(project)"
               class="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-brand text-white text-sm font-semibold transition-colors hover:bg-brand-hover"
             >
               <Eye class="h-4 w-4" />
@@ -81,10 +81,11 @@
               rel="noopener noreferrer"
               class="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-line bg-surface-hover transition-colors hover:bg-surface-hover"
               :title="$t('projects.cta2')"
-              :aria-label="`${$t('projects.cta2')} — ${project.name}`"
+              :aria-label="`${$t('projects.cta2')} : ${project.name}`"
             >
               <ArrowUpRight class="h-4 w-4" />
             </a>
+            <ShareButton :project="project" />
           </div>
         </div>
       </article>
@@ -96,6 +97,8 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ArrowUpRight, Eye } from 'lucide-vue-next';
+import ShareButton from './ShareButton.vue';
+import { projectPath } from '../composables/projectLinks';
 import { PROJECT_CATEGORIES, projectCategories, categoryLabel as labelFor } from '../composables/projectCategories';
 import { useContent } from '../composables/useContent';
 import SectionHeading from './SectionHeading.vue';

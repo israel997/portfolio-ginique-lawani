@@ -37,6 +37,7 @@
       <template #meta>
         <span v-for="cat in projectCategories(item)" :key="cat" class="rounded-md bg-white/5 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-slate-400">{{ cat }}</span>
         <span v-if="item.gallery?.length" class="flex items-center gap-1"><Images class="h-3.5 w-3.5" />{{ item.gallery.length }}</span>
+        <span v-if="item.slug" class="flex items-center gap-1 font-mono"><Share2 class="h-3.5 w-3.5" />/{{ item.slug }}</span>
         <span v-if="item.project_url" class="flex min-w-0 items-center gap-1"><Link2 class="h-3.5 w-3.5" /><span class="truncate">{{ hostOf(item.project_url) }}</span></span>
         <span v-if="!item.description_en" class="flex items-center gap-1 text-amber-400/80"><Languages class="h-3.5 w-3.5" />EN manquant</span>
       </template>
@@ -51,6 +52,30 @@
         <ImageUploadField v-model="form.image_url" label="Image de couverture" accept="image/*" aspect="16:10" />
 
         <FormField v-model="form.name" label="Nom du projet" placeholder="Ex. OOffix" />
+
+        <div>
+          <label for="project-slug" class="admin-label">Lien de partage</label>
+          <div class="flex items-stretch overflow-hidden rounded-xl border border-white/10 bg-white/5 focus-within:border-brand/60 focus-within:ring-2 focus-within:ring-brand/20">
+            <span class="flex shrink-0 items-center border-r border-white/10 bg-white/[0.03] px-3 font-mono text-xs text-slate-500">{{ siteHost }}/</span>
+            <input
+              id="project-slug"
+              :value="form.slug"
+              @input="onSlugInput($event.target.value)"
+              placeholder="ooffix"
+              autocomplete="off"
+              spellcheck="false"
+              class="min-w-0 flex-1 bg-transparent px-3 py-3 font-mono text-base text-white placeholder:text-slate-600 focus:outline-none md:text-sm"
+            />
+            <button v-if="form.id && form.slug" type="button" @click="copyLink" class="flex shrink-0 items-center gap-1.5 border-l border-white/10 px-3 text-xs font-medium text-slate-300 hover:bg-white/5 hover:text-white" :title="'Copier le lien'">
+              <Check v-if="linkCopied" class="h-4 w-4 text-emerald-400" />
+              <Copy v-else class="h-4 w-4" />
+              <span class="hidden sm:inline">{{ linkCopied ? 'Copié' : 'Copier' }}</span>
+            </button>
+          </div>
+          <p :class="['mt-1.5 text-xs', slugProblem ? 'text-red-300' : 'text-slate-500']">
+            {{ slugProblem || 'Lettres minuscules, chiffres et tirets. Rempli depuis le nom, modifiable.' }}
+          </p>
+        </div>
 
         <div>
           <span class="admin-label">Catégories <span class="font-normal text-slate-500">(une ou plusieurs)</span></span>
@@ -165,7 +190,9 @@
 </template>
 
 <script setup>
-import { ImageOff, FolderKanban, Images, Link2, Languages, CircleAlert, Check } from 'lucide-vue-next';
+import { ref, computed, watch } from 'vue';
+import { ImageOff, FolderKanban, Images, Link2, Languages, CircleAlert, Check, Copy, Share2 } from 'lucide-vue-next';
+import { slugify, isValidSlug, RESERVED_SLUGS } from '../../composables/projectLinks';
 import { useCrudList } from '../composables/useCrudList';
 import { useTechSuggestions } from '../composables/useTechSuggestions';
 import { PROJECT_CATEGORIES, projectCategories } from '../../composables/projectCategories';
@@ -183,7 +210,7 @@ import FormFooter from '../components/FormFooter.vue';
 
 const FIELDS = [
   'name', 'description_fr', 'description_en', 'tags', 'gradient_class', 'category', 'categories', 'image_url', 'project_url',
-  'details_fr', 'details_en', 'contributions_fr', 'contributions_en', 'methodology_fr', 'methodology_en', 'gallery'
+  'details_fr', 'details_en', 'contributions_fr', 'contributions_en', 'methodology_fr', 'methodology_en', 'gallery', 'slug'
 ];
 
 let galleryKey = 0;
@@ -200,7 +227,8 @@ const {
     name: '', description_fr: '', description_en: '', tags: [],
     gradient_class: 'from-pink-500 to-rose-600', category: 'Fullstack', categories: ['Fullstack'], image_url: '', project_url: '',
     details_fr: '', details_en: '', contributions_fr: '', contributions_en: '', methodology_fr: '', methodology_en: '',
-    gallery: []
+    gallery: [],
+    slug: ''
   }),
   // Client-only keys so gallery rows keep their identity while reordering
   prepare: (values) => ({
@@ -212,12 +240,15 @@ const {
     if (!f.name.trim()) return 'Le nom du projet est obligatoire.';
     if (!f.description_fr.trim()) return 'Ajoutez au moins la description courte en français.';
     if (!f.categories.length) return 'Choisissez au moins une catégorie.';
+    const slugError = slugIssue(f);
+    if (slugError) return slugError;
     if (f.gallery.some((g) => !g.image_url)) return 'Chaque entrée de la galerie doit avoir une image (ou retirez-la).';
     return '';
   },
   clean: (p) => ({
     ...p,
     name: p.name.trim(),
+    slug: p.slug.trim(),
     // Keep the older single-category column in step (first one in display order)
     categories: PROJECT_CATEGORIES.filter((c) => p.categories.includes(c)),
     category: PROJECT_CATEGORIES.find((c) => p.categories.includes(c)),
@@ -229,6 +260,47 @@ const {
 });
 
 const { suggestions: techSuggestions } = useTechSuggestions();
+
+// --- Share link (slug) ---
+const siteHost = window.location.host;
+const linkCopied = ref(false);
+// A new project's link follows its name until the slug is edited by hand
+const slugTouched = ref(false);
+
+watch(() => form.value?.id ?? 'new', () => { slugTouched.value = !!form.value?.slug; });
+watch(() => form.value?.name, (name) => {
+  if (form.value && !form.value.id && !slugTouched.value) form.value.slug = slugify(name);
+});
+
+function onSlugInput(value) {
+  slugTouched.value = true;
+  // Keep only what a link may contain, as the user types
+  form.value.slug = value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+}
+
+function slugIssue(f) {
+  if (!f.slug) return 'Le lien de partage est obligatoire.';
+  if (!isValidSlug(f.slug)) {
+    return RESERVED_SLUGS.includes(f.slug)
+      ? `« ${f.slug} » est réservé par le site, choisissez un autre lien.`
+      : 'Le lien ne peut contenir que des lettres minuscules, des chiffres et des tirets (pas au début ni à la fin).';
+  }
+  if (items.value.some((i) => i.slug === f.slug && i.id !== f.id)) return `Le lien « ${f.slug} » est déjà utilisé par un autre projet.`;
+  return '';
+}
+
+const slugProblem = computed(() => (form.value && form.value.slug ? slugIssue(form.value) : ''));
+
+async function copyLink() {
+  const url = `${window.location.origin}/${form.value.slug}`;
+  try {
+    await navigator.clipboard.writeText(url);
+    linkCopied.value = true;
+    setTimeout(() => { linkCopied.value = false; }, 2000);
+  } catch {
+    // Clipboard unavailable: the link is visible in the field anyway
+  }
+}
 
 function toggleCategory(cat) {
   const list = form.value.categories;
