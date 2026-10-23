@@ -2,8 +2,8 @@
   <section id="projects" itemscope itemtype="https://schema.org/CreativeWork">
     <SectionHeading :index="index" :eyebrow="st('projects', 'nav')" :title="st('projects', 'title')" />
 
-    <!-- Phones only: layout switch, on its own line above the category filters -->
-    <div v-if="isMobile" class="mb-3 flex justify-end">
+    <!-- Layout switch, on its own line above the category filters -->
+    <div class="mb-3 flex justify-end">
       <div class="flex rounded-lg border border-line bg-surface p-0.5 shadow-card" role="group" :aria-label="$t('projects.viewLabel')">
         <button
           v-for="opt in VIEWS"
@@ -39,57 +39,66 @@
         </button>
       </div>
     </div>
-    <div v-else-if="isMobile" class="mb-5"></div>
+    <div v-else class="mb-5"></div>
 
-    <!-- Phone, carousel: one full card at a time, swipe -->
-    <div v-if="isMobile && view === 'carousel'">
+    <!-- Carousel: full cards, 1 per view on phones, 2 on tablets, 3 on desktop -->
+    <div v-if="view === 'carousel'">
       <ul
         ref="track"
-        class="relative -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        class="relative -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-4 pb-2 [scrollbar-width:none] md:mx-0 md:gap-6 md:px-0 [&::-webkit-scrollbar]:hidden"
         @scroll.passive="onTrackScroll"
       >
-        <li v-for="project in filteredProjects" :key="project.id" class="w-[86%] shrink-0 snap-center">
+        <li
+          v-for="project in filteredProjects"
+          :key="project.id"
+          class="w-[86%] shrink-0 snap-center md:w-[calc(50%-0.75rem)] md:snap-start lg:w-[calc((100%-3rem)/3)]"
+        >
           <ProjectCard :project="project" />
         </li>
       </ul>
-      <div v-if="filteredProjects.length > 1" class="mt-5 flex flex-wrap justify-center gap-1.5">
-        <button
-          v-for="(project, i) in filteredProjects"
-          :key="project.id"
-          type="button"
-          @click="goTo(i)"
-          :aria-label="project.name"
-          :aria-current="active === i ? 'true' : undefined"
-          class="grid h-6 place-items-center px-0.5"
-        >
-          <span :class="['block h-1.5 rounded-full transition-all duration-300', active === i ? 'w-6 bg-brand-text' : 'w-1.5 bg-line-strong']"></span>
-        </button>
+      <div v-if="filteredProjects.length > 1 && !(atStart && atEnd)" class="mt-6 flex items-center justify-center gap-4 md:justify-between">
+        <div class="flex flex-wrap justify-center gap-1.5">
+          <button
+            v-for="(project, i) in filteredProjects"
+            :key="project.id"
+            type="button"
+            @click="goTo(i)"
+            :aria-label="project.name"
+            :aria-current="active === i ? 'true' : undefined"
+            class="grid h-6 place-items-center px-0.5"
+          >
+            <span :class="['block h-1.5 rounded-full transition-all duration-300', active === i ? 'w-6 bg-brand-text' : 'w-1.5 bg-line-strong']"></span>
+          </button>
+        </div>
+        <div class="hidden gap-2 md:flex">
+          <button type="button" @click="step(-1)" :disabled="atStart" class="grid h-11 w-11 place-items-center rounded-full border border-line bg-surface shadow-card transition-colors hover:bg-surface-hover disabled:opacity-30" :aria-label="$t('projectDetail.previous')">
+            <ChevronLeft class="h-5 w-5" />
+          </button>
+          <button type="button" @click="step(1)" :disabled="atEnd" class="grid h-11 w-11 place-items-center rounded-full border border-line bg-surface shadow-card transition-colors hover:bg-surface-hover disabled:opacity-30" :aria-label="$t('projectDetail.next')">
+            <ChevronRight class="h-5 w-5" />
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- Phone, grid: 2 columns x 4 rows, then "show all" -->
-    <div v-else-if="isMobile">
-      <div class="grid grid-cols-2 gap-3">
+    <!-- Grid: compact tiles, 2 rows (2 columns on phones, 3 on tablets, 4 on desktop), then "show all" -->
+    <div v-else>
+      <div class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5 lg:grid-cols-4">
         <ProjectTile v-for="project in gridProjects" :key="project.id" :project="project" />
       </div>
-      <div v-if="filteredProjects.length > GRID_LIMIT && !showAll" class="mt-5 flex justify-center">
+      <div v-if="filteredProjects.length > GRID_LIMIT && !showAll" class="mt-6 flex justify-center">
         <button type="button" @click="showAll = true" class="inline-flex h-11 items-center gap-2 rounded-xl border border-line bg-surface px-5 text-sm font-semibold shadow-card hover:border-accent/50">
           <LayoutGrid class="h-4 w-4" /> {{ $t('projects.showAll', { n: filteredProjects.length }) }}
         </button>
       </div>
     </div>
-
-    <!-- Tablet / desktop: grid of full cards -->
-    <TransitionGroup v-else tag="div" name="project" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-      <ProjectCard v-for="project in filteredProjects" :key="project.id" :project="project" />
-    </TransitionGroup>
   </section>
 </template>
 
 <script setup>
-import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue';
+import { ref, computed, watch, nextTick, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { GalleryHorizontal, LayoutGrid } from 'lucide-vue-next';
+import { GalleryHorizontal, LayoutGrid, ChevronLeft, ChevronRight } from 'lucide-vue-next';
 import ProjectCard from './ProjectCard.vue';
 import ProjectTile from './ProjectTile.vue';
 import { PROJECT_CATEGORIES, projectCategories, categoryLabel as labelFor } from '../composables/projectCategories';
@@ -128,13 +137,13 @@ const filteredProjects = computed(() =>
     : projectsData.value.filter((p) => projectCategories(p).includes(activeFilter.value))
 );
 
-// --- Phone layouts: carousel (default) or 2-column grid, remembered ---
+// --- Layouts: carousel (default) or grid of compact tiles, remembered ---
 const VIEWS = [
   { value: 'carousel', label: 'projects.viewCarousel', icon: GalleryHorizontal },
   { value: 'grid', label: 'projects.viewGrid', icon: LayoutGrid }
 ];
 const VIEW_KEY = 'projects-view';
-const GRID_LIMIT = 8; // 2 columns x 4 rows
+const GRID_LIMIT = 8; // 2 x 4 on phones, 4 x 2 on desktop
 
 function readView() {
   try {
@@ -158,24 +167,31 @@ function setView(value) {
 
 const gridProjects = computed(() => (showAll.value ? filteredProjects.value : filteredProjects.value.slice(0, GRID_LIMIT)));
 
-const media = window.matchMedia('(max-width: 767px)');
-const isMobile = ref(media.matches);
-const onMedia = (event) => { isMobile.value = event.matches; };
-onMounted(() => media.addEventListener('change', onMedia));
-onUnmounted(() => media.removeEventListener('change', onMedia));
 
-// Carousel position (dots)
+
+// Carousel position (dots, arrows). Phones snap cards to the center,
+// larger screens to the start (several cards visible).
 const track = ref(null);
 const active = ref(0);
+const atStart = ref(true);
+const atEnd = ref(false);
+const centered = () => window.innerWidth < 768;
 
 function onTrackScroll() {
   const el = track.value;
   if (!el?.children.length) return;
-  const center = el.scrollLeft + el.clientWidth / 2;
+  atStart.value = el.scrollLeft <= 4;
+  atEnd.value = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
+  if (atEnd.value) {
+    active.value = el.children.length - 1;
+    return;
+  }
+  const anchor = centered() ? el.scrollLeft + el.clientWidth / 2 : el.scrollLeft;
   let best = 0;
   let bestDistance = Infinity;
   [...el.children].forEach((child, i) => {
-    const distance = Math.abs(child.offsetLeft + child.clientWidth / 2 - center);
+    const point = centered() ? child.offsetLeft + child.clientWidth / 2 : child.offsetLeft;
+    const distance = Math.abs(point - anchor);
     if (distance < bestDistance) {
       bestDistance = distance;
       best = i;
@@ -186,29 +202,32 @@ function onTrackScroll() {
 
 function goTo(i) {
   const child = track.value?.children[i];
-  if (child) track.value.scrollTo({ left: child.offsetLeft - (track.value.clientWidth - child.clientWidth) / 2 });
+  if (!child) return;
+  const left = centered() ? child.offsetLeft - (track.value.clientWidth - child.clientWidth) / 2 : child.offsetLeft;
+  track.value.scrollTo({ left });
 }
+
+// Arrows: one card width from the current position
+function step(direction) {
+  const el = track.value;
+  if (!el?.children.length) return;
+  const [first, second] = el.children;
+  const gap = second ? second.offsetLeft - first.offsetLeft - first.clientWidth : 0;
+  el.scrollBy({ left: direction * (first.clientWidth + gap) });
+}
+
+onMounted(() => nextTick(onTrackScroll));
+// Back to the carousel from the grid, or projects loaded / filtered:
+// recompute dots and arrows (hidden when every card already fits)
+watch([view, filteredProjects], () => nextTick(onTrackScroll));
 
 // A new filter starts the carousel / grid from the beginning
 watch(activeFilter, () => {
   showAll.value = false;
   active.value = 0;
-  nextTick(() => track.value?.scrollTo({ left: 0 }));
+  nextTick(() => {
+    track.value?.scrollTo({ left: 0 });
+    onTrackScroll();
+  });
 });
 </script>
-
-<style scoped>
-.project-enter-active,
-.project-leave-active {
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-.project-enter-from,
-.project-leave-to {
-  opacity: 0;
-  transform: translateY(8px);
-}
-.project-leave-active {
-  position: absolute;
-  visibility: hidden;
-}
-</style>
