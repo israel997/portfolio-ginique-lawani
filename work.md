@@ -442,7 +442,7 @@ Total : **6 fonctions** sur 12 autorisées par le plan Hobby.
 | ~12:55 | — | **Incident** : un texte en cours a été perdu en actualisant. Le déploiement avait pris 10 min, la page tournait encore sur l'ancienne version sans brouillons. Règle ajoutée : vérifier la mise en ligne avant de l'annoncer |
 | 13:04 | `a247f47` | **Indicateur « Brouillon sauvegardé sur cet appareil · HH:MM:SS »** |
 | 13:43 | `80debd9` | Création de ce document `work.md` (référence complète + journal daté) |
-| __TIME__ | __HASH__ | **Mode clair plus lisible** : bordures bleutées plus visibles (`#d3dcf3` / `#aebfeb`, 1 px), ombre douce sous les cartes (clair uniquement), filet sous les images des cartes ; survol des cartes projet en bleu |
+| 13:57 | `03fd6b1` | **Mode clair plus lisible** : bordures bleutées plus visibles (`#d3dcf3` / `#aebfeb`, 1 px), ombre douce sous les cartes (clair uniquement), filet sous les images des cartes ; survol des cartes projet en bleu |
 
 ---
 
