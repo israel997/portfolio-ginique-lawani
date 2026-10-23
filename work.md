@@ -439,7 +439,7 @@ Total : **6 fonctions** sur 12 autorisées par le plan Hobby.
 | 12:49 | `102a3a3` | **Correcteur français/anglais** (LanguageTool) avec correction en un clic et rappel avant d'enregistrer ; **brouillons automatiques** |
 | ~12:55 | — | **Incident** : un texte en cours a été perdu en actualisant. Le déploiement avait pris 10 min, la page tournait encore sur l'ancienne version sans brouillons. Règle ajoutée : vérifier la mise en ligne avant de l'annoncer |
 | 13:04 | `a247f47` | **Indicateur « Brouillon sauvegardé sur cet appareil · HH:MM:SS »** |
-| — | — | Création de ce document `work.md` |
+| 13:43 | `80debd9` | Création de ce document `work.md` (référence complète + journal daté) |
 
 ---
 
