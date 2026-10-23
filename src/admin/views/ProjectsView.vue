@@ -45,7 +45,7 @@
       <fieldset class="space-y-6">
         <legend class="mb-4 font-mono text-xs uppercase tracking-wider text-slate-500">Carte du projet</legend>
 
-        <ImageUploadField v-model="form.image_url" label="Image de couverture" accept="image/*" />
+        <ImageUploadField v-model="form.image_url" label="Image de couverture" accept="image/*" aspect="16:10" />
 
         <FormField v-model="form.name" label="Nom du projet" placeholder="Ex. OOffix" />
 

@@ -58,7 +58,7 @@
 import { onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useTheme } from '../composables/useTheme';
-import { LayoutDashboard, UserRound, Route, Code2, FolderKanban, MessageSquareQuote, Share2, ExternalLink, LogOut, GalleryHorizontal, ShieldCheck } from 'lucide-vue-next';
+import { LayoutDashboard, UserRound, Route, Code2, FolderKanban, MessageSquareQuote, Share2, ExternalLink, LogOut, GalleryHorizontal, ShieldCheck, ListChecks } from 'lucide-vue-next';
 import { useAdminAuth } from './composables/useAdminAuth';
 import ToastHost from './components/ToastHost.vue';
 
@@ -72,6 +72,7 @@ onUnmounted(releaseDark);
 
 const links = [
   { to: '/admin/settings', label: 'Profil & Contact', icon: UserRound },
+  { to: '/admin/key-figures', label: 'Points clés', icon: ListChecks },
   { to: '/admin/projects', label: 'Projets', icon: FolderKanban },
   { to: '/admin/skills', label: 'Compétences', icon: Code2 },
   { to: '/admin/showcase', label: 'Savoir-faire', icon: GalleryHorizontal },

@@ -14,6 +14,7 @@ const routes = [
       { path: 'settings', name: 'admin-settings', component: () => import('../admin/views/SettingsView.vue') },
       { path: 'timeline', name: 'admin-timeline', component: () => import('../admin/views/TimelineView.vue') },
       { path: 'skills', name: 'admin-skills', component: () => import('../admin/views/SkillsView.vue') },
+      { path: 'key-figures', name: 'admin-key-figures', component: () => import('../admin/views/KeyFiguresView.vue') },
       { path: 'projects', name: 'admin-projects', component: () => import('../admin/views/ProjectsView.vue') },
       { path: 'showcase', name: 'admin-showcase', component: () => import('../admin/views/ShowcaseView.vue') },
       { path: 'testimonials', name: 'admin-testimonials', component: () => import('../admin/views/TestimonialsView.vue') },

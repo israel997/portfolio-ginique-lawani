@@ -31,6 +31,10 @@ export const RESOURCES = {
     ],
     jsonColumns: ['gallery']
   },
+  'key-figures': {
+    table: 'key_figures',
+    columns: ['value', 'label_fr', 'label_en', 'sort_order', 'is_visible']
+  },
   showcase: {
     table: 'showcase_items',
     columns: ['image_url', 'title_fr', 'title_en', 'description_fr', 'description_en', 'sort_order', 'is_visible']

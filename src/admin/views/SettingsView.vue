@@ -35,15 +35,6 @@
       </section>
 
       <section class="space-y-4">
-        <h3 class="text-sm font-bold uppercase tracking-wide text-brand-text">Statistiques</h3>
-        <div v-for="n in [1, 2, 3]" :key="n" class="grid md:grid-cols-3 gap-4 items-end">
-          <FormField v-model="form[`stat${n}_value`]" :label="`Valeur ${n}`" />
-          <FormField v-model="form[`stat${n}_label_fr`]" :label="`Libellé ${n} (FR)`" />
-          <FormField v-model="form[`stat${n}_label_en`]" :label="`Libellé ${n} (EN)`" />
-        </div>
-      </section>
-
-      <section class="space-y-4">
         <h3 class="text-sm font-bold uppercase tracking-wide text-brand-text">Contact</h3>
         <div class="grid md:grid-cols-2 gap-4">
           <FormField v-model="form.email" label="Email" type="email" />
@@ -62,7 +53,7 @@
       <section class="space-y-4">
         <h3 class="text-sm font-bold uppercase tracking-wide text-brand-text">Fichiers</h3>
         <ImageUploadField v-model="form.cv_url" label="CV (PDF)" accept="application/pdf" />
-        <ImageUploadField v-model="form.profile_photo_url" label="Photo de profil" accept="image/*" />
+        <ImageUploadField v-model="form.profile_photo_url" label="Photo de profil" accept="image/*" aspect="4:5" />
         <ImageUploadField v-model="form.hero_badge_image_url" label="Image badge (Hero)" accept="image/*" />
       </section>
 

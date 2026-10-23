@@ -184,7 +184,7 @@ async function seedSocialLinks() {
 }
 
 async function writeFallbackSnapshot() {
-  const [settings, timeline, skills, logos, projects, testimonials, socialLinks, showcase] = await Promise.all([
+  const [settings, timeline, skills, logos, projects, testimonials, socialLinks, showcase, keyFigures] = await Promise.all([
     sql`SELECT * FROM admin_settings WHERE id = 1`,
     sql`SELECT * FROM timeline_items WHERE is_visible = true ORDER BY sort_order`,
     sql`SELECT * FROM skills WHERE is_visible = true ORDER BY sort_order`,
@@ -192,7 +192,8 @@ async function writeFallbackSnapshot() {
     sql`SELECT * FROM projects WHERE is_visible = true ORDER BY sort_order`,
     sql`SELECT * FROM testimonials WHERE is_visible = true ORDER BY sort_order`,
     sql`SELECT * FROM social_links WHERE is_visible = true ORDER BY sort_order`,
-    sql`SELECT * FROM showcase_items WHERE is_visible = true ORDER BY sort_order`
+    sql`SELECT * FROM showcase_items WHERE is_visible = true ORDER BY sort_order`,
+    sql`SELECT * FROM key_figures WHERE is_visible = true ORDER BY sort_order`
   ]);
 
   const snapshot = {
@@ -203,7 +204,8 @@ async function writeFallbackSnapshot() {
     projects: projects.rows,
     testimonials: testimonials.rows,
     socialLinks: socialLinks.rows,
-    showcase: showcase.rows
+    showcase: showcase.rows,
+    keyFigures: keyFigures.rows
   };
 
   const outDir = path.join(root, 'src', 'content');

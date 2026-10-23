@@ -16,17 +16,15 @@
         <p class="text-base text-ink-2 leading-relaxed">{{ localized(settings, 'bio1') }}</p>
         <p class="text-base text-muted leading-relaxed">{{ localized(settings, 'bio2') }}</p>
 
-        <div class="grid grid-cols-3 gap-2.5 md:gap-4 pt-2">
-          <a
-            v-for="stat in stats"
-            :key="stat.n"
-            :href="stat.href"
-            :class="`group rounded-xl border border-line bg-surface p-3 md:p-4 transition-colors hover:bg-surface-hover ${stat.border}`"
-          >
-            <div :class="`font-mono text-2xl md:text-3xl font-semibold ${stat.color}`"><CountUp :value="settings[`stat${stat.n}_value`]" /></div>
-            <div class="mt-1 text-[11px] md:text-xs leading-snug text-muted">{{ localized(settings, `stat${stat.n}_label`) }}</div>
-          </a>
-        </div>
+        <ul v-if="keyFigures.length" class="space-y-3 border-t border-line pt-5">
+          <li v-for="(figure, i) in keyFigures" :key="figure.id" class="flex items-baseline gap-3">
+            <span :class="['relative top-[-0.1em] h-2 w-2 shrink-0 rounded-full', COLORS[i % COLORS.length].dot]" aria-hidden="true"></span>
+            <p class="text-base leading-snug text-ink-2">
+              <span v-if="figure.value" :class="['mr-1.5 font-mono text-xl font-semibold md:text-2xl', COLORS[i % COLORS.length].text]"><CountUp :value="figure.value" /></span>
+              {{ localized(figure, 'label') }}
+            </p>
+          </li>
+        </ul>
       </div>
     </div>
   </section>
@@ -43,9 +41,12 @@ defineProps({ index: { type: String, default: '' } });
 const { content, localized } = useContent();
 const settings = computed(() => content.value.settings || {});
 
-const stats = [
-  { n: 1, href: '#timeline', color: 'text-stat-1', border: 'hover:border-stat-1/40' },
-  { n: 2, href: '#projects', color: 'text-stat-2', border: 'hover:border-stat-2/40' },
-  { n: 3, href: '#timeline', color: 'text-stat-3', border: 'hover:border-stat-3/40' }
+const keyFigures = computed(() => content.value.keyFigures || []);
+
+// Bullet / number colors, cycling when more points are added
+const COLORS = [
+  { dot: 'bg-stat-1', text: 'text-stat-1' },
+  { dot: 'bg-stat-2', text: 'text-stat-2' },
+  { dot: 'bg-stat-3', text: 'text-stat-3' }
 ];
 </script>

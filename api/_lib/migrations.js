@@ -97,6 +97,32 @@ export const MIGRATIONS = [
        )`,
       `CREATE INDEX IF NOT EXISTS login_attempts_ip_time ON login_attempts (ip, attempted_at)`
     ]
+  },
+  {
+    version: 5,
+    statements: [
+      // About section key points: a list (add/remove from the admin) instead
+      // of the three fixed stat1..3 fields, which seed it once
+      `CREATE TABLE IF NOT EXISTS key_figures (
+         id SERIAL PRIMARY KEY,
+         value TEXT NOT NULL DEFAULT '',
+         label_fr TEXT NOT NULL DEFAULT '', label_en TEXT,
+         sort_order INTEGER NOT NULL DEFAULT 0,
+         is_visible BOOLEAN NOT NULL DEFAULT true,
+         created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+         updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+       )`,
+      `INSERT INTO key_figures (value, label_fr, label_en, sort_order)
+       SELECT x.v, COALESCE(x.lf, ''), x.le, x.o
+       FROM admin_settings s,
+       LATERAL (VALUES
+         (s.stat1_value, s.stat1_label_fr, s.stat1_label_en, 0),
+         (s.stat2_value, s.stat2_label_fr, s.stat2_label_en, 1),
+         (s.stat3_value, s.stat3_label_fr, s.stat3_label_en, 2)
+       ) AS x(v, lf, le, o)
+       WHERE s.id = 1 AND COALESCE(x.v, '') <> ''
+         AND NOT EXISTS (SELECT 1 FROM key_figures)`
+    ]
   }
 ];
 

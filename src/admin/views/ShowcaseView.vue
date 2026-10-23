@@ -36,7 +36,7 @@
 
   <SlideOver :open="!!form" :title="form?.id ? 'Modifier l\'image' : 'Nouvelle image'" @close="requestClose">
     <form v-if="form" id="showcase-form" @submit.prevent="submit" class="space-y-6">
-      <ImageUploadField v-model="form.image_url" label="Image" accept="image/*" />
+      <ImageUploadField v-model="form.image_url" label="Image" accept="image/*" aspect="4:3" />
       <BilingualField v-model:fr="form.title_fr" v-model:en="form.title_en" label="Titre" optional placeholder="Ex. Architecture d'API" placeholder-en="E.g. API architecture" />
       <BilingualField v-model:fr="form.description_fr" v-model:en="form.description_en" label="Description" multiline :rows="4" placeholder="Ce que montre l'image, ce que vous savez faire…" placeholder-en="What the image shows, what you can do…" />
 
