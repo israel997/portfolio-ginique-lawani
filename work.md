@@ -127,9 +127,11 @@ Chaque section est une « bande » pleine largeur avec son propre fond, pour év
 | Projets | `#0b1120` | `#f6f8fe` | aucun |
 | Compétences | `#0d1426` | `#eef2fb` | points 22 px |
 | Savoir-faire | `#140f26` | `#ffffff` | aucun |
-| Parcours | `#0f172a` | `#f6f8fe` | lignes verticales 64 px |
+| Parcours | `#0f172a` | `#f6f8fe` | **grille rectangulaire** 64 × 96 px (colonnes 64 px, lignes tous les 96 px) |
 | Références | `#161229` | `#eef2fb` | aucun |
 | Contact | `#0f172a` | `#ffffff` | points 22 px + **petit disque uni** immobile en bas à gauche (`.section-orb`, même couleur que celui du Hero ; 9 rem mobile, 18 rem dès 768 px) |
+
+Teinte des grilles et des points : sombre blanc à 3 % (points 7 %) ; clair encre à **7,5 %** (renforcée le 23/10, points 9 %).
 
 ### 3.5 Couleurs des points clés (À propos)
 
@@ -469,6 +471,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 17:56 | `e999ff9` | **Disque décoratif** dans le coin supérieur droit de la première section, sobre et uni (clair `#dfe8ff`, sombre bleu à 12 %), comme sur la landing OOffix |
 | 17:59 | `0f50ee0` | **Bulle du Hero animée** (glisse lentement vers le côté opposé et revient, 40 s par trajet) ; **petit disque** en bas à gauche de la section Contact |
 | 18:11 | `68bf1be` | Mode clair : fond de la section **À propos** passé du blanc à `#f1f4fc` (teinte du Hero, un peu plus foncée) |
+| __TIME__ | __HASH__ | Mode clair : **grilles plus visibles** (4,5 % → 7,5 %) ; **Parcours** : vraie grille rectangulaire 64 × 96 px au lieu de lignes verticales seules |
 
 ---
 
