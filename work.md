@@ -336,7 +336,7 @@ Pour ajouter une migration : nouvelle entrée `{ version: N, statements: [...] }
 
 | Fichier | Routes | Rôle |
 |---|---|---|
-| `api/content.js` | `GET /api/content` | tout le contenu public (éléments visibles), cache 60 s |
+| `api/content.js` | `GET /api/content` | tout le contenu public (éléments visibles), cache CDN de 3 s (+5 s de revalidation) : une modification de l'admin apparaît en quelques secondes |
 | `api/admin/[resource]/index.js` | `GET/POST /api/admin/<ressource>` | lister / créer |
 | `api/admin/[resource]/[id].js` | `GET/PATCH/DELETE /api/admin/<ressource>/<id>` | lire / modifier / supprimer |
 | `api/admin/settings.js` | `GET/PATCH /api/admin/settings` | profil & contact |
@@ -460,6 +460,7 @@ Total : **6 fonctions** sur 12 autorisées par le plan Hobby.
 | 15:01 | `fb284f5` | Bouton « Voir tout le portfolio » déplacé **tout en bas** de la page projet, après « Projet précédent / suivant » (bouton plein, pleine largeur sur mobile) |
 | 17:15 | `6454bad` | **Lien de partage toujours présent** (créé par le serveur si absent, ex. Vibe & Go affichait `/projets/7`) ; **listes numérotées / à tirets** dans Présentation, Ce que j'ai fait, Méthodologie (fini la numérotation à la main) ; **couleur des titres de galerie** ; **format de recadrage du site** affiché partout, galerie en 4:3 (v10) |
 | 17:21 | `9f11b1e` | **Couleur des numéros / tirets au choix** pour chaque bloc en liste (par défaut, 8 couleurs, ou Multicolore) (v11) |
+| __TIME__ | __HASH__ | **Cache du contenu réduit** de 60 s (+5 min) à 3 s (+5 s) : les modifications de l'admin (ex. couleur des points) mettaient jusqu'à plusieurs minutes à apparaître |
 
 ---
 

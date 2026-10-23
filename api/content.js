@@ -19,7 +19,9 @@ export default async function handler(req, res) {
       sql`SELECT * FROM key_figures WHERE is_visible = true ORDER BY sort_order`
     ]);
 
-    res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
+    // Short CDN cache: admin changes show up within a few seconds, while a
+    // burst of visits still shares one database read
+    res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=3, stale-while-revalidate=5');
     sendJson(res, 200, {
       settings: settings.rows[0] || null,
       timeline: timeline.rows,
