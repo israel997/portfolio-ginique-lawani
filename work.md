@@ -123,7 +123,7 @@ Chaque section est une « bande » pleine largeur avec son propre fond, pour év
 | Section | Sombre | Clair | Motif |
 |---|---|---|---|
 | Hero | `#0f172a` | `#f6f8fe` | **grand disque uni** qui déborde du coin supérieur droit, comme sur OOffix (`.hero-orb` : clair `#dfe8ff`, sombre bleu marque à 12 %) ; 15 rem sur mobile, 34 rem dès 768 px ; **animé** : glisse vers le côté opposé en descendant de 9 rem puis revient (40 s par trajet, `ease-in-out`, boucle aller-retour, coupé si « réduire les animations ») |
-| À propos | `#111a30` | `#ffffff` | grille 48 px |
+| À propos | `#111a30` | `#f1f4fc` (teinte du Hero, un peu plus foncée ; blanc avant le 23/10) | grille 48 px |
 | Projets | `#0b1120` | `#f6f8fe` | aucun |
 | Compétences | `#0d1426` | `#eef2fb` | points 22 px |
 | Savoir-faire | `#140f26` | `#ffffff` | aucun |
@@ -468,6 +468,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 17:44 | `12c888d` | **Aperçus de liens à jour** : la photo de profil actuelle (accueil) et l'image, le nom et la description de chaque projet (`/ooffix`) dans WhatsApp, LinkedIn, Facebook… via `api/og.js` ; `index.html` devient `app.html` en production |
 | 17:56 | `e999ff9` | **Disque décoratif** dans le coin supérieur droit de la première section, sobre et uni (clair `#dfe8ff`, sombre bleu à 12 %), comme sur la landing OOffix |
 | 17:59 | `0f50ee0` | **Bulle du Hero animée** (glisse lentement vers le côté opposé et revient, 40 s par trajet) ; **petit disque** en bas à gauche de la section Contact |
+| __TIME__ | __HASH__ | Mode clair : fond de la section **À propos** passé du blanc à `#f1f4fc` (teinte du Hero, un peu plus foncée) |
 
 ---
 

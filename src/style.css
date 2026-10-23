@@ -259,7 +259,7 @@
   --band-contact: #0f172a;
 }
 :root[data-theme="light"] {
-  --band-about: #ffffff;
+  --band-about: #f1f4fc; /* hero tint, a touch darker */
   --band-projects: #f6f8fe;
   --band-skills: #eef2fb;
   --band-showcase: #ffffff;
