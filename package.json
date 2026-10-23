@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "dev:api": "vercel dev",
-    "build": "vite build",
+    "build": "vite build && node scripts/postbuild.mjs",
     "preview": "vite preview",
     "db:seed": "node scripts/seed.mjs",
     "images:optimize": "node scripts/optimize-images.mjs"

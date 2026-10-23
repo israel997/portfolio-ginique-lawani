@@ -54,20 +54,57 @@
       "destination": "/sitemap.xml"
     },
     {
-      "source": "/admin",
-      "destination": "/index.html"
+      "source": "/",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|WhatsApp|LinkedInBot|Twitterbot|TelegramBot|Slackbot|Discordbot|Googlebot|bingbot|Applebot|SkypeUriPreview|Pinterest|redditbot|Embedly|vkShare|Iframely|Mastodon|Signal|Viber|Snapchat).*"
+        }
+      ],
+      "destination": "/api/og?path=/"
     },
     {
-      "source": "/admin/(.*)",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/projets/(.*)",
-      "destination": "/index.html"
+      "source": "/projets/:id",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|WhatsApp|LinkedInBot|Twitterbot|TelegramBot|Slackbot|Discordbot|Googlebot|bingbot|Applebot|SkypeUriPreview|Pinterest|redditbot|Embedly|vkShare|Iframely|Mastodon|Signal|Viber|Snapchat).*"
+        }
+      ],
+      "destination": "/api/og?path=/projets/:id"
     },
     {
       "source": "/:slug",
-      "destination": "/index.html"
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|WhatsApp|LinkedInBot|Twitterbot|TelegramBot|Slackbot|Discordbot|Googlebot|bingbot|Applebot|SkypeUriPreview|Pinterest|redditbot|Embedly|vkShare|Iframely|Mastodon|Signal|Viber|Snapchat).*"
+        }
+      ],
+      "destination": "/api/og?path=/:slug"
+    },
+    {
+      "source": "/",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/admin/(.*)",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/projets/(.*)",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/:slug",
+      "destination": "/app.html"
     }
   ]
 }

@@ -342,9 +342,12 @@ Pour ajouter une migration : nouvelle entrée `{ version: N, statements: [...] }
 | `api/admin/settings.js` | `GET/PATCH /api/admin/settings` | profil & contact |
 | `api/auth/[action].js` | `login`, `logout`, `session`, `password` | authentification |
 | `api/blob/upload-token.js` | `POST` | jeton d'envoi de fichier vers Blob (connecté uniquement) |
+| `api/og.js` | `/`, `/<lien>`, `/projets/<id>` pour les **robots d'aperçu** | renvoie la page avec des balises d'aperçu à jour : photo de profil actuelle (accueil) ou image, nom et description du projet (cache 60 s) |
 
 Ressources CRUD (`api/_lib/crud.js`) : `timeline`, `skills`, `logos`, `projects`, `testimonials`, `social-links`, `showcase`, `key-figures`.
-Total : **6 fonctions** sur 12 autorisées par le plan Hobby.
+Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
+
+**Aperçus de liens** : WhatsApp, Facebook, LinkedIn, X, Telegram, Slack, Discord, Google… ne lisent que les balises de la page. `vercel.json` envoie ces robots (reconnus à leur user-agent) vers `api/og.js` ; les visiteurs reçoivent `app.html`. Pour que l'accueil puisse aussi être intercepté, `npm run build` copie `dist/index.html` en `dist/app.html` et, sur Vercel, supprime `index.html` (`scripts/postbuild.mjs`).
 
 ---
 
@@ -461,6 +464,7 @@ Total : **6 fonctions** sur 12 autorisées par le plan Hobby.
 | 17:15 | `6454bad` | **Lien de partage toujours présent** (créé par le serveur si absent, ex. Vibe & Go affichait `/projets/7`) ; **listes numérotées / à tirets** dans Présentation, Ce que j'ai fait, Méthodologie (fini la numérotation à la main) ; **couleur des titres de galerie** ; **format de recadrage du site** affiché partout, galerie en 4:3 (v10) |
 | 17:21 | `9f11b1e` | **Couleur des numéros / tirets au choix** pour chaque bloc en liste (par défaut, 8 couleurs, ou Multicolore) (v11) |
 | 17:27 | `90ac1b5` | **Cache du contenu réduit** de 60 s (+5 min) à 3 s (+5 s) : les modifications de l'admin (ex. couleur des points) mettaient jusqu'à plusieurs minutes à apparaître |
+| __TIME__ | __HASH__ | **Aperçus de liens à jour** : la photo de profil actuelle (accueil) et l'image, le nom et la description de chaque projet (`/ooffix`) dans WhatsApp, LinkedIn, Facebook… via `api/og.js` ; `index.html` devient `app.html` en production |
 
 ---
 
@@ -474,7 +478,7 @@ Total : **6 fonctions** sur 12 autorisées par le plan Hobby.
 
 **Reste à faire :**
 
-1. **Aperçu du lien** (image + titre + description du projet dans WhatsApp, LinkedIn, Messenger) : les robots de ces applis ne lisent pas le JavaScript. Il faut donc servir, pour `/projets/:slug`, une page HTML avec les balises Open Graph du projet. Piste : une fonction Vercel dédiée (7e fonction sur 12) qui renvoie le `index.html` avec les balises du projet injectées.
+1. ~~**Aperçu du lien**~~ **fait le 23/10/2026** (`api/og.js`) : (image + titre + description du projet dans WhatsApp, LinkedIn, Messenger) : les robots de ces applis ne lisent pas le JavaScript. Il faut donc servir, pour `/projets/:slug`, une page HTML avec les balises Open Graph du projet. Piste : une fonction Vercel dédiée (7e fonction sur 12) qui renvoie le `index.html` avec les balises du projet injectées.
 2. **Page d'arrivée « mode partage »** : un court rappel de qui tu es (photo, nom, titre, contact) pour un visiteur qui arrive sans contexte.
 3. Optionnel : mesurer les ouvertures de chaque lien partagé (Vercel Analytics, événement par projet).
 
@@ -493,6 +497,6 @@ Total : **6 fonctions** sur 12 autorisées par le plan Hobby.
 
 - **Brouillons et dictionnaire du correcteur** : stockés dans le navigateur. Ils ne suivent pas d'un appareil à l'autre et disparaissent si l'on efface les données du site.
 - **Correcteur** : version gratuite de LanguageTool (environ 20 vérifications par minute) ; les textes sont envoyés à LanguageTool pour relecture.
-- **Balises SEO** de `index.html` statiques : les modifications faites dans l'admin ne changent pas l'aperçu des liens (voir §13.1).
+- **Aperçus de liens** : générés à jour par `api/og.js`, mais WhatsApp, Facebook et LinkedIn gardent en mémoire un aperçu déjà vu ; pour forcer la mise à jour : Facebook Sharing Debugger (sert aussi pour WhatsApp) et LinkedIn Post Inspector.
 - **Déploiements Vercel** : jusqu'à ~10 min ; un onglet admin ouvert garde l'ancienne version tant qu'il n'est pas rechargé.
 - Le mot de passe admin initial a été généré le 22/10/2026 ; il est conseillé de le remplacer via Admin → Sécurité.
