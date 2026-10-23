@@ -459,7 +459,7 @@ Total : **6 fonctions** sur 12 autorisées par le plan Hobby.
 | 14:51 | `071b592` | `info.md` complété avec les règles précises de « Ce que j'ai fait » (projet client, 5 à 8 points commençant par un nom d'action, termes techniques exacts, honnêteté) et une partie « À vérifier avec toi » |
 | 15:01 | `fb284f5` | Bouton « Voir tout le portfolio » déplacé **tout en bas** de la page projet, après « Projet précédent / suivant » (bouton plein, pleine largeur sur mobile) |
 | 17:15 | `6454bad` | **Lien de partage toujours présent** (créé par le serveur si absent, ex. Vibe & Go affichait `/projets/7`) ; **listes numérotées / à tirets** dans Présentation, Ce que j'ai fait, Méthodologie (fini la numérotation à la main) ; **couleur des titres de galerie** ; **format de recadrage du site** affiché partout, galerie en 4:3 (v10) |
-| __TIME__ | __HASH__ | **Couleur des numéros / tirets au choix** pour chaque bloc en liste (par défaut, 8 couleurs, ou Multicolore) (v11) |
+| 17:21 | `9f11b1e` | **Couleur des numéros / tirets au choix** pour chaque bloc en liste (par défaut, 8 couleurs, ou Multicolore) (v11) |
 
 ---
 
