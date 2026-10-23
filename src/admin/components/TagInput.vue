@@ -21,7 +21,7 @@
           ref="inputEl"
           v-model="pending"
           @keydown="onKeydown"
-          @input="highlighted = 0"
+          @input="onInput"
           @focus="focused = true"
           @blur="onBlur"
           :placeholder="modelValue.length ? '' : placeholder"
@@ -30,9 +30,17 @@
           role="combobox"
           :aria-expanded="showList"
           :aria-controls="listId"
-          :aria-activedescendant="showList ? `${listId}-${highlighted}` : undefined"
+          :aria-activedescendant="showList ? `${listId}-${highlighted === -1 ? 'custom' : highlighted}` : undefined"
           class="min-w-[8rem] flex-1 bg-transparent px-1 py-1 text-base md:text-sm text-white placeholder:text-slate-500 focus:outline-none"
         />
+        <button
+          v-if="pending.trim()"
+          type="button"
+          @mousedown.prevent="addTyped"
+          class="inline-flex h-8 shrink-0 items-center gap-1 rounded-lg bg-brand px-2.5 text-xs font-semibold text-white hover:bg-brand-hover"
+        >
+          <Plus class="h-3.5 w-3.5" /> Ajouter
+        </button>
       </div>
 
       <!-- Suggestions: mousedown.prevent keeps focus in the input while picking -->
@@ -42,6 +50,21 @@
         role="listbox"
         class="absolute inset-x-0 top-full z-20 mt-1.5 max-h-64 overflow-y-auto rounded-xl border border-white/10 bg-slate-900 p-1 shadow-2xl"
       >
+        <li
+          v-if="canAddTyped"
+          :id="`${listId}-custom`"
+          role="option"
+          :aria-selected="highlighted === -1"
+          @mousedown.prevent="addTyped"
+          @mousemove="highlighted = -1"
+          :class="['flex cursor-pointer items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm', highlighted === -1 ? 'bg-brand/20 text-white' : 'text-slate-300']"
+        >
+          <span class="grid h-7 w-7 shrink-0 place-items-center rounded-md border border-dashed border-white/20">
+            <Plus class="h-3.5 w-3.5 text-brand-text" />
+          </span>
+          <span class="flex-1 truncate">Ajouter « <span class="font-semibold text-white">{{ pending.trim() }}</span> »</span>
+          <span class="text-[10px] text-slate-500">Entrée</span>
+        </li>
         <li
           v-for="(option, i) in matches"
           :id="`${listId}-${i}`"
@@ -63,14 +86,14 @@
       </ul>
     </div>
     <p class="mt-1.5 text-xs text-slate-500">
-      {{ suggestions.length ? 'Tapez pour voir les suggestions · Entrée ou virgule pour ajouter.' : 'Entrée ou virgule pour ajouter.' }}
+      {{ suggestions.length ? 'Choisissez une suggestion, ou tapez n\'importe quelle techno puis Entrée / Ajouter.' : 'Entrée, virgule ou Ajouter pour valider.' }}
     </p>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, useId } from 'vue';
-import { X, Hash } from 'lucide-vue-next';
+import { X, Hash, Plus } from 'lucide-vue-next';
 import { isMonoLogo } from '../../composables/techLogos';
 
 const props = defineProps({
@@ -89,7 +112,7 @@ const listId = useId();
 const inputEl = ref(null);
 const pending = ref('');
 const focused = ref(false);
-const highlighted = ref(0);
+const highlighted = ref(-1); // -1 = the typed text itself
 
 // "ne" should find "Next.js" and "Nest.js": compare letters and digits only
 const normalize = (value) => (value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -112,7 +135,15 @@ const matches = computed(() => {
     .slice(0, MAX_SUGGESTIONS);
 });
 
-const showList = computed(() => focused.value && matches.value.length > 0);
+// Offer "Ajouter « … »" unless the typed text is exactly a suggestion or already added
+const canAddTyped = computed(() => {
+  const q = normalize(pending.value);
+  if (!q) return false;
+  if (props.modelValue.some((t) => normalize(t) === q)) return false;
+  return !matches.value.some((m) => normalize(m.name) === q);
+});
+
+const showList = computed(() => focused.value && (matches.value.length > 0 || canAddTyped.value));
 
 // Bold the typed letters inside a suggestion
 function highlightParts(name) {
@@ -134,9 +165,30 @@ function addAll(tags) {
   if (next.length !== props.modelValue.length) emit('update:modelValue', next);
 }
 
+// What Enter adds: the typed text by default (highlighted = -1); a suggestion
+// only once picked with the arrow keys. An exact match is preselected.
+function resetHighlight() {
+  const q = normalize(pending.value);
+  const exact = matches.value.findIndex((m) => normalize(m.name) === q);
+  highlighted.value = exact;
+}
+
+function onInput() {
+  if (pending.value.includes(',')) {
+    commit();
+    return;
+  }
+  resetHighlight();
+}
+
+function addTyped() {
+  commit();
+  inputEl.value?.focus();
+}
+
 function add(name) {
   pending.value = '';
-  highlighted.value = 0;
+  highlighted.value = -1;
   addAll([name]);
   inputEl.value?.focus();
 }
@@ -158,19 +210,22 @@ function onBlur() {
 }
 
 function onKeydown(event) {
+  const first = canAddTyped.value ? -1 : 0;
+  const last = matches.value.length - 1;
   if (showList.value && event.key === 'ArrowDown') {
     event.preventDefault();
-    highlighted.value = (highlighted.value + 1) % matches.value.length;
+    highlighted.value = highlighted.value >= last ? first : highlighted.value + 1;
   } else if (showList.value && event.key === 'ArrowUp') {
     event.preventDefault();
-    highlighted.value = (highlighted.value - 1 + matches.value.length) % matches.value.length;
+    highlighted.value = highlighted.value <= first ? last : highlighted.value - 1;
   } else if (event.key === 'Escape' && showList.value) {
     // Close the list only; don't let the side panel treat it as "close panel"
     event.stopPropagation();
     focused.value = false;
   } else if (event.key === 'Enter' || event.key === ',') {
     event.preventDefault();
-    if (showList.value && event.key === 'Enter') add(matches.value[highlighted.value].name);
+    const picked = event.key === 'Enter' && highlighted.value >= 0 ? matches.value[highlighted.value] : null;
+    if (picked) add(picked.name);
     else commit();
   } else if (event.key === 'Backspace' && !pending.value && props.modelValue.length) {
     remove(props.modelValue.length - 1);
