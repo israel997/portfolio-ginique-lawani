@@ -178,7 +178,7 @@ La numérotation suit les sections visibles : si une section est vide (ex. Savoi
 
 - **Hero** : surtitre animé (machine à écrire), nom complet **sur une seule ligne** à toutes les largeurs (taille fluide `clamp(1.6rem, 8.4vw, 6rem)`), « LAWANI » en couleur d'accent, accroche en texte normal (non gras), deux boutons « **Voir les projets** » (plein) et « **Voir le CV** » (contour), côte à côte sur mobile, image du certificat NASA chargée en priorité.
 - **À propos** : photo, « Je suis, », deux paragraphes de bio, **liste à puces des points clés** (puce + chiffre animé coloré + texte), gérée depuis l'admin.
-- **Projets** : filtres par catégorie (seulement ceux qui ont des projets), cartes avec image, **badges de toutes les catégories**, nom, description (3 lignes), technos, bouton « **Voir les détails** » (icône œil) vers la page projet, petit bouton carré ↗ vers le site en ligne, petit bouton carré **Partager**.
+- **Projets** : sur **téléphone** (< 768 px), sélecteur de vue à droite des filtres : **Carrousel** (par défaut ; une carte complète à la fois, à faire glisser, points de navigation) ou **Grille 2 × 4** (tuiles compactes : image, nom, catégories ; au-delà de 8, bouton « Voir tous les projets (N) ») ; le choix est mémorisé. Sur tablette et ordinateur : grille de cartes complètes. Filtres par catégorie (seulement ceux qui ont des projets), cartes avec image, **badges de toutes les catégories**, nom, description (3 lignes), technos, bouton « **Voir les détails** » (icône œil) vers la page projet, petit bouton carré ↗ vers le site en ligne, petit bouton carré **Partager**.
 - **Compétences** : cartes par domaine ; les technos s'affichent en **logos avec leur nom dessous** ; une techno sans logo garde une étiquette texte. *(La bande de logos défilante a été retirée le 22/10/2026.)*
 - **Savoir-faire** (« Ce que je sais faire ») : **carrousel** d'images avec titre et description. Images affichées entières, quel que soit leur format. Glisser au doigt, flèches, points, défilement automatique. Masqué tant qu'il est vide.
 - **Parcours** : frise verticale (alternée sur desktop), année, titre, organisation, description.
@@ -472,6 +472,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 17:59 | `0f50ee0` | **Bulle du Hero animée** (glisse lentement vers le côté opposé et revient, 40 s par trajet) ; **petit disque** en bas à gauche de la section Contact |
 | 18:11 | `68bf1be` | Mode clair : fond de la section **À propos** passé du blanc à `#f1f4fc` (teinte du Hero, un peu plus foncée) |
 | 18:37 | `997762e` | Mode clair : **grilles plus visibles** (4,5 % → 7,5 %) ; **Parcours** : vraie grille rectangulaire 64 × 96 px au lieu de lignes verticales seules |
+| __TIME__ | __HASH__ | **Projets sur mobile** : vue **Carrousel** (par défaut) ou **Grille 2 × 4** compacte (image, nom, catégories), au choix et mémorisée ; ordinateur inchangé |
 
 ---
 

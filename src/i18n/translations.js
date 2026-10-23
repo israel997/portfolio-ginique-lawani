@@ -121,6 +121,10 @@ export default {
       soon: 'Bientôt disponible',
       share: 'Partager',
       linkCopied: 'Lien copié',
+      viewLabel: 'Affichage des projets',
+      viewCarousel: 'Carrousel',
+      viewGrid: 'Grille',
+      showAll: 'Voir tous les projets ({n})',
       items: {
         sanaa: {
           desc: 'Réseau social de niche dédié aux Industries Culturelles et Créatives avec option de Crowdfunding intégrée'
@@ -279,6 +283,10 @@ export default {
       soon: 'Coming soon',
       share: 'Share',
       linkCopied: 'Link copied',
+      viewLabel: 'Projects layout',
+      viewCarousel: 'Carousel',
+      viewGrid: 'Grid',
+      showAll: 'Show all projects ({n})',
       items: {
         sanaa: {
           desc: 'Niche social network dedicated to Cultural and Creative Industries with integrated Crowdfunding option'
