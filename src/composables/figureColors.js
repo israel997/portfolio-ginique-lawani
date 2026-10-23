@@ -12,6 +12,14 @@ export const FIGURE_COLORS = [
   { name: 'red', label: 'Rouge' }
 ];
 
+// Numbers / dashes of a list block: '' = accent color, 'mixed' = one color
+// per point (cycling through the palette), or a color name for all points
+export function listColor(choice, index = 0) {
+  if (choice === 'mixed') return `var(--fig-${FIGURE_COLORS[index % FIGURE_COLORS.length].name})`;
+  if (FIGURE_COLORS.some((c) => c.name === choice)) return `var(--fig-${choice})`;
+  return 'var(--accent)';
+}
+
 // A point without a chosen color takes the next one of purple / magenta / orange
 export function figureColor(name, index = 0) {
   const known = FIGURE_COLORS.some((c) => c.name === name);

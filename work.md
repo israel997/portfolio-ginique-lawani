@@ -246,7 +246,7 @@ Balises meta, Open Graph, Twitter Card et JSON-LD (Person, WebSite, Professional
 - Image de couverture (recadrage 16:10 conseillé), nom, **lien de partage** (`/ooffix` : rempli depuis le nom, modifiable, unique, mots réservés refusés, bouton « Copier »), **catégories multiples** à cocher (Fullstack, Frontend, Backend, Mobile, **AI oriented**), description courte FR/EN.
 - **Stack / technologies** avec **suggestions** au fil de la frappe (logo + nom, lettres tapées en gras) : taper « ne » propose Nest.js, Next.js… On peut aussi **ajouter n'importe quelle techno absente** (ligne « Ajouter « … » », bouton « + Ajouter », Entrée ou virgule, y compris sur clavier mobile).
 - Lien du site (facultatif).
-- Page du projet : **Présentation**, **Ce que j'ai fait**, **Méthodologie** (FR/EN). Chaque bloc a un **format** : Paragraphe, **Liste numérotée** (affichée « 01, 02… ») ou **Liste à tirets** (tiret de couleur). En liste, les points s'ajoutent un par un (« + Ajouter un point », Entrée = point suivant, Retour arrière sur un point vide = le retirer, un texte collé sur plusieurs lignes devient plusieurs points) ; la numérotation n'est jamais tapée à la main, et les « 1- », « 02 », « • » déjà saisis sont retirés automatiquement.
+- Page du projet : **Présentation**, **Ce que j'ai fait**, **Méthodologie** (FR/EN). Chaque bloc a un **format** : Paragraphe, **Liste numérotée** (affichée « 01, 02… ») ou **Liste à tirets** (tiret de couleur), et en liste une **couleur des numéros / tirets** : Par défaut (accent bleu), l'une des 8 couleurs, ou **Multicolore** (une couleur par point, dans l'ordre pourpre, magenta, orange, bleu, vert, turquoise, jaune, rouge). En liste, les points s'ajoutent un par un (« + Ajouter un point », Entrée = point suivant, Retour arrière sur un point vide = le retirer, un texte collé sur plusieurs lignes devient plusieurs points) ; la numérotation n'est jamais tapée à la main, et les « 1- », « 02 », « • » déjà saisis sont retirés automatiquement.
 - **Galerie** : images (recadrage **4:3**, le cadre du carrousel) + **titre** facultatif avec **couleur au choix** (8 couleurs des points clés ou par défaut) + **description**, réordonnables.
 - Visibilité.
 
@@ -326,6 +326,7 @@ Appliquées par l'API au premier appel après un déploiement. Toutes idempotent
 | v8 | 23/10/2026 | `admin_settings.sections` (JSONB) : noms et titres de sections personnalisés |
 | v9 | 23/10/2026 | `projects.slug` (lien de partage) généré depuis le nom (accents retirés, doublons suffixés par l'id, mots réservés évités), index unique |
 | v10 | 23/10/2026 | lien de partage pour les projets qui n'en avaient pas ; colonnes `details_style`, `contributions_style` (défaut liste numérotée), `methodology_style` |
+| v11 | 23/10/2026 | `details_color`, `contributions_color`, `methodology_color` : couleur des numéros / tirets (`''`, nom de couleur ou `mixed`) |
 
 Pour ajouter une migration : nouvelle entrée `{ version: N, statements: [...] }` en fin de tableau, avec des requêtes idempotentes (`IF NOT EXISTS`…).
 
@@ -458,6 +459,7 @@ Total : **6 fonctions** sur 12 autorisées par le plan Hobby.
 | 14:51 | `071b592` | `info.md` complété avec les règles précises de « Ce que j'ai fait » (projet client, 5 à 8 points commençant par un nom d'action, termes techniques exacts, honnêteté) et une partie « À vérifier avec toi » |
 | 15:01 | `fb284f5` | Bouton « Voir tout le portfolio » déplacé **tout en bas** de la page projet, après « Projet précédent / suivant » (bouton plein, pleine largeur sur mobile) |
 | 17:15 | `6454bad` | **Lien de partage toujours présent** (créé par le serveur si absent, ex. Vibe & Go affichait `/projets/7`) ; **listes numérotées / à tirets** dans Présentation, Ce que j'ai fait, Méthodologie (fini la numérotation à la main) ; **couleur des titres de galerie** ; **format de recadrage du site** affiché partout, galerie en 4:3 (v10) |
+| __TIME__ | __HASH__ | **Couleur des numéros / tirets au choix** pour chaque bloc en liste (par défaut, 8 couleurs, ou Multicolore) (v11) |
 
 ---
 

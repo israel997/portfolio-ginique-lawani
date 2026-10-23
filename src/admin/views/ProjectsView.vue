@@ -124,6 +124,7 @@
           v-model:fr="form.details_fr"
           v-model:en="form.details_en"
           v-model:style="form.details_style"
+          v-model:color="form.details_color"
           label="Présentation"
           :rows="6"
           optional
@@ -134,6 +135,7 @@
           v-model:fr="form.contributions_fr"
           v-model:en="form.contributions_en"
           v-model:style="form.contributions_style"
+          v-model:color="form.contributions_color"
           label="Ce que j'ai fait"
           :rows="6"
           optional
@@ -144,6 +146,7 @@
           v-model:fr="form.methodology_fr"
           v-model:en="form.methodology_en"
           v-model:style="form.methodology_style"
+          v-model:color="form.methodology_color"
           label="Méthodologie"
           :rows="5"
           optional
@@ -212,7 +215,8 @@ import FormFooter from '../components/FormFooter.vue';
 const FIELDS = [
   'name', 'description_fr', 'description_en', 'tags', 'gradient_class', 'category', 'categories', 'image_url', 'project_url',
   'details_fr', 'details_en', 'contributions_fr', 'contributions_en', 'methodology_fr', 'methodology_en', 'gallery', 'slug',
-  'details_style', 'contributions_style', 'methodology_style'
+  'details_style', 'contributions_style', 'methodology_style',
+  'details_color', 'contributions_color', 'methodology_color'
 ];
 
 let galleryKey = 0;
@@ -233,7 +237,10 @@ const {
     slug: '',
     details_style: 'text',
     contributions_style: 'numbered',
-    methodology_style: 'text'
+    methodology_style: 'text',
+    details_color: '',
+    contributions_color: '',
+    methodology_color: ''
   }),
   // Client-only keys so gallery rows keep their identity while reordering
   prepare: (values) => ({

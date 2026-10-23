@@ -38,6 +38,45 @@
       </button>
     </div>
 
+    <!-- Color of the numbers / dashes (lists only) -->
+    <div v-if="style !== 'text'" class="mb-3">
+      <span class="mb-1.5 block text-xs font-medium text-slate-400">Couleur des {{ style === 'numbered' ? 'numéros' : 'tirets' }}</span>
+      <div class="flex flex-wrap gap-1.5" role="radiogroup" :aria-label="`Couleur de « ${label} »`">
+        <button
+          type="button"
+          role="radio"
+          :aria-checked="!color"
+          @click="$emit('update:color', '')"
+          :class="['flex h-8 items-center gap-1.5 rounded-lg border px-2.5 text-xs', !color ? 'border-white bg-white/10 text-white' : 'border-white/10 text-slate-400 hover:text-white']"
+        >
+          <span class="h-3 w-3 rounded-full bg-brand-text"></span> Par défaut
+        </button>
+        <button
+          type="button"
+          role="radio"
+          :aria-checked="color === 'mixed'"
+          @click="$emit('update:color', 'mixed')"
+          :class="['flex h-8 items-center gap-1.5 rounded-lg border px-2.5 text-xs', color === 'mixed' ? 'border-white bg-white/10 text-white' : 'border-white/10 text-slate-400 hover:text-white']"
+        >
+          <span class="flex -space-x-1"><span v-for="c in FIGURE_COLORS.slice(0, 4)" :key="c.name" class="h-3 w-3 rounded-full ring-1 ring-slate-950" :style="{ background: `var(--fig-${c.name})` }"></span></span>
+          Multicolore
+        </button>
+        <button
+          v-for="c in FIGURE_COLORS"
+          :key="c.name"
+          type="button"
+          role="radio"
+          :aria-checked="color === c.name"
+          :aria-label="c.label"
+          :title="c.label"
+          @click="$emit('update:color', c.name)"
+          :class="['grid h-8 w-8 place-items-center rounded-lg border', color === c.name ? 'border-white bg-white/10' : 'border-white/10 hover:border-white/30']"
+        >
+          <span class="h-4 w-4 rounded-full" :style="{ background: `var(--fig-${c.name})` }"></span>
+        </button>
+      </div>
+    </div>
+
     <!-- Paragraph -->
     <SpellField
       v-if="style === 'text'"
@@ -60,9 +99,9 @@
     <div v-else>
       <ol class="space-y-2">
         <li v-for="(item, i) in items" :key="`${current}-${i}`" class="flex items-start gap-2">
-          <span class="mt-2.5 grid h-7 w-8 shrink-0 place-items-center rounded-md bg-brand/15 font-mono text-xs font-semibold text-brand-text">
+          <span class="mt-2.5 grid h-7 w-8 shrink-0 place-items-center rounded-md bg-white/5 font-mono text-xs font-semibold" :style="{ color: listColor(color, i) }">
             <template v-if="style === 'numbered'">{{ String(i + 1).padStart(2, '0') }}</template>
-            <span v-else class="h-0.5 w-3 rounded-full bg-brand-text"></span>
+            <span v-else class="h-0.5 w-3 rounded-full" :style="{ background: listColor(color, i) }"></span>
           </span>
           <div class="min-w-0 flex-1" @keydown="onItemKeydown($event, i)" @paste="onPaste($event, i)">
             <SpellField
@@ -102,6 +141,7 @@ import { Plus, X, AlignLeft, ListOrdered, List } from 'lucide-vue-next';
 import SpellField from './SpellField.vue';
 import { useSpellcheck } from '../composables/useSpellcheck';
 import { TEXT_STYLES, toItems, fromItems } from '../../composables/richText';
+import { FIGURE_COLORS, listColor } from '../../composables/figureColors';
 
 // A long project text that is either a paragraph or a list of points (FR/EN).
 // Lists are stored one point per line; numbering / dashes are only added on
@@ -110,13 +150,15 @@ const props = defineProps({
   fr: { type: String, default: '' },
   en: { type: String, default: '' },
   style: { type: String, default: 'text' },
+  // Numbers / dashes color in list mode ('' | 'mixed' | color name)
+  color: { type: String, default: '' },
   label: { type: String, required: true },
   rows: { type: Number, default: 5 },
   placeholder: { type: String, default: '' },
   placeholderEn: { type: String, default: '' },
   optional: Boolean
 });
-const emit = defineEmits(['update:fr', 'update:en', 'update:style']);
+const emit = defineEmits(['update:fr', 'update:en', 'update:style', 'update:color']);
 
 const STYLE_ICONS = { text: AlignLeft, numbered: ListOrdered, bullets: List };
 

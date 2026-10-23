@@ -72,14 +72,14 @@
                 <!-- Numbered list: 01, 02… -->
                 <ol v-if="block.style === 'numbered'" class="space-y-3">
                   <li v-for="(item, i) in toItems(block.text)" :key="i" class="flex gap-4 rounded-xl border border-line bg-surface px-4 py-3 shadow-card">
-                    <span class="w-7 shrink-0 pt-0.5 font-mono text-sm font-semibold text-accent">{{ String(i + 1).padStart(2, '0') }}</span>
+                    <span class="w-7 shrink-0 pt-0.5 font-mono text-sm font-semibold" :style="{ color: listColor(block.color, i) }">{{ String(i + 1).padStart(2, '0') }}</span>
                     <p class="text-base leading-relaxed text-ink-2 md:text-[17px]">{{ item }}</p>
                   </li>
                 </ol>
                 <!-- List with dashes -->
                 <ul v-else-if="block.style === 'bullets'" class="space-y-2.5">
                   <li v-for="(item, i) in toItems(block.text)" :key="i" class="flex gap-3.5">
-                    <span class="mt-[0.8em] h-0.5 w-4 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
+                    <span class="mt-[0.8em] h-0.5 w-4 shrink-0 rounded-full" :style="{ background: listColor(block.color, i) }" aria-hidden="true"></span>
                     <p class="text-base leading-relaxed text-ink-2 md:text-[17px]">{{ item }}</p>
                   </li>
                 </ul>
@@ -204,6 +204,7 @@ import ImageCarousel from '../components/ImageCarousel.vue';
 import ShareButton from '../components/ShareButton.vue';
 import { findProject, projectPath } from '../composables/projectLinks';
 import { toItems } from '../composables/richText';
+import { listColor } from '../composables/figureColors';
 
 const route = useRoute();
 const router = useRouter();
@@ -230,9 +231,9 @@ const textBlocks = computed(() => {
   const p = project.value;
   if (!p) return [];
   const blocks = [
-    { key: 'details', title: 'projectDetail.overview', icon: FileText, text: localized(p, 'details'), style: p.details_style },
-    { key: 'contributions', title: 'projectDetail.contributions', icon: Hammer, text: localized(p, 'contributions'), style: p.contributions_style || 'numbered' },
-    { key: 'methodology', title: 'projectDetail.methodology', icon: Workflow, text: localized(p, 'methodology'), style: p.methodology_style }
+    { key: 'details', title: 'projectDetail.overview', icon: FileText, text: localized(p, 'details'), style: p.details_style, color: p.details_color },
+    { key: 'contributions', title: 'projectDetail.contributions', icon: Hammer, text: localized(p, 'contributions'), style: p.contributions_style || 'numbered', color: p.contributions_color },
+    { key: 'methodology', title: 'projectDetail.methodology', icon: Workflow, text: localized(p, 'methodology'), style: p.methodology_style, color: p.methodology_color }
   ].filter((b) => b.text);
   if (!blocks.length) {
     return [{ key: 'details', title: 'projectDetail.overview', icon: FileText, text: localized(p, 'description') }];

@@ -29,6 +29,7 @@ export const RESOURCES = {
       'name', 'description_fr', 'description_en', 'tags', 'gradient_class', 'category', 'categories', 'image_url', 'project_url',
       'details_fr', 'details_en', 'contributions_fr', 'contributions_en', 'methodology_fr', 'methodology_en', 'gallery', 'slug',
       'details_style', 'contributions_style', 'methodology_style',
+      'details_color', 'contributions_color', 'methodology_color',
       'sort_order', 'is_visible'
     ],
     jsonColumns: ['gallery'],

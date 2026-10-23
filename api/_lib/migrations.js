@@ -196,6 +196,16 @@ export const MIGRATIONS = [
       `ALTER TABLE projects ADD COLUMN IF NOT EXISTS contributions_style TEXT NOT NULL DEFAULT 'numbered'`,
       `ALTER TABLE projects ADD COLUMN IF NOT EXISTS methodology_style TEXT NOT NULL DEFAULT 'text'`
     ]
+  },
+  {
+    version: 11,
+    statements: [
+      // Color of the numbers / dashes of a list block: '' (accent),
+      // a figure color name (purple, magenta…) or 'mixed' (one per point)
+      `ALTER TABLE projects ADD COLUMN IF NOT EXISTS details_color TEXT NOT NULL DEFAULT ''`,
+      `ALTER TABLE projects ADD COLUMN IF NOT EXISTS contributions_color TEXT NOT NULL DEFAULT ''`,
+      `ALTER TABLE projects ADD COLUMN IF NOT EXISTS methodology_color TEXT NOT NULL DEFAULT ''`
+    ]
   }
 ];
 
