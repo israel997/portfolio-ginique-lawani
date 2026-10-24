@@ -129,7 +129,7 @@
         <nav class="band band-timeline py-10!" :aria-label="$t('nav.projects')">
           <div class="band-inner">
             <!-- One bar: previous on the left, next on the right -->
-            <div v-if="neighbours.prev || neighbours.next" class="grid grid-cols-2 divide-x divide-line overflow-hidden rounded-2xl border border-line bg-surface shadow-card">
+            <div v-if="neighbours.prev || neighbours.next" class="grid grid-cols-2 overflow-hidden rounded-2xl border border-line bg-surface shadow-card">
               <RouterLink v-if="neighbours.prev" :to="projectPath(neighbours.prev)" class="group flex min-w-0 items-center gap-2 p-3 transition-colors hover:bg-surface-hover sm:gap-3 sm:p-4">
                 <ArrowLeft class="h-5 w-5 shrink-0 text-subtle transition-transform group-hover:-translate-x-0.5" />
                 <span class="min-w-0">

@@ -193,7 +193,7 @@ La numérotation suit les sections visibles : si une section est vide (ex. Savoi
 - Blocs **Présentation**, **Ce que j'ai fait**, **Méthodologie** (chacun affiché seulement s'il est rempli ; sinon la description courte sert de présentation).
 - Encadré : catégories, stack, lien.
 - **Galerie en carrousel** (titre + description par image), clic sur une image → **plein écran** (flèches, Échap).
-- Projet précédent / suivant dans **une seule barre** : précédent à gauche, suivant à droite (téléphone compris).
+- Projet précédent / suivant dans **une seule barre** sans séparation : précédent à gauche, suivant à droite (téléphone compris).
 - Titre de l'onglet : « Nom du projet | Ginique Oriadé LAWANI ».
 - **Partager** : sur téléphone, menu de partage natif (WhatsApp, Messenger…) ; sur PC, le lien court est copié (bulle « Lien copié »).
 
@@ -486,6 +486,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 02:34 | `62aef5a` | **Traduction anglaise automatique** : à l'enregistrement, chaque champ anglais vide est traduit du français et suit ses changements tant qu'il n'est pas retouché à la main ; bouton « **Tout traduire en anglais** » dans l'admin ; migration v12 (`auto_en`) |
 | 02:39 | `dd2c79c` | Hero : bouton « **Voir les projets** » avec une icône (dossier) à gauche, comme « Voir le CV », visible aussi sur mobile |
 | 03:03 | `5625dcd` | Page projet : **précédent / suivant réunis dans une seule barre** (précédent à gauche, suivant à droite), au lieu de deux cartes empilées sur mobile |
+| HH:MM | `COMMIT` | Barre précédent / suivant : **trait de séparation central retiré** |
 
 ---
 
