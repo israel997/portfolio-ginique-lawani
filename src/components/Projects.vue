@@ -3,7 +3,7 @@
     <SectionHeading :index="index" :eyebrow="st('projects', 'nav')" :title="st('projects', 'title')" />
 
     <!-- Layout switch, on its own line above the category filters -->
-    <div class="mb-3 flex justify-center">
+    <div class="mb-5 flex justify-center md:mb-6">
       <div class="flex rounded-lg border border-line bg-surface p-0.5 shadow-card" role="group" :aria-label="$t('projects.viewLabel')">
         <button
           v-for="opt in VIEWS"
