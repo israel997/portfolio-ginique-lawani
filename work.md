@@ -486,7 +486,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 02:34 | `62aef5a` | **Traduction anglaise automatique** : à l'enregistrement, chaque champ anglais vide est traduit du français et suit ses changements tant qu'il n'est pas retouché à la main ; bouton « **Tout traduire en anglais** » dans l'admin ; migration v12 (`auto_en`) |
 | 02:39 | `dd2c79c` | Hero : bouton « **Voir les projets** » avec une icône (dossier) à gauche, comme « Voir le CV », visible aussi sur mobile |
 | 03:03 | `5625dcd` | Page projet : **précédent / suivant réunis dans une seule barre** (précédent à gauche, suivant à droite), au lieu de deux cartes empilées sur mobile |
-| HH:MM | `COMMIT` | Barre précédent / suivant : **trait de séparation central retiré** |
+| 03:06 | `6d55422` | Barre précédent / suivant : **trait de séparation central retiré** |
 
 ---
 
