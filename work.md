@@ -368,7 +368,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 
 - Site en **français et anglais** : textes fixes dans `src/i18n/translations.js` (vue-i18n) ; contenus dans les champs `_fr` / `_en` de la base.
 - Si un champ anglais est vide, **le français s'affiche** à la place.
-- **Méthode de travail (décidée le 23/10/2026)** : tu remplis uniquement le français ; quand tu le demandes (« fais les versions anglaises »), je traduis à partir de tes textes en ne remplissant que les champs anglais **vides**, sans écraser une traduction écrite à la main. Il faudra alors donner l'accès à la base une fois : `npx vercel link` puis `npx vercel env pull .env.local`.
+- **Traduction automatique (depuis le 24/10/2026)** : tu remplis uniquement le français. À chaque enregistrement dans l'admin, chaque champ anglais **vide** est traduit depuis le français (Google Traduction gratuit, appelé depuis ton navigateur car Google refuse les serveurs ; aucune clé ni configuration). Tant que tu ne retouches pas l'anglais, il suit les modifications du français ; si tu l'écris ou le corriges à la main, il n'est plus jamais écrasé ; si tu vides le français, l'anglais automatique est vidé aussi. Pour revenir à la traduction automatique d'un champ, vide son anglais. Concerne projets (et galerie), parcours, compétences, savoir-faire, points clés, témoignages, profil et noms de sections. Bouton **« Tout traduire en anglais »** (barre latérale de l'admin, icône langues sur mobile) : passe tout le site d'un coup. Si le service est indisponible, rien n'est perdu : le champ reste tel quel et sera traduit au prochain enregistrement. Technique : `src/admin/composables/autoTranslate.js`, colonne `auto_en` (JSONB, migration v12) qui garde pour chaque champ le français source et l'anglais généré `{ from, to }` ; dans la galerie, chaque image a son propre `auto_en`.
 
 ---
 
@@ -483,6 +483,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 02:06 | `f264e9c` | Sélecteur « Carrousel / Grille » **centré** ; grille sur tablette et ordinateur : **3 tuiles par ligne** (plus grandes), 6 avant « Voir tous les projets » ; **surtitre du Hero** : la bulle garde la taille de la phrase la plus longue, seul le texte s'écrit et s'efface |
 | 02:18 | `84a9ec3` | Sélecteur de langue : **barre « / » retirée** entre FR et EN ; sélecteur Carrousel / Grille : **icônes seules**, centrées (nom en info-bulle) |
 | 02:23 | `ec55097` | Plus d'espace entre le sélecteur Carrousel / Grille et les catégories (12 px → 20 px, 24 px sur ordinateur) |
+| 02:34 | `62aef5a` | **Traduction anglaise automatique** : à l'enregistrement, chaque champ anglais vide est traduit du français et suit ses changements tant qu'il n'est pas retouché à la main ; bouton « **Tout traduire en anglais** » dans l'admin ; migration v12 (`auto_en`) |
 
 ---
 
@@ -502,7 +503,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 
 ### 13.2 Autres évolutions notées
 
-- **Versions anglaises** : traduire les contenus quand le français sera terminé (§10).
+- **Versions anglaises** : automatiques depuis le 24/10/2026 (§10) ; relire les traductions générées.
 - **Logos manquants** : Microsoft Teams, Grok, Antigravity, Raptor (à fournir) ; icône générique éventuelle pour Agile / Scrum / Transformation Digitale.
 - **Domaine personnalisé** : à l'achat, l'ajouter dans Vercel, rediriger `*.vercel.app` (308), mettre à jour les URL SEO (`index.html`, `sitemap.xml`, `robots.txt`).
 - **Remplacer les textes provisoires du carrousel** Savoir-faire (titres « Titre à venir 01… »).
