@@ -487,7 +487,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 02:39 | `dd2c79c` | Hero : bouton « **Voir les projets** » avec une icône (dossier) à gauche, comme « Voir le CV », visible aussi sur mobile |
 | 03:03 | `5625dcd` | Page projet : **précédent / suivant réunis dans une seule barre** (précédent à gauche, suivant à droite), au lieu de deux cartes empilées sur mobile |
 | 03:06 | `6d55422` | Barre précédent / suivant : **trait de séparation central retiré** |
-| HH:MM | `COMMIT` | Savoir-faire : les **anglais provisoires** (« Title coming soon », « Placeholder description ») sont vidés (migration v13) ; vus comme écrits à la main, ils bloquaient la traduction automatique. Relancer « Tout traduire en anglais » |
+| 03:09 | `7ad1c67` | Savoir-faire : les **anglais provisoires** (« Title coming soon », « Placeholder description ») sont vidés (migration v13) ; vus comme écrits à la main, ils bloquaient la traduction automatique. Relancer « Tout traduire en anglais » |
 
 ---
 
