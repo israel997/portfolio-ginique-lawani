@@ -36,7 +36,7 @@
       </template>
       <template #meta>
         <span v-for="cat in projectCategories(item)" :key="cat" class="rounded-md bg-white/5 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-slate-400">{{ cat }}</span>
-        <span v-if="item.gallery?.length" class="flex items-center gap-1"><Images class="h-3.5 w-3.5" />{{ item.gallery.length }}</span>
+        <span v-if="item.gallery?.length" class="flex items-center gap-1" title="Images de la galerie"><Images class="h-3.5 w-3.5" />{{ item.gallery.length }} image{{ item.gallery.length > 1 ? 's' : '' }}</span>
         <span v-if="item.slug" class="flex items-center gap-1 font-mono"><Share2 class="h-3.5 w-3.5" />/{{ item.slug }}</span>
         <span v-if="item.project_url" class="flex min-w-0 items-center gap-1"><Link2 class="h-3.5 w-3.5" /><span class="truncate">{{ hostOf(item.project_url) }}</span></span>
         <span v-if="!item.description_en" class="flex items-center gap-1 text-amber-400/80"><Languages class="h-3.5 w-3.5" />EN manquant</span>
