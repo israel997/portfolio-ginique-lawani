@@ -481,7 +481,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | Heure | Commit | Changement |
 |---|---|---|
 | 02:06 | `f264e9c` | Sélecteur « Carrousel / Grille » **centré** ; grille sur tablette et ordinateur : **3 tuiles par ligne** (plus grandes), 6 avant « Voir tous les projets » ; **surtitre du Hero** : la bulle garde la taille de la phrase la plus longue, seul le texte s'écrit et s'efface |
-| HH:MM | `COMMIT` | Sélecteur de langue : **barre « / » retirée** entre FR et EN ; sélecteur Carrousel / Grille : **icônes seules**, centrées (nom en info-bulle) |
+| 02:18 | `84a9ec3` | Sélecteur de langue : **barre « / » retirée** entre FR et EN ; sélecteur Carrousel / Grille : **icônes seules**, centrées (nom en info-bulle) |
 
 ---
 
