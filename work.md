@@ -485,7 +485,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 02:23 | `ec55097` | Plus d'espace entre le sélecteur Carrousel / Grille et les catégories (12 px → 20 px, 24 px sur ordinateur) |
 | 02:34 | `62aef5a` | **Traduction anglaise automatique** : à l'enregistrement, chaque champ anglais vide est traduit du français et suit ses changements tant qu'il n'est pas retouché à la main ; bouton « **Tout traduire en anglais** » dans l'admin ; migration v12 (`auto_en`) |
 | 02:39 | `dd2c79c` | Hero : bouton « **Voir les projets** » avec une icône (dossier) à gauche, comme « Voir le CV », visible aussi sur mobile |
-| HH:MM | `COMMIT` | Page projet : **précédent / suivant réunis dans une seule barre** (précédent à gauche, suivant à droite), au lieu de deux cartes empilées sur mobile |
+| 03:03 | `5625dcd` | Page projet : **précédent / suivant réunis dans une seule barre** (précédent à gauche, suivant à droite), au lieu de deux cartes empilées sur mobile |
 
 ---
 
