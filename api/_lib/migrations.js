@@ -206,6 +206,16 @@ export const MIGRATIONS = [
       `ALTER TABLE projects ADD COLUMN IF NOT EXISTS contributions_color TEXT NOT NULL DEFAULT ''`,
       `ALTER TABLE projects ADD COLUMN IF NOT EXISTS methodology_color TEXT NOT NULL DEFAULT ''`
     ]
+  },
+  {
+    version: 12,
+    statements: [
+      // English texts generated from the French (see api/_lib/translate.js):
+      // { <field>: { from, to } }, so a hand-written English is never overwritten
+      ...['timeline_items', 'skills', 'projects', 'key_figures', 'showcase_items', 'testimonials', 'admin_settings'].map(
+        (table) => `ALTER TABLE ${table} ADD COLUMN IF NOT EXISTS auto_en JSONB NOT NULL DEFAULT '{}'::jsonb`
+      )
+    ]
   }
 ];
 

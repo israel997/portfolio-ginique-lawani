@@ -13,6 +13,10 @@
             </div>
           </div>
           <div class="flex items-center gap-1 md:hidden">
+            <button type="button" @click="translateAll" :disabled="translating" class="grid h-9 w-9 place-items-center rounded-lg text-slate-400 hover:bg-white/5 hover:text-white disabled:opacity-50" aria-label="Tout traduire en anglais" title="Tout traduire en anglais">
+              <LoaderCircle v-if="translating" class="h-4 w-4 animate-spin" />
+              <Languages v-else class="h-4 w-4" />
+            </button>
             <a href="/" target="_blank" class="grid h-9 w-9 place-items-center rounded-lg text-slate-400 hover:bg-white/5 hover:text-white" aria-label="Voir le site">
               <ExternalLink class="h-4 w-4" />
             </a>
@@ -36,6 +40,11 @@
         </nav>
 
         <div class="hidden border-t border-white/10 p-3 md:block">
+          <button type="button" @click="translateAll" :disabled="translating" class="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-slate-400 hover:bg-white/5 hover:text-white disabled:opacity-50" title="Remplit chaque texte anglais encore vide à partir du français">
+            <LoaderCircle v-if="translating" class="h-4 w-4 animate-spin" />
+            <Languages v-else class="h-4 w-4" />
+            {{ translating ? 'Traduction…' : 'Tout traduire en anglais' }}
+          </button>
           <a href="/" target="_blank" class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-slate-400 hover:bg-white/5 hover:text-white">
             <ExternalLink class="h-4 w-4" /> Voir le site
           </a>
@@ -47,7 +56,7 @@
     </aside>
 
     <main class="min-w-0 flex-1 px-4 py-6 pb-24 md:px-10 md:py-10">
-      <router-view />
+      <router-view :key="viewKey" />
     </main>
 
     <ToastHost />
@@ -55,12 +64,15 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useTheme } from '../composables/useTheme';
-import { LayoutDashboard, UserRound, Route, Code2, FolderKanban, MessageSquareQuote, Share2, ExternalLink, LogOut, GalleryHorizontal, ShieldCheck, ListChecks, Heading } from 'lucide-vue-next';
+import { LayoutDashboard, UserRound, Route, Code2, FolderKanban, MessageSquareQuote, Share2, ExternalLink, LogOut, GalleryHorizontal, ShieldCheck, ListChecks, Heading, Languages, LoaderCircle } from 'lucide-vue-next';
 import { useAdminAuth } from './composables/useAdminAuth';
 import ToastHost from './components/ToastHost.vue';
+import { useApi } from './composables/useApi';
+import { useToast } from './composables/useToast';
+import { translateEverything } from './composables/autoTranslate';
 
 const router = useRouter();
 const { logout } = useAdminAuth();
@@ -82,6 +94,26 @@ const links = [
   { to: '/admin/social-links', label: 'Réseaux sociaux', icon: Share2 },
   { to: '/admin/security', label: 'Sécurité', icon: ShieldCheck }
 ];
+
+// "Tout traduire": English versions of every French text still untranslated,
+// then the open page reloads to show them
+const api = useApi();
+const toast = useToast();
+const translating = ref(false);
+const viewKey = ref(0);
+
+async function translateAll() {
+  translating.value = true;
+  try {
+    const count = await translateEverything(api);
+    toast.success(count ? `Version anglaise mise à jour (${count} élément${count > 1 ? 's' : ''})` : 'Tout est déjà traduit');
+    viewKey.value++;
+  } catch (err) {
+    toast.error(err.message);
+  } finally {
+    translating.value = false;
+  }
+}
 
 async function handleLogout() {
   await logout();

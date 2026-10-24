@@ -42,6 +42,7 @@
       @ignore="(issue) => checks[current].ignore(issue)"
     />
     <p v-if="hint" class="mt-1.5 text-xs text-slate-500">{{ hint }}</p>
+    <p v-if="current === 'en'" class="mt-1.5 text-xs text-slate-500">Laissé vide, l'anglais est traduit du français à l'enregistrement, et suit ses modifications tant que vous ne le retouchez pas.</p>
   </div>
 </template>
 

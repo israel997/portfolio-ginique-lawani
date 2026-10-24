@@ -2,6 +2,7 @@ import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useApi } from './useApi';
 import { useToast } from './useToast';
 import { readDraft, writeDraft, removeDraft, listDrafts, formatDraftTime, formatClock } from './drafts';
+import { translateRow } from './autoTranslate';
 
 // Shared state and actions for an admin list page backed by
 // /api/admin/<resource>: load, create/edit in a slide-over, inline
@@ -172,6 +173,8 @@ export function useCrudList(resource, { fields, defaults, validate = () => '', p
     formError.value = '';
     try {
       const payload = clean(Object.fromEntries([...fields, 'is_visible'].map((k) => [k, form.value[k]])));
+      // Empty English fields: translated from the French (autoTranslate.js)
+      await translateRow(payload, form.value.id ? items.value.find((i) => i.id === form.value.id) : null);
       if (form.value.id) {
         const updated = await api.patch(`${base}/${form.value.id}`, payload);
         const index = items.value.findIndex((i) => i.id === updated.id);

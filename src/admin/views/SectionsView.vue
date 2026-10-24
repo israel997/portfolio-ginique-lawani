@@ -70,6 +70,7 @@ import { useToast } from '../composables/useToast';
 import { useSpellGuard } from '../composables/useSpellcheck';
 import { readDraft, writeDraft, removeDraft, formatDraftTime, formatClock } from '../composables/drafts';
 import BilingualField from '../components/BilingualField.vue';
+import { translateSections } from '../composables/autoTranslate';
 import ConfirmDialog from '../components/ConfirmDialog.vue';
 
 const FIELD_LABELS = { nav: 'Nom (menu et surtitre)', title: 'Titre', subtitle: 'Sous-titre' };
@@ -83,6 +84,7 @@ const loading = ref(true);
 const saving = ref(false);
 const error = ref('');
 const sections = ref({});
+const autoEn = ref({}); // record of the automatic English texts (autoTranslate.js)
 const savedSnapshot = ref('{}');
 const restoredAt = ref(null);
 const draftSavedAt = ref(null);
@@ -114,6 +116,7 @@ onMounted(async () => {
   try {
     const settings = await api.get('/api/admin/settings');
     sections.value = settings.sections || {};
+    autoEn.value = settings.auto_en || {};
     savedSnapshot.value = JSON.stringify(cleaned());
     const draft = readDraft(DRAFT_KEY);
     if (draft) {
@@ -163,8 +166,11 @@ async function save() {
   saving.value = true;
   error.value = '';
   try {
-    const settings = await api.patch('/api/admin/settings', { sections: cleaned() });
+    // Empty English names / titles: translated from the French
+    const { sections: translated, record } = await translateSections(cleaned(), autoEn.value);
+    const settings = await api.patch('/api/admin/settings', { sections: translated, auto_en: record });
     sections.value = settings.sections || {};
+    autoEn.value = settings.auto_en || {};
     savedSnapshot.value = JSON.stringify(cleaned());
     clearTimeout(draftTimer);
     removeDraft(DRAFT_KEY);

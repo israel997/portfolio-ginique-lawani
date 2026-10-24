@@ -79,9 +79,13 @@ async function ensureProjectSlug(body, id) {
 // node-postgres serializes JS arrays as Postgres arrays, so JSONB values
 // must be stringified explicitly.
 function valuesFor(config, fields, body) {
-  const json = config.jsonColumns || [];
+  const json = [...(config.jsonColumns || []), 'auto_en'];
   return fields.map((f) => (json.includes(f) ? JSON.stringify(body[f]) : body[f]));
 }
+
+// Saved columns, plus the record of automatic English texts when sent
+// (see src/admin/composables/autoTranslate.js)
+const fieldsFor = (columns, body) => [...columns, 'auto_en'].filter((c) => body[c] !== undefined);
 
 export async function handleListRequest(req, res) {
   if (!(await requireAuth(req, res))) return;
@@ -98,7 +102,7 @@ export async function handleListRequest(req, res) {
     if (req.method === 'POST') {
       const body = req.body || {};
       if (config.beforeSave) await config.beforeSave(body, null);
-      const fields = columns.filter((c) => body[c] !== undefined);
+      const fields = fieldsFor(columns, body);
       if (!fields.length) return sendJson(res, 400, { error: 'No fields provided' });
       const values = valuesFor(config, fields, body);
       const placeholders = fields.map((_, i) => `$${i + 1}`).join(', ');
@@ -130,7 +134,7 @@ export async function handleItemRequest(req, res) {
     if (req.method === 'PATCH') {
       const body = req.body || {};
       if (config.beforeSave) await config.beforeSave(body, id);
-      const fields = columns.filter((c) => body[c] !== undefined);
+      const fields = fieldsFor(columns, body);
       if (!fields.length) return sendJson(res, 400, { error: 'No fields provided' });
       const setClauses = fields.map((f, i) => `${f} = $${i + 1}`);
       if (hasUpdatedAt) setClauses.push('updated_at = now()');

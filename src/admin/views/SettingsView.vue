@@ -99,6 +99,7 @@ import FormField from '../components/FormField.vue';
 import ConfirmDialog from '../components/ConfirmDialog.vue';
 import { useSpellGuard } from '../composables/useSpellcheck';
 import ImageUploadField from '../components/ImageUploadField.vue';
+import { translateRow } from '../composables/autoTranslate';
 
 const api = useApi();
 const loading = ref(true);
@@ -172,7 +173,9 @@ async function handleSave() {
   saved.value = false;
   error.value = '';
   try {
-    form.value = await api.patch('/api/admin/settings', form.value);
+    // Empty English fields: translated from the French (autoTranslate.js)
+    const payload = await translateRow({ ...form.value }, form.value);
+    form.value = await api.patch('/api/admin/settings', payload);
     savedSnapshot.value = JSON.stringify(form.value);
     clearTimeout(draftTimer);
     removeDraft(DRAFT_KEY);

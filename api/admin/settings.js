@@ -26,12 +26,14 @@ export default async function handler(req, res) {
     }
     if (req.method === 'PATCH') {
       const body = req.body || {};
-      const fields = COLUMNS.filter((c) => body[c] !== undefined);
+      const fields = [...COLUMNS, 'auto_en'].filter((c) => body[c] !== undefined);
       if (!fields.length) return sendJson(res, 400, { error: 'No fields provided' });
-      const setClauses = fields.map((f, i) => `${f} = $${i + 1}`);
+      // auto_en (automatic English texts, see src/admin/composables/autoTranslate.js)
+      // is merged: the Profile and Sections pages each send their own entries
+      const setClauses = fields.map((f, i) => (f === 'auto_en' ? `auto_en = auto_en || $${i + 1}::jsonb` : `${f} = $${i + 1}`));
       setClauses.push('updated_at = now()');
       // JSONB must be sent as a JSON string
-      const values = fields.map((f) => (f === 'sections' ? JSON.stringify(body[f] || {}) : body[f]));
+      const values = fields.map((f) => (f === 'sections' || f === 'auto_en' ? JSON.stringify(body[f] || {}) : body[f]));
       const { rows } = await sql.query(
         `UPDATE admin_settings SET ${setClauses.join(', ')} WHERE id = 1 RETURNING *`,
         values
