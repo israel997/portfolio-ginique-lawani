@@ -127,24 +127,28 @@
 
         <!-- Previous / next -->
         <nav class="band band-timeline py-10!" :aria-label="$t('nav.projects')">
-          <div class="band-inner grid gap-3 sm:grid-cols-2">
-            <RouterLink v-if="neighbours.prev" :to="projectPath(neighbours.prev)" class="group flex items-center gap-3 rounded-2xl border border-line bg-surface p-4 shadow-card transition-colors hover:border-accent/40">
-              <ArrowLeft class="h-5 w-5 shrink-0 text-subtle transition-transform group-hover:-translate-x-0.5" />
-              <span class="min-w-0">
-                <span class="block font-mono text-[11px] uppercase tracking-wider text-subtle">{{ $t('projectDetail.previous') }}</span>
-                <span class="block truncate font-semibold">{{ neighbours.prev.name }}</span>
-              </span>
-            </RouterLink>
-            <span v-else class="hidden sm:block"></span>
-            <RouterLink v-if="neighbours.next" :to="projectPath(neighbours.next)" class="group flex items-center justify-end gap-3 rounded-2xl border border-line bg-surface p-4 shadow-card text-right transition-colors hover:border-accent/40">
-              <span class="min-w-0">
-                <span class="block font-mono text-[11px] uppercase tracking-wider text-subtle">{{ $t('projectDetail.next') }}</span>
-                <span class="block truncate font-semibold">{{ neighbours.next.name }}</span>
-              </span>
-              <ArrowRight class="h-5 w-5 shrink-0 text-subtle transition-transform group-hover:translate-x-0.5" />
-            </RouterLink>
+          <div class="band-inner">
+            <!-- One bar: previous on the left, next on the right -->
+            <div v-if="neighbours.prev || neighbours.next" class="grid grid-cols-2 divide-x divide-line overflow-hidden rounded-2xl border border-line bg-surface shadow-card">
+              <RouterLink v-if="neighbours.prev" :to="projectPath(neighbours.prev)" class="group flex min-w-0 items-center gap-2 p-3 transition-colors hover:bg-surface-hover sm:gap-3 sm:p-4">
+                <ArrowLeft class="h-5 w-5 shrink-0 text-subtle transition-transform group-hover:-translate-x-0.5" />
+                <span class="min-w-0">
+                  <span class="block font-mono text-[11px] uppercase tracking-wider text-subtle">{{ $t('projectDetail.previous') }}</span>
+                  <span class="block truncate text-sm font-semibold sm:text-base">{{ neighbours.prev.name }}</span>
+                </span>
+              </RouterLink>
+              <span v-else></span>
+              <RouterLink v-if="neighbours.next" :to="projectPath(neighbours.next)" class="group flex min-w-0 items-center justify-end gap-2 p-3 text-right transition-colors hover:bg-surface-hover sm:gap-3 sm:p-4">
+                <span class="min-w-0">
+                  <span class="block font-mono text-[11px] uppercase tracking-wider text-subtle">{{ $t('projectDetail.next') }}</span>
+                  <span class="block truncate text-sm font-semibold sm:text-base">{{ neighbours.next.name }}</span>
+                </span>
+                <ArrowRight class="h-5 w-5 shrink-0 text-subtle transition-transform group-hover:translate-x-0.5" />
+              </RouterLink>
+              <span v-else></span>
+            </div>
             <!-- Last thing on the page: the way into the whole portfolio -->
-            <div class="flex justify-center pt-5 sm:col-span-2">
+            <div class="flex justify-center pt-5">
               <RouterLink to="/" class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand px-6 text-sm font-semibold text-white transition-colors hover:bg-brand-hover sm:w-auto">
                 <LayoutGrid class="h-4 w-4" /> {{ $t('projectDetail.viewPortfolio') }}
               </RouterLink>
