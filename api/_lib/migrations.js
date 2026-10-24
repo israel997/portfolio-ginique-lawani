@@ -216,6 +216,15 @@ export const MIGRATIONS = [
         (table) => `ALTER TABLE ${table} ADD COLUMN IF NOT EXISTS auto_en JSONB NOT NULL DEFAULT '{}'::jsonb`
       )
     ]
+  },
+  {
+    version: 13,
+    statements: [
+      // The English placeholders seeded in v2 looked hand-written to the
+      // automatic translation, which then never replaced them: empty them
+      `UPDATE showcase_items SET title_en = '' WHERE title_en LIKE 'Title coming soon %'`,
+      `UPDATE showcase_items SET description_en = '' WHERE description_en LIKE 'Placeholder description:%'`
+    ]
   }
 ];
 
