@@ -3,7 +3,7 @@
     <SectionHeading :index="index" :eyebrow="st('projects', 'nav')" :title="st('projects', 'title')" />
 
     <!-- Layout switch, on its own line above the category filters -->
-    <div class="mb-3 flex justify-end">
+    <div class="mb-3 flex justify-center">
       <div class="flex rounded-lg border border-line bg-surface p-0.5 shadow-card" role="group" :aria-label="$t('projects.viewLabel')">
         <button
           v-for="opt in VIEWS"
@@ -81,12 +81,12 @@
       </div>
     </div>
 
-    <!-- Grid: compact tiles, 2 rows (2 columns on phones, 3 on tablets, 4 on desktop), then "show all" -->
+    <!-- Grid: compact tiles (2 columns on phones, 3 from tablets up), then "show all" -->
     <div v-else>
-      <div class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5 lg:grid-cols-4">
+      <div class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-6">
         <ProjectTile v-for="project in gridProjects" :key="project.id" :project="project" />
       </div>
-      <div v-if="filteredProjects.length > GRID_LIMIT && !showAll" class="mt-6 flex justify-center">
+      <div v-if="filteredProjects.length > gridLimit && !showAll" class="mt-6 flex justify-center">
         <button type="button" @click="showAll = true" class="inline-flex h-11 items-center gap-2 rounded-xl border border-line bg-surface px-5 text-sm font-semibold shadow-card hover:border-accent/50">
           <LayoutGrid class="h-4 w-4" /> {{ $t('projects.showAll', { n: filteredProjects.length }) }}
         </button>
@@ -96,7 +96,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, nextTick, onMounted } from 'vue';
+import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { GalleryHorizontal, LayoutGrid, ChevronLeft, ChevronRight } from 'lucide-vue-next';
 import ProjectCard from './ProjectCard.vue';
@@ -143,7 +143,9 @@ const VIEWS = [
   { value: 'grid', label: 'projects.viewGrid', icon: LayoutGrid }
 ];
 const VIEW_KEY = 'projects-view';
-const GRID_LIMIT = 8; // 2 x 4 on phones, 4 x 2 on desktop
+// Tiles shown before "show all": 2 x 4 on phones, 3 x 2 from tablets up
+const wide = ref(typeof window !== 'undefined' && window.innerWidth >= 768);
+const gridLimit = computed(() => (wide.value ? 6 : 8));
 
 function readView() {
   try {
@@ -165,7 +167,7 @@ function setView(value) {
   }
 }
 
-const gridProjects = computed(() => (showAll.value ? filteredProjects.value : filteredProjects.value.slice(0, GRID_LIMIT)));
+const gridProjects = computed(() => (showAll.value ? filteredProjects.value : filteredProjects.value.slice(0, gridLimit.value)));
 
 
 
@@ -216,7 +218,12 @@ function step(direction) {
   el.scrollBy({ left: direction * (first.clientWidth + gap) });
 }
 
-onMounted(() => nextTick(onTrackScroll));
+const onResize = () => { wide.value = window.innerWidth >= 768; };
+onMounted(() => {
+  window.addEventListener('resize', onResize, { passive: true });
+  nextTick(onTrackScroll);
+});
+onUnmounted(() => window.removeEventListener('resize', onResize));
 // Back to the carousel from the grid, or projects loaded / filtered:
 // recompute dots and arrows (hidden when every card already fits)
 watch([view, filteredProjects], () => nextTick(onTrackScroll));

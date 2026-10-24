@@ -176,9 +176,9 @@ La numérotation suit les sections visibles : si une section est vide (ex. Savoi
 
 ### 4.3 Sections
 
-- **Hero** : surtitre animé (machine à écrire), nom complet **sur une seule ligne** à toutes les largeurs (taille fluide `clamp(1.6rem, 8.4vw, 6rem)`), « LAWANI » en couleur d'accent, accroche en texte normal (non gras), deux boutons « **Voir les projets** » (plein) et « **Voir le CV** » (contour), côte à côte sur mobile, image du certificat NASA chargée en priorité.
+- **Hero** : surtitre animé (machine à écrire) dans une bulle de **taille fixe** (celle de la phrase la plus longue : seul le texte bouge), nom complet **sur une seule ligne** à toutes les largeurs (taille fluide `clamp(1.6rem, 8.4vw, 6rem)`), « LAWANI » en couleur d'accent, accroche en texte normal (non gras), deux boutons « **Voir les projets** » (plein) et « **Voir le CV** » (contour), côte à côte sur mobile, image du certificat NASA chargée en priorité.
 - **À propos** : photo, « Je suis, », deux paragraphes de bio, **liste à puces des points clés** (puce + chiffre animé coloré + texte), gérée depuis l'admin.
-- **Projets** : sur **tous les écrans**, sélecteur de vue sur sa propre ligne au-dessus des filtres (bloc rectangulaire icône + texte) : **Carrousel** (par défaut ; cartes complètes, 1 visible sur téléphone, 2 sur tablette, 3 sur ordinateur ; glisser, points, flèches d'une carte à la fois ; points et flèches masqués quand tout tient à l'écran) ou **Grille** (tuiles compactes : image, nom, catégories ; 2 colonnes téléphone, 3 tablette, 4 ordinateur ; 8 premières puis « Voir tous les projets (N) ») ; choix mémorisé. Filtres par catégorie (seulement ceux qui ont des projets), cartes avec image, **badges de toutes les catégories**, nom, description (3 lignes), technos, bouton « **Voir les détails** » (icône œil) vers la page projet, petit bouton carré ↗ vers le site en ligne, petit bouton carré **Partager**.
+- **Projets** : sur **tous les écrans**, sélecteur de vue **centré** sur sa propre ligne au-dessus des filtres (bloc rectangulaire icône + texte) : **Carrousel** (par défaut ; cartes complètes, 1 visible sur téléphone, 2 sur tablette, 3 sur ordinateur ; glisser, points, flèches d'une carte à la fois ; points et flèches masqués quand tout tient à l'écran) ou **Grille** (tuiles compactes : image, nom, catégories ; 2 colonnes téléphone, 3 tablette et ordinateur ; 8 premières sur téléphone, 6 au-delà, puis « Voir tous les projets (N) ») ; choix mémorisé. Filtres par catégorie (seulement ceux qui ont des projets), cartes avec image, **badges de toutes les catégories**, nom, description (3 lignes), technos, bouton « **Voir les détails** » (icône œil) vers la page projet, petit bouton carré ↗ vers le site en ligne, petit bouton carré **Partager**.
 - **Compétences** : cartes par domaine ; les technos s'affichent en **logos avec leur nom dessous** ; une techno sans logo garde une étiquette texte. *(La bande de logos défilante a été retirée le 22/10/2026.)*
 - **Savoir-faire** (« Ce que je sais faire ») : **carrousel** d'images avec titre et description. Images affichées entières, quel que soit leur format. Glisser au doigt, flèches, points, défilement automatique. Masqué tant qu'il est vide.
 - **Parcours** : frise verticale (alternée sur desktop), année, titre, organisation, description.
@@ -421,7 +421,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 29/07/2026 10:26 | `2578ecb` | Routes regroupées (18 → 6 fonctions) pour la limite Vercel Hobby |
 | 29/07/2026 10:30 | `1155f50` | Merge de la PR #2 |
 
-### Phase 3 — Refonte (22–23 octobre 2026)
+### Phase 3 — Refonte (22–24 octobre 2026)
 
 #### Mercredi 22/10/2026
 
@@ -475,6 +475,12 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 19:20 | `4e5008f` | **Projets sur mobile** : vue **Carrousel** (par défaut) ou **Grille 2 × 4** compacte (image, nom, catégories), au choix et mémorisée ; ordinateur inchangé |
 | 19:32 | `897821a` | Sélecteur « Carrousel / Grille » déplacé **au-dessus** des catégories, avec icône + texte, pour ne plus se confondre avec elles |
 | 20:29 | `556671c` | **Carrousel / Grille aussi sur ordinateur et tablette** (3 et 2 cartes visibles, flèches ; grille de tuiles 4 et 3 colonnes) |
+
+#### Samedi 24/10/2026
+
+| Heure | Commit | Changement |
+|---|---|---|
+| HH:MM | `COMMIT` | Sélecteur « Carrousel / Grille » **centré** ; grille sur tablette et ordinateur : **3 tuiles par ligne** (plus grandes), 6 avant « Voir tous les projets » ; **surtitre du Hero** : la bulle garde la taille de la phrase la plus longue, seul le texte s'écrit et s'efface |
 
 ---
 

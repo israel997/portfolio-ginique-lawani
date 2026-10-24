@@ -1,7 +1,10 @@
 <template>
   <header id="hero" class="text-center flex flex-col items-center relative md:min-h-[70vh] md:justify-center" role="banner">
-    <div class="inline-flex max-w-full items-center px-3 py-1.5 sm:px-4 sm:py-2 mb-5 sm:mb-8 border border-line rounded-full bg-surface text-brand-text font-mono text-[11px] sm:text-sm md:text-base font-medium uppercase tracking-wide overflow-hidden">
-      <span :class="['typewriter', { 'erasing': isErasing }]">{{ displayText }}</span>
+    <!-- Fixed-size pill: every phrase sits invisibly in the same grid cell, so
+         the pill keeps the width of the longest one while the text types / erases -->
+    <div class="inline-grid max-w-full px-3 py-1.5 sm:px-4 sm:py-2 mb-5 sm:mb-8 border border-line rounded-full bg-surface text-brand-text font-mono text-[11px] sm:text-sm md:text-base font-medium uppercase tracking-wide overflow-hidden">
+      <span v-for="phrase in phrases" :key="phrase" class="invisible col-start-1 row-start-1 whitespace-nowrap pr-[2px]" aria-hidden="true">{{ phrase }}</span>
+      <span class="typewriter col-start-1 row-start-1 justify-self-center">{{ displayText }}</span>
     </div>
 
     <h1 class="whitespace-nowrap text-[clamp(1.6rem,8.4vw,6rem)] leading-[1.05] font-bold mb-5 md:mb-6 tracking-tight">
@@ -28,22 +31,6 @@
 </template>
 
 <style scoped>
-@keyframes typewriter {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
-}
-@keyframes erasing {
-  from {
-    width: 100%;
-  }
-  to {
-    width: 0;
-  }
-}
 @keyframes blink {
   0%, 100% {
     border-color: transparent;
@@ -53,19 +40,9 @@
   }
 }
 .typewriter {
-  display: inline-block;
   white-space: nowrap;
-  overflow: hidden;
   border-right: 2px solid var(--color-brand-text);
-  width: 0;
-  animation:
-    typewriter 2.2s steps(32, end) 0.3s 1 normal both,
-    blink 0.8s step-end infinite;
-}
-.typewriter.erasing {
-  animation:
-    erasing 1.2s steps(32, end) 0s 1 normal both,
-    blink 0.8s step-end infinite;
+  animation: blink 0.8s step-end infinite;
 }
 
 </style>
@@ -90,7 +67,6 @@ const nameLastPart = computed(() => {
 });
 
 const displayText = ref('');
-const isErasing = ref(false);
 let phraseIndex = 0;
 
 const phrases = computed(() => [
@@ -110,13 +86,7 @@ function typeLoop() {
       setTimeout(typeLoop, 60);
     } else {
       typing = false;
-      setTimeout(() => {
-        isErasing.value = true;
-        setTimeout(() => {
-          typing = false;
-          eraseLoop();
-        }, 1200);
-      }, 1200);
+      setTimeout(eraseLoop, 2400);
     }
   }
 }
@@ -127,7 +97,6 @@ function eraseLoop() {
     charIndex--;
     setTimeout(eraseLoop, 30);
   } else {
-    isErasing.value = false;
     phraseIndex = (phraseIndex + 1) % phrases.value.length;
     typing = true;
     setTimeout(typeLoop, 400);
@@ -136,7 +105,6 @@ function eraseLoop() {
 
 onMounted(() => {
   displayText.value = '';
-  isErasing.value = false;
   phraseIndex = 0;
   charIndex = 0;
   typing = true;
