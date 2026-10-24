@@ -11,10 +11,11 @@
           type="button"
           @click="setView(opt.value)"
           :aria-pressed="view === opt.value"
-          :class="['inline-flex h-8 items-center gap-1.5 rounded-md px-2.5 text-xs font-medium transition-colors', view === opt.value ? 'bg-ink text-page' : 'text-muted hover:text-ink']"
+          :aria-label="$t(opt.label)"
+          :title="$t(opt.label)"
+          :class="['grid h-8 w-9 place-items-center rounded-md transition-colors', view === opt.value ? 'bg-ink text-page' : 'text-muted hover:text-ink']"
         >
-          <component :is="opt.icon" class="h-3.5 w-3.5" />
-          {{ $t(opt.label) }}
+          <component :is="opt.icon" class="h-4 w-4" />
         </button>
       </div>
     </div>

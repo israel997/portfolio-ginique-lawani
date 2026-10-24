@@ -169,7 +169,7 @@ La numérotation suit les sections visibles : si une section est vide (ex. Savoi
 ### 4.2 Navigation
 
 - Les **noms des sections** (menus, surtitres, titres) viennent de **Admin → Sections**, sinon du texte d'origine de la langue affichée (`src/composables/sectionTexts.js`).
-- **Navbar collante** en haut : liens des sections (desktop ≥ 1024 px) avec surlignage de la section en cours, bouton thème ☀/☾, sélecteur **FR / EN**, bouton Contact. *(Le bloc « GL Ginique LAWANI » a été retiré le 22/10/2026.)*
+- **Navbar collante** en haut : liens des sections (desktop ≥ 1024 px) avec surlignage de la section en cours, bouton thème ☀/☾, sélecteur **FR EN** (deux boutons, sans barre oblique), bouton Contact. *(Le bloc « GL Ginique LAWANI » a été retiré le 22/10/2026.)*
 - **Barre de navigation en bas sur mobile et tablette** (< 1024 px) : À propos, Projets, Compétences, Parcours, Contact.
 - Liens d'ancre décalés sous la navbar (80 px desktop, 68 px mobile). Depuis une page projet, le lien attend que la section existe (jusqu'à 3 s), puis reste calé dessus pendant 5 s le temps que les images et le contenu finissent de charger (sauf si l'on fait défiler soi-même).
 - Bouton « Retour en haut » et barre de progression de lecture.
@@ -178,7 +178,7 @@ La numérotation suit les sections visibles : si une section est vide (ex. Savoi
 
 - **Hero** : surtitre animé (machine à écrire) dans une bulle de **taille fixe** (celle de la phrase la plus longue : seul le texte bouge), nom complet **sur une seule ligne** à toutes les largeurs (taille fluide `clamp(1.6rem, 8.4vw, 6rem)`), « LAWANI » en couleur d'accent, accroche en texte normal (non gras), deux boutons « **Voir les projets** » (plein) et « **Voir le CV** » (contour), côte à côte sur mobile, image du certificat NASA chargée en priorité.
 - **À propos** : photo, « Je suis, », deux paragraphes de bio, **liste à puces des points clés** (puce + chiffre animé coloré + texte), gérée depuis l'admin.
-- **Projets** : sur **tous les écrans**, sélecteur de vue **centré** sur sa propre ligne au-dessus des filtres (bloc rectangulaire icône + texte) : **Carrousel** (par défaut ; cartes complètes, 1 visible sur téléphone, 2 sur tablette, 3 sur ordinateur ; glisser, points, flèches d'une carte à la fois ; points et flèches masqués quand tout tient à l'écran) ou **Grille** (tuiles compactes : image, nom, catégories ; 2 colonnes téléphone, 3 tablette et ordinateur ; 8 premières sur téléphone, 6 au-delà, puis « Voir tous les projets (N) ») ; choix mémorisé. Filtres par catégorie (seulement ceux qui ont des projets), cartes avec image, **badges de toutes les catégories**, nom, description (3 lignes), technos, bouton « **Voir les détails** » (icône œil) vers la page projet, petit bouton carré ↗ vers le site en ligne, petit bouton carré **Partager**.
+- **Projets** : sur **tous les écrans**, sélecteur de vue **centré** sur sa propre ligne au-dessus des filtres (deux icônes seules, nom en info-bulle) : **Carrousel** (par défaut ; cartes complètes, 1 visible sur téléphone, 2 sur tablette, 3 sur ordinateur ; glisser, points, flèches d'une carte à la fois ; points et flèches masqués quand tout tient à l'écran) ou **Grille** (tuiles compactes : image, nom, catégories ; 2 colonnes téléphone, 3 tablette et ordinateur ; 8 premières sur téléphone, 6 au-delà, puis « Voir tous les projets (N) ») ; choix mémorisé. Filtres par catégorie (seulement ceux qui ont des projets), cartes avec image, **badges de toutes les catégories**, nom, description (3 lignes), technos, bouton « **Voir les détails** » (icône œil) vers la page projet, petit bouton carré ↗ vers le site en ligne, petit bouton carré **Partager**.
 - **Compétences** : cartes par domaine ; les technos s'affichent en **logos avec leur nom dessous** ; une techno sans logo garde une étiquette texte. *(La bande de logos défilante a été retirée le 22/10/2026.)*
 - **Savoir-faire** (« Ce que je sais faire ») : **carrousel** d'images avec titre et description. Images affichées entières, quel que soit leur format. Glisser au doigt, flèches, points, défilement automatique. Masqué tant qu'il est vide.
 - **Parcours** : frise verticale (alternée sur desktop), année, titre, organisation, description.
@@ -481,6 +481,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | Heure | Commit | Changement |
 |---|---|---|
 | 02:06 | `f264e9c` | Sélecteur « Carrousel / Grille » **centré** ; grille sur tablette et ordinateur : **3 tuiles par ligne** (plus grandes), 6 avant « Voir tous les projets » ; **surtitre du Hero** : la bulle garde la taille de la phrase la plus longue, seul le texte s'écrit et s'efface |
+| HH:MM | `COMMIT` | Sélecteur de langue : **barre « / » retirée** entre FR et EN ; sélecteur Carrousel / Grille : **icônes seules**, centrées (nom en info-bulle) |
 
 ---
 
