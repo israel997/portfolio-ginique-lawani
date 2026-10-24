@@ -17,8 +17,8 @@
 
     <div class="grid w-full max-w-sm grid-cols-2 gap-2.5 sm:flex sm:w-auto sm:max-w-none sm:gap-3 mb-10 md:mb-12">
       <a href="#projects" class="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-brand text-white px-4 text-sm font-semibold transition-colors hover:bg-brand-hover sm:h-12 sm:px-6">
+        <FolderOpen class="h-4 w-4" />
         {{ $t('hero.cta1') }}
-        <ArrowRight class="hidden h-4 w-4 sm:block" />
       </a>
       <a v-if="settings.cv_url" :href="settings.cv_url" target="_blank" rel="noopener" class="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-line-strong bg-surface px-4 text-sm font-semibold transition-colors hover:bg-surface-hover sm:h-12 sm:px-6">
         <FileText class="h-4 w-4" />
@@ -49,7 +49,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { ArrowRight, FileText } from 'lucide-vue-next';
+import { FolderOpen, FileText } from 'lucide-vue-next';
 import { useContent } from '../composables/useContent';
 
 const { content, localized } = useContent();

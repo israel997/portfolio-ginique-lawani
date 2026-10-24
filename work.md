@@ -176,7 +176,7 @@ La numérotation suit les sections visibles : si une section est vide (ex. Savoi
 
 ### 4.3 Sections
 
-- **Hero** : surtitre animé (machine à écrire) dans une bulle de **taille fixe** (celle de la phrase la plus longue : seul le texte bouge), nom complet **sur une seule ligne** à toutes les largeurs (taille fluide `clamp(1.6rem, 8.4vw, 6rem)`), « LAWANI » en couleur d'accent, accroche en texte normal (non gras), deux boutons « **Voir les projets** » (plein) et « **Voir le CV** » (contour), côte à côte sur mobile, image du certificat NASA chargée en priorité.
+- **Hero** : surtitre animé (machine à écrire) dans une bulle de **taille fixe** (celle de la phrase la plus longue : seul le texte bouge), nom complet **sur une seule ligne** à toutes les largeurs (taille fluide `clamp(1.6rem, 8.4vw, 6rem)`), « LAWANI » en couleur d'accent, accroche en texte normal (non gras), deux boutons « **Voir les projets** » (plein, icône dossier) et « **Voir le CV** » (contour), côte à côte sur mobile, image du certificat NASA chargée en priorité.
 - **À propos** : photo, « Je suis, », deux paragraphes de bio, **liste à puces des points clés** (puce + chiffre animé coloré + texte), gérée depuis l'admin.
 - **Projets** : sur **tous les écrans**, sélecteur de vue **centré** sur sa propre ligne au-dessus des filtres (deux icônes seules, nom en info-bulle) : **Carrousel** (par défaut ; cartes complètes, 1 visible sur téléphone, 2 sur tablette, 3 sur ordinateur ; glisser, points, flèches d'une carte à la fois ; points et flèches masqués quand tout tient à l'écran) ou **Grille** (tuiles compactes : image, nom, catégories ; 2 colonnes téléphone, 3 tablette et ordinateur ; 8 premières sur téléphone, 6 au-delà, puis « Voir tous les projets (N) ») ; choix mémorisé. Filtres par catégorie (seulement ceux qui ont des projets), cartes avec image, **badges de toutes les catégories**, nom, description (3 lignes), technos, bouton « **Voir les détails** » (icône œil) vers la page projet, petit bouton carré ↗ vers le site en ligne, petit bouton carré **Partager**.
 - **Compétences** : cartes par domaine ; les technos s'affichent en **logos avec leur nom dessous** ; une techno sans logo garde une étiquette texte. *(La bande de logos défilante a été retirée le 22/10/2026.)*
@@ -484,6 +484,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 02:18 | `84a9ec3` | Sélecteur de langue : **barre « / » retirée** entre FR et EN ; sélecteur Carrousel / Grille : **icônes seules**, centrées (nom en info-bulle) |
 | 02:23 | `ec55097` | Plus d'espace entre le sélecteur Carrousel / Grille et les catégories (12 px → 20 px, 24 px sur ordinateur) |
 | 02:34 | `62aef5a` | **Traduction anglaise automatique** : à l'enregistrement, chaque champ anglais vide est traduit du français et suit ses changements tant qu'il n'est pas retouché à la main ; bouton « **Tout traduire en anglais** » dans l'admin ; migration v12 (`auto_en`) |
+| HH:MM | `COMMIT` | Hero : bouton « **Voir les projets** » avec une icône (dossier) à gauche, comme « Voir le CV », visible aussi sur mobile |
 
 ---
 
