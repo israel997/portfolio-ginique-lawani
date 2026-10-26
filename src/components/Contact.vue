@@ -65,7 +65,8 @@
 
       <!-- Last word of the page: the way into the "Découvrir" page -->
       <div v-if="hasDiscover" class="mt-6 border-t border-line pt-6 text-center">
-        <RouterLink to="/decouvrir" class="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand-text underline decoration-2 underline-offset-4 hover:decoration-[3px] md:text-base">
+        <!-- Yellow, to stand out from the blue links and buttons -->
+        <RouterLink to="/decouvrir" class="group inline-flex items-center gap-1.5 text-sm font-semibold text-[color:var(--fig-yellow)] underline decoration-2 underline-offset-4 hover:decoration-[3px] md:text-base">
           {{ $t('discover.contactLink') }}
           <ArrowRight class="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-0.5" />
         </RouterLink>

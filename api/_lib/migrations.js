@@ -297,6 +297,25 @@ J’ai mené des projets pour des clients locaux comme pour des marchés interna
            auto_en = auto_en - 'discover_title' - 'discover_intro'
        WHERE id = 1 AND discover_title_fr = 'Qui je suis'`
     ]
+  },
+  {
+    version: 16,
+    statements: [
+      // Découvrir, card "Je pilote l’IA": new text asked by the user (no more
+      // "ce portfolio a été construit avec une IA"). Only if the card still has
+      // the v15 text; its English is emptied so it gets translated again.
+      `UPDATE discover_sections
+       SET cards = (
+         SELECT jsonb_agg(
+           CASE WHEN c->>'title_fr' = 'Je pilote l’IA' AND c->>'text_fr' LIKE '%construit avec une IA%'
+             THEN (c - 'auto_en') || jsonb_build_object('text_fr', $seed$Passionné d’intelligence artificielle, je fais beaucoup de recherches sur les outils IA pour les combiner avec mes compétences. Je fixe le cadre, je contrôle chaque résultat et je garde la décision.$seed$, 'title_en', '', 'text_en', '')
+             ELSE c END
+           ORDER BY ord)
+         FROM jsonb_array_elements(cards) WITH ORDINALITY AS t(c, ord)
+       ),
+       updated_at = now()
+       WHERE cards @> '[{"title_fr": "Je pilote l’IA"}]'::jsonb`
+    ]
   }
 ];
 

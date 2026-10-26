@@ -183,7 +183,7 @@ La numérotation suit les sections visibles : si une section est vide (ex. Savoi
 - **Savoir-faire** (« Ce que je sais faire ») : **carrousel** d'images avec titre et description. Images affichées entières, quel que soit leur format. Glisser au doigt, flèches, points, défilement automatique. Masqué tant qu'il est vide.
 - **Parcours** : frise verticale (alternée sur desktop), année, titre, organisation, description.
 - **Références** : cartes témoignages (citation, étoiles, initiales sur pastille unie).
-- **Contact** : email, **WhatsApp** (lien `wa.me` en bleu, icône bulle de discussion), **numéro d'appel** (masqué s'il est identique au WhatsApp), localisation **Cotonou, Bénin**, disponibilité, **bouton « Copier » sur l'email et chaque numéro**, réseaux sociaux, puis tout en bas le lien souligné « **Ce que mon portfolio ne dit pas sur moi** » vers `/decouvrir`. *(Formulaire nom/email/message supprimé le 22/10/2026.)*
+- **Contact** : email, **WhatsApp** (lien `wa.me` en bleu, icône bulle de discussion), **numéro d'appel** (masqué s'il est identique au WhatsApp), localisation **Cotonou, Bénin**, disponibilité, **bouton « Copier » sur l'email et chaque numéro**, réseaux sociaux, puis tout en bas le lien souligné **jaune** « **Ce que mon portfolio ne dit pas sur moi** » vers `/decouvrir` (jaune parce qu'en bleu il se confondait avec les autres liens et passait inaperçu, ta remarque du 26/10/2026). *(Formulaire nom/email/message supprimé le 22/10/2026.)*
 
 ### 4.4 Page détail d'un projet : `/<lien>` (ex. `/ooffix`)
 
@@ -210,7 +210,8 @@ La numérotation suit les sections visibles : si une section est vide (ex. Savoi
 | **Une couleur par section** (bleu, magenta, orange, turquoise ; modifiable dans l'admin, « Auto » sinon) | Tout était de la même couleur, la page paraissait monotone ; la couleur repère la section d'un coup d'œil (pastille de l'en-tête, libellé, numéros, liseré des cartes). Couleurs prises dans la palette déjà utilisée pour les points clés, pour rester cohérent. |
 | **Photo dans l'en-tête** | Ta demande : la page sert à te découvrir, un visage crée le lien avant la lecture. Recadrée par le site (4:3 sur mobile pour ne pas repousser le texte trop bas, 4:5 sur ordinateur), ce qui retire aussi la mention du photographe en bas de l'image. Optimisée à 1000 px (100 Ko). Modifiable dans l'admin. |
 | **Moins de texte** : titre « Mieux me connaître », première phrase de l'intro retirée, paragraphe long de « Ce que j'apporte » supprimé, cartes de 2 à 3 lignes, carte « Langues » retirée | Les visiteurs lisent peu : chaque carte doit se comprendre en quelques secondes (ta consigne). |
-| Cartes de méthode **illustrées par un exemple réel** (Ethos, VibenGo, ce portfolio, work.md) | Une affirmation sans preuve convainc peu ; l'exemple montre la méthode appliquée. Seuls des faits présents dans les fiches projets ou donnés par toi ont été utilisés. |
+| Cartes de méthode **illustrées par un exemple réel** (Ethos, VibenGo, work.md) | Une affirmation sans preuve convainc peu ; l'exemple montre la méthode appliquée. Seuls des faits présents dans les fiches projets ou donnés par toi ont été utilisés. |
+| Carte « Je pilote l'IA » : **passionné d'IA, beaucoup de recherches sur les outils pour les combiner avec tes compétences** (migration v16) | Ta correction : la première version disait que ce portfolio avait été construit avec une IA, ce qui réduisait ton rôle ; le message voulu est la maîtrise et la veille sur les outils IA. |
 | « Ce que j'apporte » formulé en **apports** (Développement technique, Product management, Analyse fonctionnelle, Croissance d'un produit digital, Transformation digitale et IA) et non en postes | Ta remarque : la section dit ce que tu apportes, pas un titre de poste que tu imposerais. |
 - En bas : « Voir tout le portfolio » et « Me contacter ».
 - Admin → **Découvrir** : titre et introduction de la page, sections (ajout, renommage, ordre, masquage) et leurs cartes. Traduction anglaise automatique comme ailleurs.
@@ -370,6 +371,7 @@ Appliquées par l'API au premier appel après un déploiement. Toutes idempotent
 | v13 | 24/10/2026 | vide les anglais provisoires du Savoir-faire |
 | v14 | 26/10/2026 | table `discover_sections` (titre, intro, `cards` JSONB) avec le contenu de départ ; `admin_settings.discover_title_*` / `discover_intro_*` ; lien `decouvrir` réservé |
 | v15 | 26/10/2026 | `discover_sections.eyebrow_fr/en` (libellé) et `color` ; `admin_settings.discover_photo_url` ; contenu de la page revu (anglais vidé pour être retraduit) |
+| v16 | 26/10/2026 | nouveau texte de la carte « Je pilote l'IA » (si elle a encore le texte de v15), anglais vidé |
 
 Pour ajouter une migration : nouvelle entrée `{ version: N, statements: [...] }` en fin de tableau, avec des requêtes idempotentes (`IF NOT EXISTS`…).
 
@@ -538,6 +540,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 17:21 | `c5ec16f` | **Page « Découvrir »** (`/decouvrir`) : sections en carrousels de cartes, liens « Découvrir en détail » (À propos) et « Ce que mon portfolio ne dit pas sur moi » (Contact), rubrique admin **Découvrir**, contenu de départ « Qui je suis » (migration v14). |
 | 17:56 | `beb920d` | **Musique d'ambiance** : 3 morceaux Pixabay en ordre aléatoire (jamais le même début que la visite précédente), démarrage au premier clic, bouton couper / activer mémorisé, pause onglet caché, absente de l'admin. Pourquoi : voir le tableau §4.4 ter (licence Pixabay sans attribution, piste YouTube interdite de réutilisation, règle des navigateurs sur le son, 96 kb/s pour les forfaits mobiles) |
 | 18:11 | `a641c90` | **Découvrir, 2e version** : photo dans l'en-tête, titre « Mieux me connaître », libellé et couleur par section, contenu raccourci avec exemples réels (migration v15). **Musique** : bouton rouge déplacé dans la barre du haut ; la coupure du son marche sur iPhone. Pourquoi : voir les tableaux §4.4 bis et §4.4 ter |
+| HH:MM | `COMMIT` | Carte « **Je pilote l'IA** » réécrite (passion et recherches sur les outils IA, plus de mention d'un portfolio fait avec l'IA ; migration v16). Lien « Ce que mon portfolio ne dit pas sur moi » en **jaune**. Pourquoi : tes corrections, voir §4.3 et §4.4 bis |
 
 ---
 
