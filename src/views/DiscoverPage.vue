@@ -19,7 +19,7 @@
             </div>
             <div class="min-w-0 lg:order-1">
               <h1 class="mb-5 text-4xl font-bold text-balance md:text-6xl">{{ pageTitle }}</h1>
-              <p v-if="intro" class="max-w-2xl whitespace-pre-line text-base leading-relaxed text-ink-2 md:text-lg text-pretty">{{ intro }}</p>
+              <p v-if="intro" class="max-w-2xl whitespace-pre-line text-base leading-relaxed text-ink-2 md:text-lg text-pretty"><HighlightText :text="intro" /></p>
 
               <!-- Quick access to each section (scrolls sideways on phones) -->
               <nav v-if="sections.length > 1" class="-mx-4 mt-8 overflow-x-auto px-4 [scrollbar-width:none] md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden" :aria-label="$t('discover.jump')">
@@ -57,7 +57,7 @@
               <template v-if="localized(section, 'eyebrow')"><span class="mx-2 opacity-40">/</span>{{ localized(section, 'eyebrow') }}</template>
             </p>
             <h2 v-reveal:150="'right'" class="text-3xl font-bold text-balance md:text-4xl lg:text-5xl">{{ localized(section, 'title') }}</h2>
-            <p v-if="localized(section, 'intro')" class="mt-4 max-w-3xl whitespace-pre-line text-base leading-relaxed text-muted md:text-lg">{{ localized(section, 'intro') }}</p>
+            <p v-if="localized(section, 'intro')" class="mt-4 max-w-3xl whitespace-pre-line text-base leading-relaxed text-muted md:text-lg"><HighlightText :text="localized(section, 'intro')" /></p>
           </div>
 
           <CardCarousel :items="section.cards" :label="localized(section, 'title')">
@@ -67,7 +67,7 @@
                 <div class="flex flex-1 flex-col p-5 md:p-6">
                   <span class="mb-3 font-mono text-xs font-semibold" :style="{ color: colorOf(section, i) }">{{ number(c) }}</span>
                   <h3 v-if="localized(card, 'title')" class="mb-2.5 text-xl font-semibold text-balance">{{ localized(card, 'title') }}</h3>
-                  <p class="whitespace-pre-line text-base leading-relaxed text-ink-2">{{ localized(card, 'text') }}</p>
+                  <p class="whitespace-pre-line text-base leading-relaxed text-ink-2"><HighlightText :text="localized(card, 'text')" /></p>
                 </div>
               </article>
             </template>
@@ -105,6 +105,7 @@ import Navbar from '../components/Navbar.vue';
 import Footer from '../components/Footer.vue';
 import MobileBottomNav from '../components/MobileBottomNav.vue';
 import CardCarousel from '../components/CardCarousel.vue';
+import HighlightText from '../components/HighlightText.vue';
 
 // "Découvrir" page (/decouvrir): everything the portfolio doesn't say, in
 // sections edited from Admin > Découvrir, each one a carousel of cards.

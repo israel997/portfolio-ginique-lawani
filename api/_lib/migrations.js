@@ -316,6 +316,31 @@ J’ai mené des projets pour des clients locaux comme pour des marchés interna
        updated_at = now()
        WHERE cards @> '[{"title_fr": "Je pilote l’IA"}]'::jsonb`
     ]
+  },
+  {
+    version: 17,
+    statements: [
+      // Découvrir introduction: passages underlined in yellow (==…==, see
+      // highlightParts in src/composables/richText.js), chosen by the user.
+      // Skipped if the text already has markers; English emptied to be retranslated.
+      `UPDATE admin_settings
+       SET discover_intro_fr = replace(replace(replace(replace(replace(discover_intro_fr, 'prendre un besoin flou', '==prendre un besoin flou=='), 'transformer en solution claire', '==transformer en solution claire=='), 'marchés internationaux', '==marchés internationaux=='), 'l’intelligence artificielle', '==l’intelligence artificielle=='), 'productivité maîtrisé', '==productivité maîtrisé=='),
+           discover_intro_en = NULL,
+           auto_en = auto_en - 'discover_intro'
+       WHERE id = 1 AND discover_intro_fr IS NOT NULL AND discover_intro_fr NOT LIKE '%==%'`,
+      // Hard skills, development card: no Laravel / Flutter, "intégration de paiements"
+      `UPDATE discover_sections
+       SET cards = (
+         SELECT jsonb_agg(
+           CASE WHEN c->>'title_fr' = 'Développement / Conception web et déploiement' AND c->>'text_fr' LIKE '%Laravel%'
+             THEN (c - 'auto_en') || jsonb_build_object('text_fr', $seed$Applications web (Next.js, NestJS, Vue) et mobiles, intégration de paiements en ligne, publication sur les stores et mise en production.$seed$, 'title_en', '', 'text_en', '')
+             ELSE c END
+           ORDER BY ord)
+         FROM jsonb_array_elements(cards) WITH ORDINALITY AS t(c, ord)
+       ),
+       updated_at = now()
+       WHERE cards @> '[{"title_fr": "Développement / Conception web et déploiement"}]'::jsonb`
+    ]
   }
 ];
 

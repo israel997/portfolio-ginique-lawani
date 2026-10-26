@@ -24,3 +24,10 @@ export function toItems(text) {
 export function fromItems(items) {
   return items.map((i) => i.trim()).filter(Boolean).join('\n');
 }
+
+// Passages to underline in yellow are written between double equals signs:
+// "prendre un ==besoin flou==". The markers survive the automatic English
+// translation. Returns [{ text, mark }] to render without v-html.
+export function highlightParts(text) {
+  return (text || '').split(/==([^=\n]+)==/).map((part, i) => ({ text: part, mark: i % 2 === 1 })).filter((p) => p.text);
+}
