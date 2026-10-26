@@ -537,7 +537,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 |---|---|---|
 | 17:21 | `c5ec16f` | **Page « Découvrir »** (`/decouvrir`) : sections en carrousels de cartes, liens « Découvrir en détail » (À propos) et « Ce que mon portfolio ne dit pas sur moi » (Contact), rubrique admin **Découvrir**, contenu de départ « Qui je suis » (migration v14). |
 | 17:56 | `beb920d` | **Musique d'ambiance** : 3 morceaux Pixabay en ordre aléatoire (jamais le même début que la visite précédente), démarrage au premier clic, bouton couper / activer mémorisé, pause onglet caché, absente de l'admin. Pourquoi : voir le tableau §4.4 ter (licence Pixabay sans attribution, piste YouTube interdite de réutilisation, règle des navigateurs sur le son, 96 kb/s pour les forfaits mobiles) |
-| HH:MM | `COMMIT` | **Découvrir, 2e version** : photo dans l'en-tête, titre « Mieux me connaître », libellé et couleur par section, contenu raccourci avec exemples réels (migration v15). **Musique** : bouton rouge déplacé dans la barre du haut ; la coupure du son marche sur iPhone. Pourquoi : voir les tableaux §4.4 bis et §4.4 ter |
+| 18:11 | `a641c90` | **Découvrir, 2e version** : photo dans l'en-tête, titre « Mieux me connaître », libellé et couleur par section, contenu raccourci avec exemples réels (migration v15). **Musique** : bouton rouge déplacé dans la barre du haut ; la coupure du son marche sur iPhone. Pourquoi : voir les tableaux §4.4 bis et §4.4 ter |
 
 ---
 
