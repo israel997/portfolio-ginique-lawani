@@ -506,7 +506,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 
 | Heure | Commit | Changement |
 |---|---|---|
-| HH:MM | `COMMIT` | **Page « Découvrir »** (`/decouvrir`) : sections en carrousels de cartes, liens « Découvrir en détail » (À propos) et « Ce que mon portfolio ne dit pas sur moi » (Contact), rubrique admin **Découvrir**, contenu de départ « Qui je suis » (migration v14). Musique d'ambiance : en attente du fichier (libre de droits) |
+| 17:21 | `c5ec16f` | **Page « Découvrir »** (`/decouvrir`) : sections en carrousels de cartes, liens « Découvrir en détail » (À propos) et « Ce que mon portfolio ne dit pas sur moi » (Contact), rubrique admin **Découvrir**, contenu de départ « Qui je suis » (migration v14). Musique d'ambiance : en attente du fichier (libre de droits) |
 
 ---
 
