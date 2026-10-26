@@ -171,6 +171,7 @@ La numérotation suit les sections visibles : si une section est vide (ex. Savoi
 - Les **noms des sections** (menus, surtitres, titres) viennent de **Admin → Sections**, sinon du texte d'origine de la langue affichée (`src/composables/sectionTexts.js`).
 - **Navbar collante** en haut : liens des sections (desktop ≥ 1024 px) avec surlignage de la section en cours, bouton thème ☀/☾, sélecteur **FR EN** (deux boutons, sans barre oblique), bouton Contact. *(Le bloc « GL Ginique LAWANI » a été retiré le 22/10/2026.)*
 - **Barre de navigation en bas sur mobile et tablette** (< 1024 px) : À propos, Projets, Compétences, Parcours, Contact.
+- **Clic sur une section de la même page** : défilement doux, puis recalage automatique sur la section pendant 4 s (les images qui finissent de charger au-dessus la décalaient). Code : `keepAligned` dans `src/router/index.js`.
 - Liens d'ancre décalés sous la navbar (80 px desktop, 68 px mobile). Depuis une page projet, le lien attend que la section existe (jusqu'à 3 s), puis reste calé dessus pendant 5 s le temps que les images et le contenu finissent de charger (sauf si l'on fait défiler soi-même).
 - Bouton « Retour en haut » et barre de progression de lecture.
 
@@ -547,6 +548,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 18:20 | `b87f177` | Carte « **Je pilote l'IA** » réécrite (passion et recherches sur les outils IA, plus de mention d'un portfolio fait avec l'IA ; migration v16). Lien « Ce que mon portfolio ne dit pas sur moi » en **jaune**. Pourquoi : tes corrections, voir §4.3 et §4.4 bis |
 | 18:26 | `fe6f65b` | Découvrir : **passages clés soulignés en jaune** dans l'introduction (syntaxe `==…==` utilisable dans l'admin) ; carte Développement : Next.js, NestJS, Vue, « intégration de paiements » (migration v17). Pourquoi : voir le tableau §4.4 bis |
 | 18:31 | `6150f94` | Découvrir : soulignés réduits à **2 passages, en bleu** (migration v18). Pourquoi : 5 soulignés jaunes/dorés jugés chargés et d'une couleur étrange sur iPhone ; le bleu d'accent reste cohérent avec le site |
+| HH:MM | `COMMIT` | **Liens du menu qui « ne répondaient pas »** : au clic sur une section de la même page (barre du haut ou barre du bas), le défilement s'arrêtait trop haut (ex. 1636 px au lieu de 2019 px pour Projets), car les images au-dessus finissaient de se charger pendant le défilement et poussaient la section vers le bas ; on avait l'impression de devoir cliquer 2 ou 3 fois. Le site se recale maintenant sur la section une fois le défilement fini (pendant 4 s, sauf si le visiteur fait défiler lui-même). Pourquoi cette solution : elle corrige tous les liens d'un coup quelle que soit l'image en cause, sans changer le design (fixer la taille de chaque image aurait modifié certains cadrages). Vérifié : la section arrive pile sous la barre (80 px sur PC, 68 px sur mobile) dès le premier clic |
 
 ---
 

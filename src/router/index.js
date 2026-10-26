@@ -44,8 +44,8 @@ function waitForElement(selector, timeout = 3000) {
 
 // Images above the target can finish loading after we scrolled and push it
 // down. For a short while, re-align on the target unless the visitor has
-// started scrolling themselves.
-function keepAligned(selector, top, duration = 5000) {
+// started scrolling themselves. `delay` lets a smooth scroll finish first.
+function keepAligned(selector, top, duration = 5000, delay = 120) {
   let userMoved = false;
   const stop = () => { userMoved = true; };
   const events = ['wheel', 'touchstart', 'keydown', 'mousedown'];
@@ -61,7 +61,7 @@ function keepAligned(selector, top, duration = 5000) {
     if (Math.abs(offset) > 8) window.scrollTo({ top: window.scrollY + offset, behavior: 'instant' });
     setTimeout(tick, 120);
   };
-  setTimeout(tick, 120);
+  setTimeout(tick, delay);
 }
 
 const router = createRouter({
@@ -73,7 +73,13 @@ const router = createRouter({
       // Router scrolling ignores CSS scroll-margin: offset for the sticky navbar
       const top = window.innerWidth >= 768 ? 80 : 68;
       const sameRoute = from.name === to.name;
-      if (sameRoute) return { el: to.hash, top, behavior: 'smooth' };
+      if (sameRoute) {
+        // Same page (navbar / bottom bar links): lazy images loading during
+        // the smooth scroll used to leave it short of the section, so the
+        // visitor clicked again. Re-align once the scroll has settled.
+        keepAligned(to.hash, top, 4000, 900);
+        return { el: to.hash, top, behavior: 'smooth' };
+      }
       // Coming from another page (e.g. a project page): the home sections are
       // still being built, slowly on phones. Wait until the target exists.
       return waitForElement(to.hash).then((found) => {
