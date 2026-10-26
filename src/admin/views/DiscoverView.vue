@@ -9,7 +9,8 @@
       <a href="/decouvrir" target="_blank" class="admin-btn-secondary"><ExternalLink class="h-4 w-4" /> Voir la page</a>
     </div>
     <form v-if="page" @submit.prevent="savePage" class="space-y-4">
-      <BilingualField v-model:fr="page.discover_title_fr" v-model:en="page.discover_title_en" label="Titre de la page" optional placeholder="Ce que mon portfolio ne dit pas" placeholder-en="What my portfolio does not say" />
+      <ImageUploadField v-model="page.discover_photo_url" label="Photo de l'en-tête" accept="image/*" aspect="4:5" />
+      <BilingualField v-model:fr="page.discover_title_fr" v-model:en="page.discover_title_en" label="Titre de la page" optional placeholder="Mieux me connaître" placeholder-en="Get to know me better" />
       <BilingualField v-model:fr="page.discover_intro_fr" v-model:en="page.discover_intro_en" label="Introduction" optional multiline :rows="3" placeholder="Quelques lignes pour présenter la page…" placeholder-en="A few lines to introduce the page…" />
       <div class="flex justify-end">
         <button type="submit" :disabled="savingPage || !pageDirty" class="admin-btn-primary">
@@ -38,7 +39,7 @@
     <AdminListRow
       v-for="(item, index) in items"
       :key="item.id"
-      :eyebrow="String(index + 1).padStart(2, '0')"
+      :eyebrow="[String(index + 1).padStart(2, '0'), item.eyebrow_fr].filter(Boolean).join(' / ')"
       :title="item.title_fr || 'Sans titre'"
       :subtitle="cardCount(item)"
       :visible="item.is_visible"
@@ -55,7 +56,28 @@
 
   <SlideOver :open="!!form" :title="form?.id ? 'Modifier la section' : 'Nouvelle section'" :restored-at="restoredAt" :saved-at="draftSavedAt" @close="requestClose" @revert="revertDraft">
     <form v-if="form" id="discover-form" @submit.prevent="submit" class="space-y-6">
-      <BilingualField v-model:fr="form.title_fr" v-model:en="form.title_en" label="Titre de la section" placeholder="Ex. Soft skills" placeholder-en="E.g. Soft skills" />
+      <BilingualField v-model:fr="form.eyebrow_fr" v-model:en="form.eyebrow_en" label="Petit libellé au-dessus du titre" optional placeholder="Ex. Soft skills" placeholder-en="E.g. Soft skills" />
+      <BilingualField v-model:fr="form.title_fr" v-model:en="form.title_en" label="Titre de la section" placeholder="Ex. Compétences humaines" placeholder-en="E.g. People skills" />
+      <div>
+        <span class="admin-label">Couleur de la section</span>
+        <p class="mb-2 text-xs text-slate-500">Libellé, numéros et liseré des cartes. « Auto » : une couleur différente selon la position.</p>
+        <div class="flex flex-wrap gap-1.5" role="radiogroup" aria-label="Couleur de la section">
+          <button type="button" role="radio" :aria-checked="!form.color" @click="form.color = ''" :class="['flex h-8 items-center rounded-lg border px-2.5 text-xs', !form.color ? 'border-white bg-white/10 text-white' : 'border-white/10 text-slate-400 hover:text-white']">Auto</button>
+          <button
+            v-for="c in FIGURE_COLORS"
+            :key="c.name"
+            type="button"
+            role="radio"
+            :aria-checked="form.color === c.name"
+            :aria-label="c.label"
+            :title="c.label"
+            @click="form.color = c.name"
+            :class="['grid h-8 w-8 place-items-center rounded-lg border', form.color === c.name ? 'border-white bg-white/10' : 'border-white/10 hover:border-white/30']"
+          >
+            <span class="h-4 w-4 rounded-full" :style="{ background: `var(--fig-${c.name})` }"></span>
+          </button>
+        </div>
+      </div>
       <BilingualField v-model:fr="form.intro_fr" v-model:en="form.intro_en" label="Introduction" optional multiline :rows="2" placeholder="Une phrase pour situer la section…" placeholder-en="One sentence to introduce the section…" />
       <CardsEditor v-model="form.cards" />
 
@@ -93,13 +115,15 @@ import AdminCollection from '../components/AdminCollection.vue';
 import AdminListRow from '../components/AdminListRow.vue';
 import BilingualField from '../components/BilingualField.vue';
 import CardsEditor from '../components/CardsEditor.vue';
+import ImageUploadField from '../components/ImageUploadField.vue';
+import { FIGURE_COLORS } from '../../composables/figureColors';
 import ConfirmDialog from '../components/ConfirmDialog.vue';
 import SlideOver from '../components/SlideOver.vue';
 import ToggleSwitch from '../components/ToggleSwitch.vue';
 import FormFooter from '../components/FormFooter.vue';
 
 // --- Page title / introduction --------------------------------------------
-const PAGE_FIELDS = ['discover_title_fr', 'discover_title_en', 'discover_intro_fr', 'discover_intro_en'];
+const PAGE_FIELDS = ['discover_photo_url', 'discover_title_fr', 'discover_title_en', 'discover_intro_fr', 'discover_intro_en'];
 const api = useApi();
 const toast = useToast();
 const settings = ref(null);
@@ -152,8 +176,8 @@ const {
   drafts, restoredAt, draftSavedAt, resumeDraft, dropDraft, revertDraft,
   toggleVisibility, move, handleDelete
 } = useCrudList('discover', {
-  fields: ['title_fr', 'title_en', 'intro_fr', 'intro_en', 'cards'],
-  defaults: () => ({ title_fr: '', title_en: '', intro_fr: '', intro_en: '', cards: [] }),
+  fields: ['eyebrow_fr', 'eyebrow_en', 'title_fr', 'title_en', 'intro_fr', 'intro_en', 'color', 'cards'],
+  defaults: () => ({ eyebrow_fr: '', eyebrow_en: '', title_fr: '', title_en: '', intro_fr: '', intro_en: '', color: '', cards: [] }),
   // Client-only keys so cards keep their identity while reordering
   prepare: (values) => ({
     ...values,
@@ -162,6 +186,7 @@ const {
   validate: (f) => (f.title_fr.trim() ? '' : 'Donnez un titre à la section.'),
   clean: (p) => ({
     ...p,
+    eyebrow_en: p.eyebrow_en || null,
     title_en: p.title_en || null,
     intro_en: p.intro_en || null,
     // Cards left completely empty are dropped

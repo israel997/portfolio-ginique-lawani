@@ -49,7 +49,7 @@ export const RESOURCES = {
   },
   discover: {
     table: 'discover_sections',
-    columns: ['title_fr', 'title_en', 'intro_fr', 'intro_en', 'cards', 'sort_order', 'is_visible'],
+    columns: ['eyebrow_fr', 'eyebrow_en', 'title_fr', 'title_en', 'intro_fr', 'intro_en', 'color', 'cards', 'sort_order', 'is_visible'],
     jsonColumns: ['cards']
   },
   'social-links': {

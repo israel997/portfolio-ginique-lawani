@@ -1,27 +1,4 @@
-<template>
-  <button
-    v-if="!isAdmin"
-    type="button"
-    data-music-toggle
-    @click="toggle"
-    class="fixed left-4 bottom-[calc(5.25rem+env(safe-area-inset-bottom))] z-50 grid h-11 w-11 place-items-center rounded-full border border-line bg-nav text-ink shadow-card backdrop-blur-md transition-colors hover:bg-surface-hover md:h-12 md:w-12 lg:bottom-8 lg:left-8"
-    :aria-label="muted ? $t('music.unmute') : $t('music.mute')"
-    :title="muted ? $t('music.unmute') : $t('music.mute')"
-    :aria-pressed="!muted"
-  >
-    <VolumeX v-if="muted" class="h-5 w-5 text-muted" />
-    <!-- Little equalizer while the music is actually playing -->
-    <span v-else-if="playing" class="flex h-4 items-end gap-[3px]" aria-hidden="true">
-      <span v-for="n in 3" :key="n" class="music-bar w-[3px] rounded-full bg-brand-text" :style="{ animationDelay: `${(n - 1) * 0.18}s` }"></span>
-    </span>
-    <Volume2 v-else class="h-5 w-5 text-brand-text" />
-  </button>
-</template>
-
-<script setup>
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
-import { useRoute } from 'vue-router';
-import { Volume2, VolumeX } from 'lucide-vue-next';
+import { ref } from 'vue';
 
 // Background music for the public site (never in the admin).
 //
@@ -30,18 +7,21 @@ import { Volume2, VolumeX } from 'lucide-vue-next';
 //   new round never starts with the track that just ended.
 // - Browsers block sound until the visitor interacts with the page, so the
 //   music starts on the first click / tap / key press (scrolling doesn't count).
-// - The mute button is remembered; the music pauses while the tab is hidden.
+// - The mute button (MusicToggle, in the navbar) is remembered; the music
+//   pauses while the tab is hidden.
+// - Volume fades are a bonus only: iPhone Safari ignores `audio.volume`, so
+//   pausing never waits for a fade to finish.
+//
+// Module-level state: App.vue starts it once, the navbar button shares it.
 const TRACKS = [
   '/audio/alex-morgan-ambient-lofi.mp3',
   '/audio/atlasaudio-ambient-piano.mp3',
   '/audio/leberch-peaceful-piano.mp3'
 ];
 const VOLUME = 0.35;
+const FADE_STEPS = 18; // ~1 s at 60 ms a step
 const MUTED_KEY = 'music-muted';
 const LAST_FIRST_KEY = 'music-last-first';
-
-const route = useRoute();
-const isAdmin = computed(() => route.path.startsWith('/admin'));
 
 const muted = ref(read(MUTED_KEY) === '1');
 const playing = ref(false);
@@ -51,6 +31,8 @@ let queue = [];
 let current = null;
 let fadeTimer = null;
 let resumeOnShow = false;
+let blocked = () => false; // set by start(): true on admin pages
+let started = false;
 
 function read(key) {
   try {
@@ -87,37 +69,25 @@ function nextTrack() {
   return current;
 }
 
-function fadeTo(target, done) {
+// Fade-in only, over a fixed number of steps (works where volume is
+// settable, harmless where it isn't)
+function fadeIn() {
   clearInterval(fadeTimer);
-  fadeTimer = setInterval(() => {
-    const delta = target - audio.volume;
-    if (Math.abs(delta) < 0.02) {
-      audio.volume = target;
-      clearInterval(fadeTimer);
-      done?.();
-      return;
-    }
-    audio.volume = Math.min(1, Math.max(0, audio.volume + Math.sign(delta) * 0.02));
-  }, 60);
-}
-
-async function play() {
-  if (muted.value || isAdmin.value || playing.value) return;
-  if (!audio) {
-    audio = new Audio();
-    audio.preload = 'auto';
-    audio.addEventListener('ended', () => startTrack(nextTrack()));
-    audio.addEventListener('error', () => startTrack(nextTrack())); // missing file: skip it
-    audio.src = nextTrack();
-  }
+  let step = 0;
   try {
     audio.volume = 0;
-    await audio.play();
-    playing.value = true;
-    fadeTo(VOLUME);
   } catch {
-    // Not allowed yet (no interaction): the next click / tap retries
+    // read-only volume
   }
+  fadeTimer = setInterval(() => {
+    step++;
+    try {
+      audio.volume = Math.min(VOLUME, (VOLUME * step) / FADE_STEPS);
+    } catch {
+      // read-only volume
+    }
+    if (step >= FADE_STEPS) clearInterval(fadeTimer);
+  }, 60);
 }
 
 function startTrack(src) {
@@ -126,13 +96,32 @@ function startTrack(src) {
   if (playing.value) audio.play().catch(() => { playing.value = false; });
 }
 
-function pause() {
-  if (!audio || !playing.value) return;
-  playing.value = false;
-  fadeTo(0, () => audio.pause());
+export async function play() {
+  if (muted.value || blocked() || playing.value) return;
+  if (!audio) {
+    audio = new Audio();
+    audio.preload = 'auto';
+    audio.addEventListener('ended', () => startTrack(nextTrack()));
+    audio.addEventListener('error', () => startTrack(nextTrack())); // missing file: skip it
+    audio.src = nextTrack();
+  }
+  try {
+    playing.value = true;
+    await audio.play();
+    if (muted.value || blocked()) return pause(); // muted while it was starting
+    fadeIn();
+  } catch {
+    playing.value = false; // not allowed yet (no interaction): the next click / tap retries
+  }
 }
 
-function toggle() {
+export function pause() {
+  clearInterval(fadeTimer);
+  playing.value = false;
+  audio?.pause();
+}
+
+export function toggleMusic() {
   muted.value = !muted.value;
   write(MUTED_KEY, muted.value ? '1' : '0');
   if (muted.value) pause();
@@ -145,7 +134,6 @@ function onInteraction(event) {
   if (event.target?.closest?.('[data-music-toggle]')) return;
   play();
 }
-const INTERACTIONS = ['pointerdown', 'keydown', 'touchend'];
 
 function onVisibility() {
   if (document.hidden) {
@@ -157,32 +145,19 @@ function onVisibility() {
   }
 }
 
-onMounted(() => {
+// Called once by App.vue. `isBlocked` returns true where no music should play.
+export function startAmbientMusic(isBlocked) {
+  if (started) return;
+  started = true;
+  blocked = isBlocked;
   // A different opening track from this visitor's previous visit
   queue = shuffled(read(LAST_FIRST_KEY));
   write(LAST_FIRST_KEY, queue[0]);
-  INTERACTIONS.forEach((e) => window.addEventListener(e, onInteraction, { passive: true }));
+  ['pointerdown', 'keydown', 'touchend'].forEach((e) => window.addEventListener(e, onInteraction, { passive: true }));
   document.addEventListener('visibilitychange', onVisibility);
   play(); // works right away when the browser allows it
-});
-
-onUnmounted(() => {
-  INTERACTIONS.forEach((e) => window.removeEventListener(e, onInteraction));
-  document.removeEventListener('visibilitychange', onVisibility);
-  clearInterval(fadeTimer);
-  audio?.pause();
-});
-
-watch(isAdmin, (admin) => (admin ? pause() : play()));
-</script>
-
-<style scoped>
-.music-bar {
-  height: 40%;
-  animation: music-bar 0.9s ease-in-out infinite alternate;
 }
-@keyframes music-bar {
-  from { height: 25%; }
-  to { height: 100%; }
+
+export function useAmbientMusic() {
+  return { muted, playing, toggle: toggleMusic };
 }
-</style>

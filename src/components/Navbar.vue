@@ -1,17 +1,21 @@
 <template>
   <header class="sticky top-0 z-50 border-b border-line bg-nav backdrop-blur-xl supports-[backdrop-filter]:bg-nav">
-    <nav class="mx-auto flex h-14 md:h-16 max-w-[1180px] items-center justify-end gap-4 px-4 md:px-6 lg:justify-between" aria-label="Navigation principale">
-      <ul class="hidden lg:flex items-center gap-0.5 text-sm font-medium">
-        <li v-for="link in links" :key="link.id">
-          <RouterLink
-            :to="{ path: '/', hash: `#${link.id}` }"
-            :class="[
-              'whitespace-nowrap rounded-full px-3 xl:px-3.5 py-2 transition-colors',
-              onHome && activeSection === link.id ? 'bg-surface-hover text-ink' : 'text-muted hover:text-ink'
-            ]"
-          >{{ st(link.id, 'nav') }}</RouterLink>
-        </li>
-      </ul>
+    <nav class="mx-auto flex h-14 md:h-16 max-w-[1180px] items-center justify-between gap-4 px-4 md:px-6" aria-label="Navigation principale">
+      <div class="flex items-center gap-3">
+        <!-- Music on the left, opposite the theme / language buttons -->
+        <MusicToggle />
+        <ul class="hidden lg:flex items-center gap-0.5 text-sm font-medium">
+          <li v-for="link in links" :key="link.id">
+            <RouterLink
+              :to="{ path: '/', hash: `#${link.id}` }"
+              :class="[
+                'whitespace-nowrap rounded-full px-3 xl:px-3.5 py-2 transition-colors',
+                onHome && activeSection === link.id ? 'bg-surface-hover text-ink' : 'text-muted hover:text-ink'
+              ]"
+            >{{ st(link.id, 'nav') }}</RouterLink>
+          </li>
+        </ul>
+      </div>
 
       <div class="flex items-center gap-2 md:gap-3">
         <ThemeToggle />
@@ -29,6 +33,7 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import LanguageSwitcher from './LanguageSwitcher.vue'
 import ThemeToggle from './ThemeToggle.vue'
+import MusicToggle from './MusicToggle.vue'
 import { useActiveSection } from '../composables/useActiveSection'
 import { useSectionText } from '../composables/sectionTexts'
 

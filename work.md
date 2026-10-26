@@ -200,15 +200,24 @@ La numérotation suit les sections visibles : si une section est vide (ex. Savoi
 ### 4.4 bis Page « Découvrir » : `/decouvrir` (26/10/2026)
 
 - Ouverte par les liens d'À propos et de Contact (affichés seulement quand au moins une section a des cartes).
-- En-tête : retour au portfolio, surtitre « Découvrir », titre de la page (« Qui je suis »), introduction, puis des **raccourcis vers chaque section** (pastilles, défilement horizontal sur mobile).
-- Une bande par section (fonds alternés) : titre numéroté 01, 02…, introduction optionnelle, **carrousel de cartes** (1 carte visible sur téléphone, 2 sur tablette, 3 sur ordinateur ; points, flèches). Carte : numéro coloré, titre, texte, image optionnelle.
-- Contenu de départ (envoyé le 26/10/2026) : Compétences techniques (8 cartes), Compétences humaines (8), Ma méthode de travail (7), Ce que j'apporte à une équipe (4 rôles).
+- En-tête : retour au portfolio, **photo** (au-dessus du texte sur mobile en 4:3 cadrée sur le visage, à droite en portrait 4:5 sur ordinateur), titre « **Mieux me connaître** », introduction (2 paragraphes), puis des **raccourcis vers chaque section** (pastilles avec la couleur de la section).
+- Une bande par section (fonds alternés) : « 01 / **libellé** » (Hard skills, Soft skills, Méthodologie, Valeur ajoutée) dans **la couleur de la section**, titre, introduction optionnelle, **carrousel de cartes** (1 carte visible sur téléphone, 2 sur tablette, 3 sur ordinateur ; points, flèches). Carte : liseré du haut et numéro dans la couleur de la section, titre, texte de 2 à 3 lignes, image optionnelle.
+- Contenu (revu avec toi le 26/10/2026, migration v15) : Hard skills / Compétences techniques (7 cartes), Soft skills / Compétences humaines (8), Méthodologie / Ma méthode de travail (7, avec exemples tirés des projets), Valeur ajoutée / Ce que j'apporte concrètement à une équipe (5).
+
+| Choix | Pourquoi |
+|---|---|
+| Un **libellé propre à chaque section** au lieu de « 01 / Découvrir » partout | Répéter « Découvrir » sur chaque section n'apportait rien (ta remarque) ; le libellé (Hard skills, Soft skills…) dit en un mot de quoi parle la section. |
+| **Une couleur par section** (bleu, magenta, orange, turquoise ; modifiable dans l'admin, « Auto » sinon) | Tout était de la même couleur, la page paraissait monotone ; la couleur repère la section d'un coup d'œil (pastille de l'en-tête, libellé, numéros, liseré des cartes). Couleurs prises dans la palette déjà utilisée pour les points clés, pour rester cohérent. |
+| **Photo dans l'en-tête** | Ta demande : la page sert à te découvrir, un visage crée le lien avant la lecture. Recadrée par le site (4:3 sur mobile pour ne pas repousser le texte trop bas, 4:5 sur ordinateur), ce qui retire aussi la mention du photographe en bas de l'image. Optimisée à 1000 px (100 Ko). Modifiable dans l'admin. |
+| **Moins de texte** : titre « Mieux me connaître », première phrase de l'intro retirée, paragraphe long de « Ce que j'apporte » supprimé, cartes de 2 à 3 lignes, carte « Langues » retirée | Les visiteurs lisent peu : chaque carte doit se comprendre en quelques secondes (ta consigne). |
+| Cartes de méthode **illustrées par un exemple réel** (Ethos, VibenGo, ce portfolio, work.md) | Une affirmation sans preuve convainc peu ; l'exemple montre la méthode appliquée. Seuls des faits présents dans les fiches projets ou donnés par toi ont été utilisés. |
+| « Ce que j'apporte » formulé en **apports** (Développement technique, Product management, Analyse fonctionnelle, Croissance d'un produit digital, Transformation digitale et IA) et non en postes | Ta remarque : la section dit ce que tu apportes, pas un titre de poste que tu imposerais. |
 - En bas : « Voir tout le portfolio » et « Me contacter ».
 - Admin → **Découvrir** : titre et introduction de la page, sections (ajout, renommage, ordre, masquage) et leurs cartes. Traduction anglaise automatique comme ailleurs.
 
 ### 4.4 ter Musique d'ambiance (26/10/2026)
 
-Bouton rond en bas à gauche de toutes les pages publiques (icône haut-parleur ; petites barres animées pendant la lecture ; haut-parleur barré quand c'est coupé). Code : `src/components/AmbientMusic.vue`, monté dans `src/App.vue`. Fichiers : `public/audio/`.
+Bouton rond **rouge** à gauche de la barre de navigation, sur toutes les pages publiques (barres rouges animées pendant la lecture, haut-parleur rouge en attente, haut-parleur barré gris quand c'est coupé). Code : `src/composables/useAmbientMusic.js` (lecteur, démarré dans `src/App.vue`) et `src/components/MusicToggle.vue` (bouton, dans `Navbar.vue`). Fichiers : `public/audio/`.
 
 | Choix | Pourquoi |
 |---|---|
@@ -217,12 +226,12 @@ Bouton rond en bas à gauche de toutes les pages publiques (icône haut-parleur 
 | Fichiers servis comme **fichiers statiques** (`public/audio`), pas envoyés depuis l'admin | Trois morceaux fixes : le CDN de Vercel les met en cache, sans base de données ni stockage Blob. Un envoi depuis l'admin reste possible plus tard si tu veux changer souvent de musique (§13). |
 | La musique démarre **au premier clic, toucher ou touche du clavier** sur la page | Chrome, Safari et Firefox bloquent tout son avant une interaction du visiteur ; aucun site ne peut contourner cette règle. Le défilement ne compte pas comme interaction pour les navigateurs. |
 | **Ordre aléatoire** à chaque visite (mélange de Fisher-Yates) ; le **premier morceau n'est jamais celui de la visite précédente** du même visiteur (mémorisé dans le navigateur) ; à la fin d'un tour, nouveau mélange qui ne recommence pas par le morceau qui vient de finir | Ta demande : donner l'impression que l'ambiance change, même pour quelqu'un qui part et revient. Un simple tirage au hasard pouvait redonner le même début une fois sur trois ; la mémoire du dernier départ l'empêche. |
-| Volume **35 %** avec **montée progressive** (environ 1 s) | Une ambiance discrète qui ne surprend pas et ne couvre pas la lecture. |
+| Volume **35 %** avec **montée progressive** (environ 1 s) ; la coupure, elle, est **immédiate** | Une ambiance discrète qui ne surprend pas. Sur iPhone, Safari interdit de régler le volume depuis une page : la première version attendait la fin d'un fondu avant de couper, fondu qui ne se terminait jamais sur iPhone, donc le bouton ne coupait pas le son (signalé le 26/10/2026). La coupure ne dépend plus du volume ; sur iPhone la musique joue à plein volume, seul le téléphone peut la baisser. |
 | **Bouton couper / activer** mémorisé | Un visiteur qui coupe le son ne doit pas le subir à nouveau à chaque page ou à chaque visite. |
 | **Pause quand l'onglet est caché**, reprise au retour | Ne pas jouer de musique depuis un onglet oublié en arrière-plan. |
-| Lecteur placé **hors des pages** (dans `App.vue`) | La musique continue sans coupure entre l'accueil, une page projet et la page Découvrir. |
+| Lecteur placé **hors des pages** (démarré dans `App.vue`, état partagé avec le bouton) | La musique continue sans coupure entre l'accueil, une page projet et la page Découvrir. |
 | **Jamais dans l'admin** (bouton masqué, musique en pause) | L'admin est un espace de travail. |
-| Bouton **en bas à gauche**, au-dessus de la barre mobile | En miroir du bouton « Retour en haut » (en bas à droite), sans masquer de contenu. |
+| Bouton **dans la barre de navigation, à gauche**, en **rouge** | Ta demande (26/10/2026) : en bas à gauche il passait inaperçu. En haut, à l'opposé du thème et de FR EN, il est visible dès l'arrivée et sur toutes les pages ; le rouge le distingue du bleu des boutons d'action. *(Première version : bouton flottant en bas à gauche.)* |
 
 ### 4.5 Thèmes clair et sombre
 
@@ -360,6 +369,7 @@ Appliquées par l'API au premier appel après un déploiement. Toutes idempotent
 | v12 | 24/10/2026 | `auto_en` (JSONB) sur les tables bilingues : textes anglais générés automatiquement `{ from, to }` |
 | v13 | 24/10/2026 | vide les anglais provisoires du Savoir-faire |
 | v14 | 26/10/2026 | table `discover_sections` (titre, intro, `cards` JSONB) avec le contenu de départ ; `admin_settings.discover_title_*` / `discover_intro_*` ; lien `decouvrir` réservé |
+| v15 | 26/10/2026 | `discover_sections.eyebrow_fr/en` (libellé) et `color` ; `admin_settings.discover_photo_url` ; contenu de la page revu (anglais vidé pour être retraduit) |
 
 Pour ajouter une migration : nouvelle entrée `{ version: N, statements: [...] }` en fin de tableau, avec des requêtes idempotentes (`IF NOT EXISTS`…).
 
@@ -527,6 +537,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 |---|---|---|
 | 17:21 | `c5ec16f` | **Page « Découvrir »** (`/decouvrir`) : sections en carrousels de cartes, liens « Découvrir en détail » (À propos) et « Ce que mon portfolio ne dit pas sur moi » (Contact), rubrique admin **Découvrir**, contenu de départ « Qui je suis » (migration v14). |
 | 17:56 | `beb920d` | **Musique d'ambiance** : 3 morceaux Pixabay en ordre aléatoire (jamais le même début que la visite précédente), démarrage au premier clic, bouton couper / activer mémorisé, pause onglet caché, absente de l'admin. Pourquoi : voir le tableau §4.4 ter (licence Pixabay sans attribution, piste YouTube interdite de réutilisation, règle des navigateurs sur le son, 96 kb/s pour les forfaits mobiles) |
+| HH:MM | `COMMIT` | **Découvrir, 2e version** : photo dans l'en-tête, titre « Mieux me connaître », libellé et couleur par section, contenu raccourci avec exemples réels (migration v15). **Musique** : bouton rouge déplacé dans la barre du haut ; la coupure du son marche sur iPhone. Pourquoi : voir les tableaux §4.4 bis et §4.4 ter |
 
 ---
 
