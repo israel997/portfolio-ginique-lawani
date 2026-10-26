@@ -546,7 +546,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 18:11 | `a641c90` | **Découvrir, 2e version** : photo dans l'en-tête, titre « Mieux me connaître », libellé et couleur par section, contenu raccourci avec exemples réels (migration v15). **Musique** : bouton rouge déplacé dans la barre du haut ; la coupure du son marche sur iPhone. Pourquoi : voir les tableaux §4.4 bis et §4.4 ter |
 | 18:20 | `b87f177` | Carte « **Je pilote l'IA** » réécrite (passion et recherches sur les outils IA, plus de mention d'un portfolio fait avec l'IA ; migration v16). Lien « Ce que mon portfolio ne dit pas sur moi » en **jaune**. Pourquoi : tes corrections, voir §4.3 et §4.4 bis |
 | 18:26 | `fe6f65b` | Découvrir : **passages clés soulignés en jaune** dans l'introduction (syntaxe `==…==` utilisable dans l'admin) ; carte Développement : Next.js, NestJS, Vue, « intégration de paiements » (migration v17). Pourquoi : voir le tableau §4.4 bis |
-| HH:MM | `COMMIT` | Découvrir : soulignés réduits à **2 passages, en bleu** (migration v18). Pourquoi : 5 soulignés jaunes/dorés jugés chargés et d'une couleur étrange sur iPhone ; le bleu d'accent reste cohérent avec le site |
+| 18:31 | `6150f94` | Découvrir : soulignés réduits à **2 passages, en bleu** (migration v18). Pourquoi : 5 soulignés jaunes/dorés jugés chargés et d'une couleur étrange sur iPhone ; le bleu d'accent reste cohérent avec le site |
 
 ---
 
