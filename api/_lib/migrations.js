@@ -356,6 +356,13 @@ J’ai mené des projets pour des clients locaux comme pour des marchés interna
            auto_en = auto_en - 'discover_intro'
        WHERE id = 1 AND discover_intro_fr LIKE '%==prendre un besoin flou==%'`
     ]
+  },
+  {
+    version: 19,
+    statements: [
+      // English CV, offered when the site is in English (French CV until then)
+      `ALTER TABLE admin_settings ADD COLUMN IF NOT EXISTS cv_url_en TEXT`
+    ]
   }
 ];
 

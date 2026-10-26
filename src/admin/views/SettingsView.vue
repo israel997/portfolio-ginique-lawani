@@ -58,7 +58,17 @@
 
       <section class="space-y-4">
         <h3 class="text-sm font-bold uppercase tracking-wide text-brand-text">Fichiers</h3>
-        <ImageUploadField v-model="form.cv_url" label="CV (PDF)" accept="application/pdf" />
+        <div class="grid gap-4 md:grid-cols-2">
+          <ImageUploadField v-model="form.cv_url" label="CV en français (PDF)" accept="application/pdf" />
+          <div>
+            <ImageUploadField v-model="form.cv_url_en" label="CV en anglais (PDF)" accept="application/pdf" />
+            <!-- Reminder until the English CV is sent -->
+            <p v-if="!form.cv_url_en" class="mt-2 flex items-start gap-2 rounded-lg border border-amber-400/30 bg-amber-400/[0.07] px-3 py-2 text-xs text-amber-200">
+              <FilePen class="mt-0.5 h-3.5 w-3.5 shrink-0" />
+              CV anglais à ajouter : en attendant, le site en anglais propose le CV français.
+            </p>
+          </div>
+        </div>
         <ImageUploadField v-model="form.profile_photo_url" label="Photo de profil" accept="image/*" aspect="4:5" />
         <ImageUploadField v-model="form.hero_badge_image_url" label="Image badge (Hero)" accept="image/*" />
       </section>

@@ -177,7 +177,7 @@ La numérotation suit les sections visibles : si une section est vide (ex. Savoi
 
 ### 4.3 Sections
 
-- **Hero** : surtitre animé (machine à écrire) dans une bulle de **taille fixe** (celle de la phrase la plus longue : seul le texte bouge), nom complet **sur une seule ligne** à toutes les largeurs (taille fluide `clamp(1.6rem, 8.4vw, 6rem)`), « LAWANI » en couleur d'accent, accroche en texte normal (non gras), deux boutons « **Voir les projets** » (plein, icône dossier) et « **Voir le CV** » (contour), côte à côte sur mobile, image du certificat NASA chargée en priorité.
+- **Hero** : surtitre animé (machine à écrire) dans une bulle de **taille fixe** (celle de la phrase la plus longue : seul le texte bouge), nom complet **sur une seule ligne** à toutes les largeurs (taille fluide `clamp(1.6rem, 8.4vw, 6rem)`), « LAWANI » en couleur d'accent, accroche en texte normal (non gras), deux boutons « **Voir les projets** » (plein, icône dossier) et « **Voir le CV** » (contour ; ouvre le **CV anglais quand le site est en anglais**, le CV français sinon ou tant que l'anglais n'est pas envoyé), côte à côte sur mobile, image du certificat NASA chargée en priorité.
 - **À propos** : photo, « Je suis, », deux paragraphes de bio, lien souligné « **Découvrir en détail** » vers `/decouvrir`, **liste à puces des points clés** (puce + chiffre animé coloré + texte), gérée depuis l'admin.
 - **Projets** : sur **tous les écrans**, sélecteur de vue **centré** sur sa propre ligne au-dessus des filtres (deux icônes seules, nom en info-bulle) : **Carrousel** (par défaut ; cartes complètes, 1 visible sur téléphone, 2 sur tablette, 3 sur ordinateur ; glisser, points, flèches d'une carte à la fois ; points et flèches masqués quand tout tient à l'écran) ou **Grille** (tuiles compactes : image, nom, catégories ; 2 colonnes téléphone, 3 tablette et ordinateur ; 8 premières sur téléphone, 6 au-delà, puis « Voir tous les projets (N) ») ; choix mémorisé. Filtres par catégorie (seulement ceux qui ont des projets), cartes avec image, **badges de toutes les catégories**, nom, description (3 lignes), technos, bouton « **Voir les détails** » (icône œil) vers la page projet, petit bouton carré ↗ vers le site en ligne, petit bouton carré **Partager**.
 - **Compétences** : cartes par domaine ; les technos s'affichent en **logos avec leur nom dessous** ; une techno sans logo garde une étiquette texte. *(La bande de logos défilante a été retirée le 22/10/2026.)*
@@ -377,6 +377,7 @@ Appliquées par l'API au premier appel après un déploiement. Toutes idempotent
 | v16 | 26/10/2026 | nouveau texte de la carte « Je pilote l'IA » (si elle a encore le texte de v15), anglais vidé |
 | v17 | 26/10/2026 | passages `==…==` dans l'introduction de Découvrir ; carte Développement sans Laravel ni Flutter ; anglais vidé |
 | v18 | 26/10/2026 | introduction : ne garde soulignés que « transformer en solution claire » et « l'intelligence artificielle » ; anglais vidé |
+| v19 | 26/10/2026 | `admin_settings.cv_url_en` : CV en anglais |
 
 Pour ajouter une migration : nouvelle entrée `{ version: N, statements: [...] }` en fin de tableau, avec des requêtes idempotentes (`IF NOT EXISTS`…).
 
@@ -549,6 +550,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 18:26 | `fe6f65b` | Découvrir : **passages clés soulignés en jaune** dans l'introduction (syntaxe `==…==` utilisable dans l'admin) ; carte Développement : Next.js, NestJS, Vue, « intégration de paiements » (migration v17). Pourquoi : voir le tableau §4.4 bis |
 | 18:31 | `6150f94` | Découvrir : soulignés réduits à **2 passages, en bleu** (migration v18). Pourquoi : 5 soulignés jaunes/dorés jugés chargés et d'une couleur étrange sur iPhone ; le bleu d'accent reste cohérent avec le site |
 | 18:42 | `29ebe5b` | **Liens du menu qui « ne répondaient pas »** : au clic sur une section de la même page (barre du haut ou barre du bas), le défilement s'arrêtait trop haut (ex. 1636 px au lieu de 2019 px pour Projets), car les images au-dessus finissaient de se charger pendant le défilement et poussaient la section vers le bas ; on avait l'impression de devoir cliquer 2 ou 3 fois. Le site se recale maintenant sur la section une fois le défilement fini (pendant 4 s, sauf si le visiteur fait défiler lui-même). Pourquoi cette solution : elle corrige tous les liens d'un coup quelle que soit l'image en cause, sans changer le design (fixer la taille de chaque image aurait modifié certains cadrages). Vérifié : la section arrive pile sous la barre (80 px sur PC, 68 px sur mobile) dès le premier clic |
+| HH:MM | `COMMIT` | **CV en français et CV en anglais** dans l'admin (Profil & Contact → Fichiers) ; le bouton « Voir le CV » ouvre le CV de la langue du site, le français en attendant l'anglais ; rappel orange dans l'admin tant que le CV anglais manque (migration v19). Pourquoi : un visiteur qui lit le site en anglais doit recevoir un CV en anglais ; un champ séparé (plutôt qu'un seul fichier bilingue) garde deux PDF propres, et le repli sur le français évite un bouton vide |
 
 ---
 
@@ -571,6 +573,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 - **Versions anglaises** : automatiques depuis le 24/10/2026 (§10) ; relire les traductions générées.
 - **Logos manquants** : Microsoft Teams, Grok, Antigravity, Raptor (à fournir) ; icône générique éventuelle pour Agile / Scrum / Transformation Digitale.
 - **Domaine personnalisé** : à l'achat, l'ajouter dans Vercel, rediriger `*.vercel.app` (308), mettre à jour les URL SEO (`index.html`, `sitemap.xml`, `robots.txt`).
+- **CV en anglais à envoyer** ⚠ (demandé le 26/10/2026) : l'emplacement existe (Admin → Profil & Contact → Fichiers → « CV en anglais (PDF) », avec un rappel orange tant qu'il est vide). En attendant, le site en anglais propose le CV français.
 - **Musique depuis l'admin** : envoyer / retirer des morceaux et régler le volume sans passer par le code (utile seulement si tu changes souvent de musique).
 - **Remplacer les textes provisoires du carrousel** Savoir-faire (titres « Titre à venir 01… »).
 - **Version publique « créez votre portfolio »** (idée du 23/10/2026) : plusieurs comptes, données séparées par utilisateur, brouillons et dictionnaire en base (synchronisés sur tous les appareils), LanguageTool payant ou auto-hébergé, inscription, domaines par utilisateur, et sortir l'email admin du code.

@@ -20,7 +20,7 @@
         <FolderOpen class="h-4 w-4" />
         {{ $t('hero.cta1') }}
       </a>
-      <a v-if="settings.cv_url" :href="settings.cv_url" target="_blank" rel="noopener" class="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-line-strong bg-surface px-4 text-sm font-semibold transition-colors hover:bg-surface-hover sm:h-12 sm:px-6">
+      <a v-if="cvUrl" :href="cvUrl" target="_blank" rel="noopener" class="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-line-strong bg-surface px-4 text-sm font-semibold transition-colors hover:bg-surface-hover sm:h-12 sm:px-6">
         <FileText class="h-4 w-4" />
         {{ $t('hero.cta3') }}
       </a>
@@ -50,10 +50,14 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { FolderOpen, FileText } from 'lucide-vue-next';
+import { useI18n } from 'vue-i18n';
 import { useContent } from '../composables/useContent';
 
 const { content, localized } = useContent();
 const settings = computed(() => content.value.settings || {});
+// English CV on the English site, the French one until it's uploaded
+const { locale } = useI18n();
+const cvUrl = computed(() => (locale.value === 'en' && settings.value.cv_url_en) || settings.value.cv_url);
 
 const nameFirstPart = computed(() => {
   const name = settings.value.full_name || '';
