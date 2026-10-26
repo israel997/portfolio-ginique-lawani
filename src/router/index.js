@@ -4,6 +4,7 @@ import { useAdminAuth } from '../admin/composables/useAdminAuth';
 const routes = [
   { path: '/', name: 'home', component: () => import('../views/PublicSite.vue') },
   { path: '/projets/:id', name: 'project', component: () => import('../views/ProjectDetail.vue') },
+  { path: '/decouvrir', name: 'discover', component: () => import('../views/DiscoverPage.vue') },
   { path: '/admin/login', name: 'admin-login', component: () => import('../admin/views/LoginView.vue') },
   {
     path: '/admin',
@@ -18,6 +19,7 @@ const routes = [
       { path: 'key-figures', name: 'admin-key-figures', component: () => import('../admin/views/KeyFiguresView.vue') },
       { path: 'projects', name: 'admin-projects', component: () => import('../admin/views/ProjectsView.vue') },
       { path: 'showcase', name: 'admin-showcase', component: () => import('../admin/views/ShowcaseView.vue') },
+      { path: 'discover', name: 'admin-discover', component: () => import('../admin/views/DiscoverView.vue') },
       { path: 'testimonials', name: 'admin-testimonials', component: () => import('../admin/views/TestimonialsView.vue') },
       { path: 'social-links', name: 'admin-social-links', component: () => import('../admin/views/SocialLinksView.vue') },
       { path: 'security', name: 'admin-security', component: () => import('../admin/views/SecurityView.vue') }

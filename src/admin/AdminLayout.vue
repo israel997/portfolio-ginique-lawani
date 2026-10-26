@@ -67,7 +67,7 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useTheme } from '../composables/useTheme';
-import { LayoutDashboard, UserRound, Route, Code2, FolderKanban, MessageSquareQuote, Share2, ExternalLink, LogOut, GalleryHorizontal, ShieldCheck, ListChecks, Heading, Languages, LoaderCircle } from 'lucide-vue-next';
+import { LayoutDashboard, UserRound, Route, Code2, FolderKanban, MessageSquareQuote, Share2, ExternalLink, LogOut, GalleryHorizontal, ShieldCheck, ListChecks, Heading, Languages, LoaderCircle, Compass } from 'lucide-vue-next';
 import { useAdminAuth } from './composables/useAdminAuth';
 import ToastHost from './components/ToastHost.vue';
 import { useApi } from './composables/useApi';
@@ -89,6 +89,7 @@ const links = [
   { to: '/admin/projects', label: 'Projets', icon: FolderKanban },
   { to: '/admin/skills', label: 'Compétences', icon: Code2 },
   { to: '/admin/showcase', label: 'Savoir-faire', icon: GalleryHorizontal },
+  { to: '/admin/discover', label: 'Découvrir', icon: Compass },
   { to: '/admin/timeline', label: 'Parcours', icon: Route },
   { to: '/admin/testimonials', label: 'Témoignages', icon: MessageSquareQuote },
   { to: '/admin/social-links', label: 'Réseaux sociaux', icon: Share2 },

@@ -2,7 +2,7 @@
 // /<slug> (e.g. /ooffix); /projets/<id> keeps working for older links.
 
 // First path segments the site already uses: never valid as a slug
-export const RESERVED_SLUGS = ['admin', 'projets', 'api', 'assets', 'images', 'logos', 'index', 'robots', 'sitemap', 'favicon'];
+export const RESERVED_SLUGS = ['admin', 'projets', 'api', 'assets', 'images', 'logos', 'index', 'robots', 'sitemap', 'favicon', 'decouvrir'];
 
 export function slugify(text) {
   return (text || '')

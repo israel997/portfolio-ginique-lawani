@@ -94,15 +94,22 @@ export async function translateRow(payload, old) {
     for (const [base, en] of Object.entries(updates)) payload[`${base}_en`] = en;
     payload.auto_en = record;
   }
-  if (Array.isArray(payload.gallery)) payload.gallery = await translateGallery(payload.gallery);
+  for (const list of ENTRY_LISTS) {
+    if (Array.isArray(payload[list])) payload[list] = await translateEntries(payload[list]);
+  }
   return payload;
 }
 
-// Gallery entries carry their own record ({ title_fr, title_en, caption_fr, caption_en, auto_en })
-export async function translateGallery(gallery) {
-  if (!Array.isArray(gallery)) return gallery;
-  return Promise.all(gallery.map(async (entry) => {
-    const pairs = ['title', 'caption'].map((base) => ({ key: base, fr: entry[`${base}_fr`], en: entry[`${base}_en`] }));
+// List fields whose entries carry their own record: the project gallery
+// ({ title_fr, caption_fr, …, auto_en }) and the Découvrir cards
+const ENTRY_LISTS = ['gallery', 'cards'];
+
+export async function translateEntries(entries) {
+  if (!Array.isArray(entries)) return entries;
+  return Promise.all(entries.map(async (entry) => {
+    const pairs = Object.keys(entry)
+      .filter((k) => k.endsWith('_fr'))
+      .map((k) => ({ key: k.slice(0, -3), fr: entry[k], en: entry[`${k.slice(0, -3)}_en`] }));
     const { updates, record } = await autoTranslate(pairs, entry.auto_en);
     const next = { ...entry, auto_en: record };
     for (const [base, en] of Object.entries(updates)) next[`${base}_en`] = en;
@@ -133,7 +140,7 @@ export async function translateSections(sections, auto) {
 
 // "Tout traduire": every stored item and the profile, through the same rules
 // as a save. Only items that change are written back. Returns that count.
-const RESOURCES = ['timeline', 'skills', 'projects', 'key-figures', 'showcase', 'testimonials'];
+const RESOURCES = ['timeline', 'skills', 'projects', 'key-figures', 'showcase', 'testimonials', 'discover'];
 
 export async function translateEverything(api) {
   let count = 0;
@@ -165,7 +172,7 @@ export async function translateEverything(api) {
   return count;
 }
 
-// The bilingual fields (and the gallery) of a stored row
+// The bilingual fields (and the gallery / cards) of a stored row
 function pickText(row) {
   const out = {};
   for (const key of Object.keys(row)) {
@@ -174,7 +181,9 @@ function pickText(row) {
       out[`${key.slice(0, -3)}_en`] = row[`${key.slice(0, -3)}_en`] || '';
     }
   }
-  if (Array.isArray(row.gallery)) out.gallery = row.gallery;
+  for (const list of ENTRY_LISTS) {
+    if (Array.isArray(row[list])) out[list] = row[list];
+  }
   return out;
 }
 
@@ -182,5 +191,5 @@ function pickText(row) {
 function changed(row, payload) {
   const english = (v) => JSON.stringify(v, (k, x) => (k === 'auto_en' ? undefined : x));
   return Object.keys(payload).some((k) => (k.endsWith('_en') && k !== 'auto_en' && (row[k] || '') !== payload[k])
-    || ((k === 'gallery' || k === 'sections') && english(row[k] || null) !== english(payload[k] || null)));
+    || ((ENTRY_LISTS.includes(k) || k === 'sections') && english(row[k] || null) !== english(payload[k] || null)));
 }

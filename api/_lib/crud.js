@@ -47,6 +47,11 @@ export const RESOURCES = {
     table: 'testimonials',
     columns: ['name', 'role_fr', 'role_en', 'initials', 'avatar_gradient_class', 'quote_fr', 'quote_en', 'sort_order', 'is_visible']
   },
+  discover: {
+    table: 'discover_sections',
+    columns: ['title_fr', 'title_en', 'intro_fr', 'intro_en', 'cards', 'sort_order', 'is_visible'],
+    jsonColumns: ['cards']
+  },
   'social-links': {
     table: 'social_links',
     columns: ['name', 'url', 'icon_key', 'custom_svg', 'sort_order', 'is_visible'],

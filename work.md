@@ -177,13 +177,13 @@ La numérotation suit les sections visibles : si une section est vide (ex. Savoi
 ### 4.3 Sections
 
 - **Hero** : surtitre animé (machine à écrire) dans une bulle de **taille fixe** (celle de la phrase la plus longue : seul le texte bouge), nom complet **sur une seule ligne** à toutes les largeurs (taille fluide `clamp(1.6rem, 8.4vw, 6rem)`), « LAWANI » en couleur d'accent, accroche en texte normal (non gras), deux boutons « **Voir les projets** » (plein, icône dossier) et « **Voir le CV** » (contour), côte à côte sur mobile, image du certificat NASA chargée en priorité.
-- **À propos** : photo, « Je suis, », deux paragraphes de bio, **liste à puces des points clés** (puce + chiffre animé coloré + texte), gérée depuis l'admin.
+- **À propos** : photo, « Je suis, », deux paragraphes de bio, lien souligné « **Découvrir en détail** » vers `/decouvrir`, **liste à puces des points clés** (puce + chiffre animé coloré + texte), gérée depuis l'admin.
 - **Projets** : sur **tous les écrans**, sélecteur de vue **centré** sur sa propre ligne au-dessus des filtres (deux icônes seules, nom en info-bulle) : **Carrousel** (par défaut ; cartes complètes, 1 visible sur téléphone, 2 sur tablette, 3 sur ordinateur ; glisser, points, flèches d'une carte à la fois ; points et flèches masqués quand tout tient à l'écran) ou **Grille** (tuiles compactes : image, nom, catégories ; 2 colonnes téléphone, 3 tablette et ordinateur ; 8 premières sur téléphone, 6 au-delà, puis « Voir tous les projets (N) ») ; choix mémorisé. Filtres par catégorie (seulement ceux qui ont des projets), cartes avec image, **badges de toutes les catégories**, nom, description (3 lignes), technos, bouton « **Voir les détails** » (icône œil) vers la page projet, petit bouton carré ↗ vers le site en ligne, petit bouton carré **Partager**.
 - **Compétences** : cartes par domaine ; les technos s'affichent en **logos avec leur nom dessous** ; une techno sans logo garde une étiquette texte. *(La bande de logos défilante a été retirée le 22/10/2026.)*
 - **Savoir-faire** (« Ce que je sais faire ») : **carrousel** d'images avec titre et description. Images affichées entières, quel que soit leur format. Glisser au doigt, flèches, points, défilement automatique. Masqué tant qu'il est vide.
 - **Parcours** : frise verticale (alternée sur desktop), année, titre, organisation, description.
 - **Références** : cartes témoignages (citation, étoiles, initiales sur pastille unie).
-- **Contact** : email, **WhatsApp** (lien `wa.me` en bleu, icône bulle de discussion), **numéro d'appel** (masqué s'il est identique au WhatsApp), localisation **Cotonou, Bénin**, disponibilité, **bouton « Copier » sur l'email et chaque numéro**, réseaux sociaux. *(Formulaire nom/email/message supprimé le 22/10/2026.)*
+- **Contact** : email, **WhatsApp** (lien `wa.me` en bleu, icône bulle de discussion), **numéro d'appel** (masqué s'il est identique au WhatsApp), localisation **Cotonou, Bénin**, disponibilité, **bouton « Copier » sur l'email et chaque numéro**, réseaux sociaux, puis tout en bas le lien souligné « **Ce que mon portfolio ne dit pas sur moi** » vers `/decouvrir`. *(Formulaire nom/email/message supprimé le 22/10/2026.)*
 
 ### 4.4 Page détail d'un projet : `/<lien>` (ex. `/ooffix`)
 
@@ -196,6 +196,15 @@ La numérotation suit les sections visibles : si une section est vide (ex. Savoi
 - Projet précédent / suivant dans **une seule barre** sans séparation : précédent à gauche, suivant à droite (téléphone compris).
 - Titre de l'onglet : « Nom du projet | Ginique Oriadé LAWANI ».
 - **Partager** : sur téléphone, menu de partage natif (WhatsApp, Messenger…) ; sur PC, le lien court est copié (bulle « Lien copié »).
+
+### 4.4 bis Page « Découvrir » : `/decouvrir` (26/10/2026)
+
+- Ouverte par les liens d'À propos et de Contact (affichés seulement quand au moins une section a des cartes).
+- En-tête : retour au portfolio, surtitre « Découvrir », titre de la page (« Qui je suis »), introduction, puis des **raccourcis vers chaque section** (pastilles, défilement horizontal sur mobile).
+- Une bande par section (fonds alternés) : titre numéroté 01, 02…, introduction optionnelle, **carrousel de cartes** (1 carte visible sur téléphone, 2 sur tablette, 3 sur ordinateur ; points, flèches). Carte : numéro coloré, titre, texte, image optionnelle.
+- Contenu de départ (envoyé le 26/10/2026) : Compétences techniques (8 cartes), Compétences humaines (8), Ma méthode de travail (7), Ce que j'apporte à une équipe (4 rôles).
+- En bas : « Voir tout le portfolio » et « Me contacter ».
+- Admin → **Découvrir** : titre et introduction de la page, sections (ajout, renommage, ordre, masquage) et leurs cartes. Traduction anglaise automatique comme ailleurs.
 
 ### 4.5 Thèmes clair et sombre
 
@@ -330,6 +339,9 @@ Appliquées par l'API au premier appel après un déploiement. Toutes idempotent
 | v9 | 23/10/2026 | `projects.slug` (lien de partage) généré depuis le nom (accents retirés, doublons suffixés par l'id, mots réservés évités), index unique |
 | v10 | 23/10/2026 | lien de partage pour les projets qui n'en avaient pas ; colonnes `details_style`, `contributions_style` (défaut liste numérotée), `methodology_style` |
 | v11 | 23/10/2026 | `details_color`, `contributions_color`, `methodology_color` : couleur des numéros / tirets (`''`, nom de couleur ou `mixed`) |
+| v12 | 24/10/2026 | `auto_en` (JSONB) sur les tables bilingues : textes anglais générés automatiquement `{ from, to }` |
+| v13 | 24/10/2026 | vide les anglais provisoires du Savoir-faire |
+| v14 | 26/10/2026 | table `discover_sections` (titre, intro, `cards` JSONB) avec le contenu de départ ; `admin_settings.discover_title_*` / `discover_intro_*` ; lien `decouvrir` réservé |
 
 Pour ajouter une migration : nouvelle entrée `{ version: N, statements: [...] }` en fin de tableau, avec des requêtes idempotentes (`IF NOT EXISTS`…).
 
@@ -421,7 +433,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 29/07/2026 10:26 | `2578ecb` | Routes regroupées (18 → 6 fonctions) pour la limite Vercel Hobby |
 | 29/07/2026 10:30 | `1155f50` | Merge de la PR #2 |
 
-### Phase 3 — Refonte (22–24 octobre 2026)
+### Phase 3 — Refonte (22–26 octobre 2026)
 
 #### Mercredi 22/10/2026
 
@@ -489,6 +501,12 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 03:06 | `6d55422` | Barre précédent / suivant : **trait de séparation central retiré** |
 | 03:09 | `7ad1c67` | Savoir-faire : les **anglais provisoires** (« Title coming soon », « Placeholder description ») sont vidés (migration v13) ; vus comme écrits à la main, ils bloquaient la traduction automatique. Relancer « Tout traduire en anglais » |
 | 03:19 | `9afce08` | Admin Projets : le nombre d'images de la galerie s'affiche « **7 images** » au lieu de « 7 » seul |
+
+#### Lundi 26/10/2026
+
+| Heure | Commit | Changement |
+|---|---|---|
+| HH:MM | `COMMIT` | **Page « Découvrir »** (`/decouvrir`) : sections en carrousels de cartes, liens « Découvrir en détail » (À propos) et « Ce que mon portfolio ne dit pas sur moi » (Contact), rubrique admin **Découvrir**, contenu de départ « Qui je suis » (migration v14). Musique d'ambiance : en attente du fichier (libre de droits) |
 
 ---
 

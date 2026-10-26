@@ -225,6 +225,49 @@ export const MIGRATIONS = [
       `UPDATE showcase_items SET title_en = '' WHERE title_en LIKE 'Title coming soon %'`,
       `UPDATE showcase_items SET description_en = '' WHERE description_en LIKE 'Placeholder description:%'`
     ]
+  },
+  {
+    version: 14,
+    statements: [
+      // "Découvrir" page (/decouvrir): sections shown one after the other,
+      // each with a carousel of cards [{ title_fr, title_en, text_fr, text_en, image_url, auto_en }]
+      `CREATE TABLE IF NOT EXISTS discover_sections (
+         id SERIAL PRIMARY KEY,
+         title_fr TEXT NOT NULL DEFAULT '', title_en TEXT,
+         intro_fr TEXT NOT NULL DEFAULT '', intro_en TEXT,
+         cards JSONB NOT NULL DEFAULT '[]'::jsonb,
+         sort_order INTEGER NOT NULL DEFAULT 0,
+         is_visible BOOLEAN NOT NULL DEFAULT true,
+         auto_en JSONB NOT NULL DEFAULT '{}'::jsonb,
+         created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+         updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+       )`,
+      // First content (sent on 26/10/2026), to edit from Admin > Découvrir.
+      // A section without cards isn't shown on the site.
+      `INSERT INTO discover_sections (title_fr, intro_fr, cards, sort_order)
+       SELECT v.t, v.i, v.c, v.o
+       FROM (VALUES
+         ($seed$Compétences techniques$seed$, $seed$$seed$, $seed$[{"title_fr": "Analyse fonctionnelle et gestion de produit", "title_en": "", "text_fr": "Rédaction de cahiers des fonctionnalités, règles de gestion, workflows par profil d’utilisateur, architecture de l’information, préparation et pilotage de la recette client.", "text_en": "", "image_url": ""}, {"title_fr": "Développement et déploiement", "title_en": "", "text_fr": "Applications web (Next.js, NestJS, Laravel, Vue) et mobiles (Flutter), publication sur Google Play et l’App Store, intégration de paiements en ligne, hébergement et mise en production.", "text_en": "", "image_url": ""}, {"title_fr": "Qualité logicielle (QA)", "title_en": "", "text_fr": "Tests automatisés de bout en bout (Playwright), audits de sécurité, de performance, de SEO et d’accessibilité mobile, analyse de fiabilité et réduction des faux positifs.", "text_en": "", "image_url": ""}, {"title_fr": "Business et finance", "title_en": "", "text_fr": "Études de faisabilité et de marché, modèles économiques, calcul de rentabilité (coût unitaire, marge, CAC, LTV), tarification, devis et échéanciers.", "text_en": "", "image_url": ""}, {"title_fr": "Marketing et croissance", "title_en": "", "text_fr": "Stratégie go-to-market, personas, positionnement, prospection par email et LinkedIn, publicité Meta, stratégie de contenu, animation de communauté.", "text_en": "", "image_url": ""}, {"title_fr": "Contenu et formation", "title_en": "", "text_fr": "Copywriting, rédaction de contenus longs, conception et animation d’ateliers et de masterclass.", "text_en": "", "image_url": ""}, {"title_fr": "Création assistée par IA", "title_en": "", "text_fr": "Rédaction de prompts, production de visuels et de vidéos avec des outils d’IA générative, processus de production documentés.", "text_en": "", "image_url": ""}, {"title_fr": "Langues", "title_en": "", "text_fr": "Français et anglais professionnels.", "text_en": "", "image_url": ""}]$seed$::jsonb, 0),
+         ($seed$Compétences humaines$seed$, $seed$$seed$, $seed$[{"title_fr": "Clarté et sens de l’essentiel", "title_en": "", "text_fr": "Je vais droit au but. Un livrable doit être compris vite et utilisable tout de suite.", "text_en": "", "image_url": ""}, {"title_fr": "Intégrité", "title_en": "", "text_fr": "Je ne présente jamais comme terminé ce qui ne l’est pas. Je préfère signaler un risque tôt plutôt que le découvrir trop tard.", "text_en": "", "image_url": ""}, {"title_fr": "Persévérance", "title_en": "", "text_fr": "Face à un blocage technique ou administratif, je cherche la cause, je teste et j’avance jusqu’à la solution.", "text_en": "", "image_url": ""}, {"title_fr": "Orientation client", "title_en": "", "text_fr": "Je fais valider chaque étape et je mets le client en situation réelle pour qu’il décide en connaissance de cause.", "text_en": "", "image_url": ""}, {"title_fr": "Aisance relationnelle", "title_en": "", "text_fr": "Je construis la relation avant de proposer quoi que ce soit, avec des partenaires, des prospects ou des collaborateurs.", "text_en": "", "image_url": ""}, {"title_fr": "Esprit critique", "title_en": "", "text_fr": "Je vérifie mes propres affirmations et je challenge les hypothèses avant de m’appuyer dessus.", "text_en": "", "image_url": ""}, {"title_fr": "Leadership et transmission", "title_en": "", "text_fr": "Je fédère une communauté, j’anime des formations et j’aime faire monter les autres en compétence.", "text_en": "", "image_url": ""}, {"title_fr": "Autonomie", "title_en": "", "text_fr": "Je sais mener plusieurs sujets de front et organiser mon travail sans supervision rapprochée.", "text_en": "", "image_url": ""}]$seed$::jsonb, 1),
+         ($seed$Ma méthode de travail$seed$, $seed$Ce qui me distingue, c’est moins un outil qu’une façon de travailler, que j’applique sur chaque mission.$seed$, $seed$[{"title_fr": "Je pars du problème, pas de la solution", "title_en": "", "text_fr": "Avant de construire, je cherche le besoin réel et la personne qui en souffre. La technique et la communication viennent ensuite.", "text_en": "", "image_url": ""}, {"title_fr": "J’avance par étapes validées", "title_en": "", "text_fr": "Je découpe le travail en parties courtes et je fais valider chacune avant de passer à la suivante. Les erreurs restent petites et faciles à corriger.", "text_en": "", "image_url": ""}, {"title_fr": "Je documente tout", "title_en": "", "text_fr": "Notes de passation, rapports internes, guides mis à jour après chaque projet : n’importe qui peut reprendre mon travail là où je l’ai laissé.", "text_en": "", "image_url": ""}, {"title_fr": "Je transforme ce qui marche en système", "title_en": "", "text_fr": "Une méthode qui a fait ses preuves devient une checklist, un modèle ou un processus réutilisable par l’équipe.", "text_en": "", "image_url": ""}, {"title_fr": "Je raisonne en chiffres", "title_en": "", "text_fr": "Coûts, marges, taille du marché : je chiffre mes décisions et je sépare clairement les données confirmées des hypothèses.", "text_en": "", "image_url": ""}, {"title_fr": "Je pilote l’IA, je ne la subis pas", "title_en": "", "text_fr": "Je fixe un cadre précis, je contrôle chaque résultat et je garde la décision. L’IA me fait gagner du temps sans dégrader la qualité.", "text_en": "", "image_url": ""}, {"title_fr": "Je pense local et global", "title_en": "", "text_fr": "Je sais adapter une offre aux réalités d’un marché africain comme la présenter à un public international.", "text_en": "", "image_url": ""}]$seed$::jsonb, 2),
+         ($seed$Ce que j’apporte à une équipe$seed$, $seed$Une personne capable de faire le lien entre le client, l’équipe technique et la direction. Je traduis un besoin métier en spécifications claires, je m’assure que ce qui est livré fonctionne vraiment, et je sais expliquer la valeur du produit à ceux qui vont l’acheter ou l’utiliser.
+Je suis particulièrement à l’aise dans les rôles suivants.$seed$, $seed$[{"title_fr": "Chef de produit", "title_en": "", "text_fr": "Product Manager ou Product Owner.", "text_en": "", "image_url": ""}, {"title_fr": "Analyste fonctionnel", "title_en": "", "text_fr": "", "text_en": "", "image_url": ""}, {"title_fr": "Responsable croissance d’un produit digital", "title_en": "", "text_fr": "", "text_en": "", "image_url": ""}, {"title_fr": "Consultant en transformation digitale et IA", "title_en": "", "text_fr": "", "text_en": "", "image_url": ""}]$seed$::jsonb, 3)
+       ) AS v(t, i, c, o)
+       WHERE NOT EXISTS (SELECT 1 FROM discover_sections)`,
+      // Page title and introduction
+      `ALTER TABLE admin_settings ADD COLUMN IF NOT EXISTS discover_title_fr TEXT`,
+      `ALTER TABLE admin_settings ADD COLUMN IF NOT EXISTS discover_title_en TEXT`,
+      `ALTER TABLE admin_settings ADD COLUMN IF NOT EXISTS discover_intro_fr TEXT`,
+      `ALTER TABLE admin_settings ADD COLUMN IF NOT EXISTS discover_intro_en TEXT`,
+      `UPDATE admin_settings SET discover_title_fr = 'Qui je suis', discover_intro_fr = $seed$Je conçois, structure et lance des produits digitaux, de l’idée jusqu’aux premiers utilisateurs.
+
+Mon rôle se situe à la croisée du produit, de la technique, du business et de la communication. Je sais prendre un besoin flou, celui d’un client ou d’un marché, et le transformer en solution claire, chiffrée et prête à être déployée.
+
+J’ai mené des projets pour des clients locaux comme pour des marchés internationaux, en français et en anglais. Je travaille au quotidien avec l’intelligence artificielle, que j’utilise comme un levier de productivité maîtrisé.$seed$
+       WHERE id = 1 AND discover_title_fr IS NULL AND discover_intro_fr IS NULL`,
+      // The page's path is now reserved (see RESERVED_SLUGS)
+      `UPDATE projects SET slug = slug || '-projet' WHERE slug = 'decouvrir'`
+    ]
   }
 ];
 

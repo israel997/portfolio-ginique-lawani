@@ -62,6 +62,14 @@
           </a>
         </div>
       </div>
+
+      <!-- Last word of the page: the way into the "Découvrir" page -->
+      <div v-if="hasDiscover" class="mt-6 border-t border-line pt-6 text-center">
+        <RouterLink to="/decouvrir" class="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand-text underline decoration-2 underline-offset-4 hover:decoration-[3px] md:text-base">
+          {{ $t('discover.contactLink') }}
+          <ArrowRight class="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-0.5" />
+        </RouterLink>
+      </div>
     </div>
   </section>
 </template>
@@ -69,7 +77,8 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useContent } from '../composables/useContent';
-import { Mail, Phone, MapPin, MessageCircle, Copy, Check } from 'lucide-vue-next';
+import { Mail, Phone, MapPin, MessageCircle, Copy, Check, ArrowRight } from 'lucide-vue-next';
+import { discoverSections } from '../composables/discover';
 import Icon from './icons/Icon.vue';
 import { useSectionText } from '../composables/sectionTexts';
 
@@ -80,6 +89,7 @@ defineProps({ index: { type: String, default: '' } });
 const { content, localized } = useContent();
 const settings = computed(() => content.value.settings || {});
 const socialLinks = computed(() => content.value.socialLinks || []);
+const hasDiscover = computed(() => discoverSections(content.value).length > 0);
 
 const digits = (value) => (value || '').replace(/\D/g, '');
 

@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
   await withErrorHandling(res, async () => {
     await ensureSchema();
-    const [settings, timeline, skills, logos, projects, testimonials, socialLinks, showcase, keyFigures] = await Promise.all([
+    const [settings, timeline, skills, logos, projects, testimonials, socialLinks, showcase, keyFigures, discover] = await Promise.all([
       sql`SELECT * FROM admin_settings WHERE id = 1`,
       sql`SELECT * FROM timeline_items WHERE is_visible = true ORDER BY sort_order`,
       sql`SELECT * FROM skills WHERE is_visible = true ORDER BY sort_order`,
@@ -16,7 +16,8 @@ export default async function handler(req, res) {
       sql`SELECT * FROM testimonials WHERE is_visible = true ORDER BY sort_order`,
       sql`SELECT * FROM social_links WHERE is_visible = true ORDER BY sort_order`,
       sql`SELECT * FROM showcase_items WHERE is_visible = true ORDER BY sort_order`,
-      sql`SELECT * FROM key_figures WHERE is_visible = true ORDER BY sort_order`
+      sql`SELECT * FROM key_figures WHERE is_visible = true ORDER BY sort_order`,
+      sql`SELECT * FROM discover_sections WHERE is_visible = true ORDER BY sort_order`
     ]);
 
     // Short CDN cache: admin changes show up within a few seconds, while a
@@ -31,7 +32,8 @@ export default async function handler(req, res) {
       testimonials: testimonials.rows,
       socialLinks: socialLinks.rows,
       showcase: showcase.rows,
-      keyFigures: keyFigures.rows
+      keyFigures: keyFigures.rows,
+      discover: discover.rows
     });
   });
 }

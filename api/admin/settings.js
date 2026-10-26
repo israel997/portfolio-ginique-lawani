@@ -12,7 +12,8 @@ const COLUMNS = [
   'stat2_value', 'stat2_label_fr', 'stat2_label_en',
   'stat3_value', 'stat3_label_fr', 'stat3_label_en',
   'email', 'phone', 'whatsapp', 'location', 'availability_fr', 'availability_en',
-  'cv_url', 'cv_filename', 'profile_photo_url', 'hero_badge_image_url', 'sections'
+  'cv_url', 'cv_filename', 'profile_photo_url', 'hero_badge_image_url', 'sections',
+  'discover_title_fr', 'discover_title_en', 'discover_intro_fr', 'discover_intro_en'
 ];
 
 export default async function handler(req, res) {

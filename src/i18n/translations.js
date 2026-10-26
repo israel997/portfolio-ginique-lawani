@@ -159,6 +159,16 @@ export default {
       rights: 'Tous droits réservés.',
       madeWith: 'Fait avec',
       and: 'et'
+    },
+    discover: {
+      eyebrow: 'Découvrir',
+      title: 'Ce que mon portfolio ne dit pas',
+      aboutLink: 'Découvrir en détail',
+      contactLink: 'Ce que mon portfolio ne dit pas sur moi',
+      back: 'Retour au portfolio',
+      jump: 'Sections de la page',
+      soon: 'Cette page se remplit bientôt.',
+      contact: 'Me contacter'
     }
   },
   en: {
@@ -321,6 +331,16 @@ export default {
       rights: 'All rights reserved.',
       madeWith: 'Made with',
       and: 'and'
+    },
+    discover: {
+      eyebrow: 'Discover',
+      title: 'What my portfolio does not say',
+      aboutLink: 'Discover in detail',
+      contactLink: 'What my portfolio does not say about me',
+      back: 'Back to the portfolio',
+      jump: 'Page sections',
+      soon: 'This page is coming soon.',
+      contact: 'Contact me'
     }
   }
 }
