@@ -169,6 +169,10 @@ export default {
       jump: 'Sections de la page',
       soon: 'Cette page se remplit bientôt.',
       contact: 'Me contacter'
+    },
+    music: {
+      mute: 'Couper la musique',
+      unmute: 'Activer la musique'
     }
   },
   en: {
@@ -341,6 +345,10 @@ export default {
       jump: 'Page sections',
       soon: 'This page is coming soon.',
       contact: 'Contact me'
+    },
+    music: {
+      mute: 'Mute the music',
+      unmute: 'Play the music'
     }
   }
 }

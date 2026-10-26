@@ -206,6 +206,24 @@ La numérotation suit les sections visibles : si une section est vide (ex. Savoi
 - En bas : « Voir tout le portfolio » et « Me contacter ».
 - Admin → **Découvrir** : titre et introduction de la page, sections (ajout, renommage, ordre, masquage) et leurs cartes. Traduction anglaise automatique comme ailleurs.
 
+### 4.4 ter Musique d'ambiance (26/10/2026)
+
+Bouton rond en bas à gauche de toutes les pages publiques (icône haut-parleur ; petites barres animées pendant la lecture ; haut-parleur barré quand c'est coupé). Code : `src/components/AmbientMusic.vue`, monté dans `src/App.vue`. Fichiers : `public/audio/`.
+
+| Choix | Pourquoi |
+|---|---|
+| Musiques prises sur **Pixabay Music** (pixabay.com/music) : *Ambient Lofi Cinematic* (Alex Morgan), *Ambient Piano* (AtlasAudio), *Peaceful Piano* (Leberch) | Licence Pixabay : usage gratuit, commercial compris, **sans obligation de citer l'auteur**, téléchargement MP3 direct. La première idée (une piste YouTube de la chaîne Focus Room) a été écartée : sa description interdit toute réutilisation (« Reuploading or unauthorized use is strictly prohibited »), ce qui exposait le portfolio à un signalement et nuisait à ta crédibilité. |
+| Fichiers **recompressés en MP3 96 kb/s** (14,8 Mo → 5,5 Mo pour les 3) ; originaux 256 kb/s gardés dans `musique-originale/` (non versionné) | Une musique de fond jouée à 35 % du volume ne perd rien d'audible à 96 kb/s, et le public visé est en grande partie sur mobile avec des forfaits data limités. Les originaux restent disponibles en pleine qualité sans alourdir le dépôt. |
+| Fichiers servis comme **fichiers statiques** (`public/audio`), pas envoyés depuis l'admin | Trois morceaux fixes : le CDN de Vercel les met en cache, sans base de données ni stockage Blob. Un envoi depuis l'admin reste possible plus tard si tu veux changer souvent de musique (§13). |
+| La musique démarre **au premier clic, toucher ou touche du clavier** sur la page | Chrome, Safari et Firefox bloquent tout son avant une interaction du visiteur ; aucun site ne peut contourner cette règle. Le défilement ne compte pas comme interaction pour les navigateurs. |
+| **Ordre aléatoire** à chaque visite (mélange de Fisher-Yates) ; le **premier morceau n'est jamais celui de la visite précédente** du même visiteur (mémorisé dans le navigateur) ; à la fin d'un tour, nouveau mélange qui ne recommence pas par le morceau qui vient de finir | Ta demande : donner l'impression que l'ambiance change, même pour quelqu'un qui part et revient. Un simple tirage au hasard pouvait redonner le même début une fois sur trois ; la mémoire du dernier départ l'empêche. |
+| Volume **35 %** avec **montée progressive** (environ 1 s) | Une ambiance discrète qui ne surprend pas et ne couvre pas la lecture. |
+| **Bouton couper / activer** mémorisé | Un visiteur qui coupe le son ne doit pas le subir à nouveau à chaque page ou à chaque visite. |
+| **Pause quand l'onglet est caché**, reprise au retour | Ne pas jouer de musique depuis un onglet oublié en arrière-plan. |
+| Lecteur placé **hors des pages** (dans `App.vue`) | La musique continue sans coupure entre l'accueil, une page projet et la page Découvrir. |
+| **Jamais dans l'admin** (bouton masqué, musique en pause) | L'admin est un espace de travail. |
+| Bouton **en bas à gauche**, au-dessus de la barre mobile | En miroir du bouton « Retour en haut » (en bas à droite), sans masquer de contenu. |
+
 ### 4.5 Thèmes clair et sombre
 
 - Bouton ☀/☾ dans la navbar.
@@ -390,6 +408,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 - **Avant d'annoncer qu'une modification est en ligne**, vérifier que Vercel sert bien la nouvelle version (les déploiements peuvent prendre ~10 min), puis recharger les onglets de l'admin déjà ouverts.
 - Toute modification passe par : build, tests (captures mobile et desktop, sombre et clair) et, pour la base, test des migrations sur un Postgres jetable.
 - **Ce document est mis à jour à chaque changement.**
+- **Chaque choix est justifié (règle du 26/10/2026)** : on n'écrit plus seulement ce qui a été fait, mais aussi **pourquoi** (contraintes, options écartées et raison, source utilisée). En relisant ce document, on doit comprendre la logique suivie. Forme : un tableau « Choix | Pourquoi » dans la section concernée, et une phrase « Pourquoi : … » dans le journal.
 
 ---
 
@@ -506,7 +525,8 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 
 | Heure | Commit | Changement |
 |---|---|---|
-| 17:21 | `c5ec16f` | **Page « Découvrir »** (`/decouvrir`) : sections en carrousels de cartes, liens « Découvrir en détail » (À propos) et « Ce que mon portfolio ne dit pas sur moi » (Contact), rubrique admin **Découvrir**, contenu de départ « Qui je suis » (migration v14). Musique d'ambiance : en attente du fichier (libre de droits) |
+| 17:21 | `c5ec16f` | **Page « Découvrir »** (`/decouvrir`) : sections en carrousels de cartes, liens « Découvrir en détail » (À propos) et « Ce que mon portfolio ne dit pas sur moi » (Contact), rubrique admin **Découvrir**, contenu de départ « Qui je suis » (migration v14). |
+| HH:MM | `COMMIT` | **Musique d'ambiance** : 3 morceaux Pixabay en ordre aléatoire (jamais le même début que la visite précédente), démarrage au premier clic, bouton couper / activer mémorisé, pause onglet caché, absente de l'admin. Pourquoi : voir le tableau §4.4 ter (licence Pixabay sans attribution, piste YouTube interdite de réutilisation, règle des navigateurs sur le son, 96 kb/s pour les forfaits mobiles) |
 
 ---
 
@@ -529,6 +549,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 - **Versions anglaises** : automatiques depuis le 24/10/2026 (§10) ; relire les traductions générées.
 - **Logos manquants** : Microsoft Teams, Grok, Antigravity, Raptor (à fournir) ; icône générique éventuelle pour Agile / Scrum / Transformation Digitale.
 - **Domaine personnalisé** : à l'achat, l'ajouter dans Vercel, rediriger `*.vercel.app` (308), mettre à jour les URL SEO (`index.html`, `sitemap.xml`, `robots.txt`).
+- **Musique depuis l'admin** : envoyer / retirer des morceaux et régler le volume sans passer par le code (utile seulement si tu changes souvent de musique).
 - **Remplacer les textes provisoires du carrousel** Savoir-faire (titres « Titre à venir 01… »).
 - **Version publique « créez votre portfolio »** (idée du 23/10/2026) : plusieurs comptes, données séparées par utilisateur, brouillons et dictionnaire en base (synchronisés sur tous les appareils), LanguageTool payant ou auto-hébergé, inscription, domaines par utilisateur, et sortir l'email admin du code.
 - **SEO des pages projets** : sitemap incluant chaque projet ; pré-rendu des pages pour le référencement.
