@@ -526,7 +526,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | Heure | Commit | Changement |
 |---|---|---|
 | 17:21 | `c5ec16f` | **Page « Découvrir »** (`/decouvrir`) : sections en carrousels de cartes, liens « Découvrir en détail » (À propos) et « Ce que mon portfolio ne dit pas sur moi » (Contact), rubrique admin **Découvrir**, contenu de départ « Qui je suis » (migration v14). |
-| HH:MM | `COMMIT` | **Musique d'ambiance** : 3 morceaux Pixabay en ordre aléatoire (jamais le même début que la visite précédente), démarrage au premier clic, bouton couper / activer mémorisé, pause onglet caché, absente de l'admin. Pourquoi : voir le tableau §4.4 ter (licence Pixabay sans attribution, piste YouTube interdite de réutilisation, règle des navigateurs sur le son, 96 kb/s pour les forfaits mobiles) |
+| 17:56 | `beb920d` | **Musique d'ambiance** : 3 morceaux Pixabay en ordre aléatoire (jamais le même début que la visite précédente), démarrage au premier clic, bouton couper / activer mémorisé, pause onglet caché, absente de l'admin. Pourquoi : voir le tableau §4.4 ter (licence Pixabay sans attribution, piste YouTube interdite de réutilisation, règle des navigateurs sur le son, 96 kb/s pour les forfaits mobiles) |
 
 ---
 
