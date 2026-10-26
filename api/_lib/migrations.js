@@ -341,6 +341,21 @@ J’ai mené des projets pour des clients locaux comme pour des marchés interna
        updated_at = now()
        WHERE cards @> '[{"title_fr": "Développement / Conception web et déploiement"}]'::jsonb`
     ]
+  },
+  {
+    version: 18,
+    statements: [
+      // Fewer underlined passages (user's choice): only "transformer en
+      // solution claire" and "l’intelligence artificielle" stay marked
+      `UPDATE admin_settings
+       SET discover_intro_fr = replace(replace(replace(discover_intro_fr,
+             '==prendre un besoin flou==', 'prendre un besoin flou'),
+             '==marchés internationaux==', 'marchés internationaux'),
+             '==productivité maîtrisé==', 'productivité maîtrisé'),
+           discover_intro_en = NULL,
+           auto_en = auto_en - 'discover_intro'
+       WHERE id = 1 AND discover_intro_fr LIKE '%==prendre un besoin flou==%'`
+    ]
   }
 ];
 

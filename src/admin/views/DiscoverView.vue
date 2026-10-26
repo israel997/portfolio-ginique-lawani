@@ -11,7 +11,7 @@
     <form v-if="page" @submit.prevent="savePage" class="space-y-4">
       <ImageUploadField v-model="page.discover_photo_url" label="Photo de l'en-tête" accept="image/*" aspect="4:5" />
       <BilingualField v-model:fr="page.discover_title_fr" v-model:en="page.discover_title_en" label="Titre de la page" optional placeholder="Mieux me connaître" placeholder-en="Get to know me better" />
-      <BilingualField v-model:fr="page.discover_intro_fr" v-model:en="page.discover_intro_en" label="Introduction" optional multiline :rows="3" placeholder="Quelques lignes pour présenter la page…" placeholder-en="A few lines to introduce the page…" hint="Pour souligner un passage en jaune, entourez-le de == : prendre un ==besoin flou==. Marche aussi dans les textes des sections et des cartes." />
+      <BilingualField v-model:fr="page.discover_intro_fr" v-model:en="page.discover_intro_en" label="Introduction" optional multiline :rows="3" placeholder="Quelques lignes pour présenter la page…" placeholder-en="A few lines to introduce the page…" hint="Pour souligner un passage en bleu, entourez-le de == : ==transformer en solution claire==. Marche aussi dans les textes des sections et des cartes." />
       <div class="flex justify-end">
         <button type="submit" :disabled="savingPage || !pageDirty" class="admin-btn-primary">
           <LoaderCircle v-if="savingPage" class="h-4 w-4 animate-spin" />
