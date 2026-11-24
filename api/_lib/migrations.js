@@ -429,6 +429,33 @@ J’ai mené des projets pour des clients locaux comme pour des marchés interna
        updated_at = now()
        WHERE cards @> '[{"title_fr": "Je documente tout"}]'::jsonb`
     ]
+  },
+  {
+    version: 22,
+    statements: [
+      // Découvrir, "Compétences techniques" (24/11/2026): deployment moves out
+      // of the development card into a new 3rd card "Sécurité et déploiement"
+      // (security approach + production on PaaS or VPS). English emptied for
+      // the changed card; QA and the following cards shift down by one.
+      `UPDATE discover_sections
+       SET cards = (
+         SELECT jsonb_agg(x ORDER BY o1, o2)
+         FROM (
+           SELECT CASE WHEN c->>'title_fr' = 'Développement / Conception web et déploiement'
+                    THEN (c - 'auto_en') || jsonb_build_object('title_fr', $seed$Développement / Conception web$seed$, 'text_fr', $seed$Applications web (Next.js, NestJS, Vue) et mobiles, intégration de paiements en ligne et publication sur les stores.$seed$, 'title_en', '', 'text_en', '')
+                    ELSE c END AS x,
+                  ord AS o1, 0 AS o2
+           FROM jsonb_array_elements(cards) WITH ORDINALITY AS t(c, ord)
+           UNION ALL
+           SELECT $seed${"title_fr": "Sécurité et déploiement", "title_en": "", "text_fr": "Sécurité pensée dès la conception (Security by Design, Privacy by Design), protection contre les failles web (XSS, CSRF, clickjacking) et mise en production sur PaaS ou sur VPS.", "text_en": "", "image_url": ""}$seed$::jsonb,
+                  (SELECT ord FROM jsonb_array_elements(cards) WITH ORDINALITY AS t(c, ord) WHERE c->>'title_fr' = 'Développement / Conception web et déploiement'),
+                  1
+         ) s
+       ),
+       updated_at = now()
+       WHERE cards @> '[{"title_fr": "Développement / Conception web et déploiement"}]'::jsonb
+         AND NOT cards @> '[{"title_fr": "Sécurité et déploiement"}]'::jsonb`
+    ]
   }
 ];
 
