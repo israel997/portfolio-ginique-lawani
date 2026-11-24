@@ -363,6 +363,43 @@ J’ai mené des projets pour des clients locaux comme pour des marchés interna
       // English CV, offered when the site is in English (French CV until then)
       `ALTER TABLE admin_settings ADD COLUMN IF NOT EXISTS cv_url_en TEXT`
     ]
+  },
+  {
+    version: 20,
+    statements: [
+      // Compétences (24/11/2026): "Méthodologies" (Agile, Scrum, Transformation
+      // Digitale) becomes "Méthodologie et sécurité", to put forward the
+      // security approaches the user applies. English emptied to be retranslated.
+      `UPDATE skills
+       SET title_fr = $seed$Méthodologie et sécurité$seed$, title_en = '',
+           description_fr = $seed$Sécurité et protection des données pensées dès la conception, et interfaces protégées contre les attaques web courantes.$seed$, description_en = '',
+           techs = ARRAY['Security by Design', 'Privacy by Design', 'XSS', 'CSRF', 'Clickjacking', 'CSP'],
+           icon_key = 'security', auto_en = '{}'::jsonb, updated_at = now()
+       WHERE icon_key = 'methodologies' AND title_fr = $seed$Méthodologies$seed$`,
+      // Découvrir, "Ma méthode de travail": "Je raisonne en chiffres" and "Je
+      // pense local et global" removed; a security card and a mockup card are
+      // inserted right after "Je documente tout". Other cards kept as they are.
+      `UPDATE discover_sections
+       SET cards = (
+         SELECT jsonb_agg(x ORDER BY o1, o2)
+         FROM (
+           SELECT c AS x, ord AS o1, 0 AS o2
+           FROM jsonb_array_elements(cards) WITH ORDINALITY AS t(c, ord)
+           WHERE c->>'title_fr' NOT IN ('Je raisonne en chiffres', 'Je pense local et global')
+           UNION ALL
+           SELECT n.c,
+                  (SELECT ord FROM jsonb_array_elements(cards) WITH ORDINALITY AS t(c, ord) WHERE c->>'title_fr' = 'Je documente tout'),
+                  n.o
+           FROM jsonb_array_elements($seed$[
+             {"title_fr": "La sécurité dès la conception", "title_en": "", "text_fr": "J’applique le Security by Design et le Privacy by Design : la sécurité et la protection des données sont prévues dès le départ, pas ajoutées à la fin. Sur un projet front-end, je protège l’interface contre les failles courantes (XSS, CSRF, clickjacking).", "text_en": "", "image_url": ""},
+             {"title_fr": "La maquette avant le code", "title_en": "", "text_fr": "Avant d’écrire la moindre ligne de code, je conçois la maquette et je la fais valider. Le développement part ainsi d’une base approuvée, sans mauvaise surprise.", "text_en": "", "image_url": ""}
+           ]$seed$::jsonb) WITH ORDINALITY AS n(c, o)
+         ) s
+       ),
+       updated_at = now()
+       WHERE cards @> '[{"title_fr": "Je documente tout"}]'::jsonb
+         AND NOT cards @> '[{"title_fr": "La sécurité dès la conception"}]'::jsonb`
+    ]
   }
 ];
 

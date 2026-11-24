@@ -552,6 +552,12 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | 18:42 | `29ebe5b` | **Liens du menu qui « ne répondaient pas »** : au clic sur une section de la même page (barre du haut ou barre du bas), le défilement s'arrêtait trop haut (ex. 1636 px au lieu de 2019 px pour Projets), car les images au-dessus finissaient de se charger pendant le défilement et poussaient la section vers le bas ; on avait l'impression de devoir cliquer 2 ou 3 fois. Le site se recale maintenant sur la section une fois le défilement fini (pendant 4 s, sauf si le visiteur fait défiler lui-même). Pourquoi cette solution : elle corrige tous les liens d'un coup quelle que soit l'image en cause, sans changer le design (fixer la taille de chaque image aurait modifié certains cadrages). Vérifié : la section arrive pile sous la barre (80 px sur PC, 68 px sur mobile) dès le premier clic |
 | 18:55 | `7b395d9` | **CV en français et CV en anglais** dans l'admin (Profil & Contact → Fichiers) ; le bouton « Voir le CV » ouvre le CV de la langue du site, le français en attendant l'anglais ; rappel orange dans l'admin tant que le CV anglais manque (migration v19). Pourquoi : un visiteur qui lit le site en anglais doit recevoir un CV en anglais ; un champ séparé (plutôt qu'un seul fichier bilingue) garde deux PDF propres, et le repli sur le français évite un bouton vide |
 
+#### Mardi 24/11/2026
+
+| Heure | Commit | Changement |
+|---|---|---|
+| - | (ce commit) | **Compétences : « Méthodologies » devient « Méthodologie et sécurité »** (icône bouclier) avec Security by Design, Privacy by Design, XSS, CSRF, Clickjacking, CSP ; Agile, Scrum et Transformation Digitale retirés. **Découvrir → « Ma méthode de travail »** : cartes « Je raisonne en chiffres » et « Je pense local et global » retirées ; ajout de « La sécurité dès la conception » et « La maquette avant le code » (maquette validée avant tout développement), juste après « Je documente tout » (migration v20). Pourquoi : mettre en avant l'approche sécurité, que le portfolio ne montrait pas ; la migration ne touche qu'aux cartes visées, les autres gardent leurs retouches admin. Anglais vidé : cliquer « Tout traduire en anglais » dans l'admin |
+
 ---
 
 ## 13. Fonctionnalités à venir
