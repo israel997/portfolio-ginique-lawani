@@ -400,6 +400,35 @@ J’ai mené des projets pour des clients locaux comme pour des marchés interna
        WHERE cards @> '[{"title_fr": "Je documente tout"}]'::jsonb
          AND NOT cards @> '[{"title_fr": "La sécurité dès la conception"}]'::jsonb`
     ]
+  },
+  {
+    version: 21,
+    statements: [
+      // "Ma méthode de travail", order set by the user (24/11/2026): problème,
+      // étapes, maquette, sécurité, système, IA, and "Je documente tout" last.
+      // "Étapes validées" shortened and now names Agile / Scrum (English
+      // emptied to be retranslated). Cards not in the list keep their place
+      // before "Je documente tout".
+      `UPDATE discover_sections
+       SET cards = (
+         SELECT jsonb_agg(
+           CASE WHEN c->>'title_fr' = 'J’avance par étapes validées'
+             THEN (c - 'auto_en') || jsonb_build_object('text_fr', $seed$J’avance en méthode agile (Scrum) : le travail est découpé en parties courtes, validées une à une avant de passer à la suivante.$seed$, 'title_en', '', 'text_en', '')
+             ELSE c END
+           ORDER BY CASE c->>'title_fr'
+             WHEN 'Je pars du problème, pas de la solution' THEN 1
+             WHEN 'J’avance par étapes validées' THEN 2
+             WHEN 'La maquette avant le code' THEN 3
+             WHEN 'La sécurité dès la conception' THEN 4
+             WHEN 'Je transforme ce qui marche en système' THEN 5
+             WHEN 'Je pilote l’IA' THEN 6
+             WHEN 'Je documente tout' THEN 100
+             ELSE 50 END, ord)
+         FROM jsonb_array_elements(cards) WITH ORDINALITY AS t(c, ord)
+       ),
+       updated_at = now()
+       WHERE cards @> '[{"title_fr": "Je documente tout"}]'::jsonb`
+    ]
   }
 ];
 

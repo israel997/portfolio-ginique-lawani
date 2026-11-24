@@ -557,6 +557,7 @@ Total : **7 fonctions** sur 12 autorisées par le plan Hobby.
 | Heure | Commit | Changement |
 |---|---|---|
 | - | (ce commit) | **Compétences : « Méthodologies » devient « Méthodologie et sécurité »** (icône bouclier) avec Security by Design, Privacy by Design, XSS, CSRF, Clickjacking, CSP ; Agile, Scrum et Transformation Digitale retirés. **Découvrir → « Ma méthode de travail »** : cartes « Je raisonne en chiffres » et « Je pense local et global » retirées ; ajout de « La sécurité dès la conception » et « La maquette avant le code » (maquette validée avant tout développement), juste après « Je documente tout » (migration v20). Pourquoi : mettre en avant l'approche sécurité, que le portfolio ne montrait pas ; la migration ne touche qu'aux cartes visées, les autres gardent leurs retouches admin. Anglais vidé : cliquer « Tout traduire en anglais » dans l'admin |
+| - | (ce commit) | **« Ma méthode de travail » réordonnée** : problème, étapes validées, maquette avant le code, sécurité dès la conception, système, IA, et **« Je documente tout » en dernier** ; « J'avance par étapes validées » raccourcie et cite la méthode agile (Scrum) (migration v21). Pourquoi : ordre voulu par l'utilisatrice/l'utilisateur, qui suit le déroulé réel d'un projet, la documentation venant clore le tout ; Agile/Scrum, retirés des Compétences, restent ainsi visibles ici |
 
 ---
 
