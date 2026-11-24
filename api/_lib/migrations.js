@@ -447,7 +447,7 @@ J’ai mené des projets pour des clients locaux comme pour des marchés interna
                   ord AS o1, 0 AS o2
            FROM jsonb_array_elements(cards) WITH ORDINALITY AS t(c, ord)
            UNION ALL
-           SELECT $seed${"title_fr": "Sécurité et déploiement", "title_en": "", "text_fr": "Sécurité pensée dès la conception (Security by Design, Privacy by Design), protection contre les failles web (XSS, CSRF, clickjacking) et mise en production sur PaaS ou sur VPS.", "text_en": "", "image_url": ""}$seed$::jsonb,
+           SELECT jsonb_build_object('title_fr', $seed$Sécurité et déploiement$seed$, 'title_en', '', 'text_fr', $seed$Sécurité pensée dès la conception (Security by Design, Privacy by Design), protection contre les failles web (XSS, CSRF, clickjacking) et mise en production sur PaaS ou sur VPS.$seed$, 'text_en', '', 'image_url', ''),
                   (SELECT ord FROM jsonb_array_elements(cards) WITH ORDINALITY AS t(c, ord) WHERE c->>'title_fr' = 'Développement / Conception web et déploiement'),
                   1
          ) s
